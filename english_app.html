@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>英語チャレンジ！</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --green: #58cc02;
+  --green-dark: #46a302;
+  --green-light: #d7ffb8;
+  --blue: #1cb0f6;
+  --blue-dark: #0091cc;
+  --blue-light: #e8f7ff;
+  --red: #ff4b4b;
+  --red-light: #ffdfe0;
+  --yellow: #ffc800;
+  --yellow-light: #fff8e0;
+  --orange: #ff9600;
+  --purple: #9b59b6;
+  --gray: #afafaf;
+  --gray-light: #f0f0f0;
+  --text: #3c3c3c;
+}
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #f8f9fa;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.screen { display: none; width: 100%; max-width: 480px; min-height: 100vh; flex-direction: column; align-items: center; }
+.screen.active { display: flex; }
+
+/* HOME */
+#home-screen { background: linear-gradient(160deg, #1cb0f6 0%, #0091cc 100%); justify-content: center; padding: 40px 24px; text-align: center; }
+.home-logo { font-size: 72px; margin-bottom: 12px; animation: bounce 1.2s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+.home-title { font-size: 32px; font-weight: 900; color: white; text-shadow: 0 3px 0 rgba(0,0,0,0.2); margin-bottom: 8px; }
+.home-subtitle { font-size: 15px; color: rgba(255,255,255,0.85); margin-bottom: 36px; line-height: 1.6; }
+.badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.badge { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: white; font-weight: 700; }
+.btn-start { background: var(--yellow); color: #5c4800; font-size: 20px; font-weight: 900; border: none; border-radius: 16px; padding: 18px 48px; cursor: pointer; box-shadow: 0 6px 0 #b38a00; transition: all 0.1s; width: 100%; max-width: 300px; }
+.btn-start:active { transform: translateY(3px); box-shadow: 0 3px 0 #b38a00; }
+
+/* LEVEL SELECT */
+#level-screen { background: white; }
+.top-bar { width: 100%; padding: 16px; background: white; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 12px; }
+.btn-back { background: none; border: none; font-size: 22px; cursor: pointer; padding: 4px; color: var(--gray); }
+.top-bar-title { font-size: 18px; font-weight: 900; flex: 1; text-align: center; }
+.unit-grid { display: flex; flex-direction: column; gap: 12px; width: 100%; padding: 20px 16px; }
+.unit-card { background: white; border: 3px solid #e5e5e5; border-radius: 20px; padding: 18px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
+.unit-card:active { transform: scale(0.97); }
+.unit-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 3px 0 0 3px; }
+.unit-card.vocab::before { background: var(--blue); }
+.unit-card.grammar::before { background: var(--green); }
+.unit-card.reading::before { background: var(--purple); }
+.unit-card.speaking::before { background: var(--orange); }
+.unit-card.mixed::before { background: var(--yellow); }
+.unit-icon { font-size: 36px; flex-shrink: 0; }
+.unit-info { flex: 1; }
+.unit-name { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
+.unit-desc { font-size: 12px; color: var(--gray); margin-bottom: 4px; }
+.unit-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--orange); color: white; }
+
+/* QUIZ SCREEN */
+#quiz-screen { background: white; justify-content: flex-start; }
+.quiz-header { width: 100%; padding: 16px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #f0f0f0; background: white; position: sticky; top: 0; z-index: 10; }
+.btn-close { background: none; border: none; font-size: 22px; cursor: pointer; padding: 4px; color: var(--gray); }
+.progress-bar-wrap { flex: 1; height: 14px; background: var(--gray-light); border-radius: 7px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--green), #78e000); border-radius: 7px; transition: width 0.4s ease; }
+.xp-label { font-size: 14px; font-weight: 700; color: var(--orange); white-space: nowrap; }
+.quiz-body { flex: 1; width: 100%; padding: 24px 16px 140px; display: flex; flex-direction: column; }
+.type-badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; color: white; }
+.type-badge.vocab { background: var(--blue); }
+.type-badge.grammar { background: var(--green); }
+.type-badge.reading { background: var(--purple); }
+.type-badge.speaking { background: var(--orange); }
+.question-text { font-size: 21px; font-weight: 800; line-height: 1.45; margin-bottom: 6px; }
+.question-sub { font-size: 13px; color: var(--gray); margin-bottom: 20px; }
+
+/* Choices */
+.choices { display: flex; flex-direction: column; gap: 10px; }
+.choice-btn { background: white; border: 3px solid #e5e5e5; border-radius: 16px; padding: 15px 18px; font-size: 16px; font-weight: 700; color: var(--text); cursor: pointer; text-align: left; transition: all 0.12s; display: flex; align-items: center; gap: 12px; line-height: 1.3; }
+.choice-btn:active { transform: scale(0.98); }
+.choice-btn.selected { border-color: var(--blue); background: var(--blue-light); }
+.choice-btn.correct { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
+.choice-btn.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
+.choice-letter { width: 30px; height: 30px; border-radius: 8px; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+
+/* SPEAKING UI */
+.speaking-card { background: linear-gradient(135deg, #fff5ec, #fff); border: 3px solid #ffd6a5; border-radius: 20px; padding: 20px; margin-bottom: 16px; text-align: center; }
+.speaking-en { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
+.speaking-ja { font-size: 14px; color: var(--gray); margin-bottom: 12px; }
+.speaking-phonetic { font-size: 13px; color: var(--orange); background: var(--yellow-light); border-radius: 10px; padding: 6px 12px; display: inline-block; }
+.mic-section { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 4px; }
+.mic-hint { font-size: 13px; color: var(--gray); font-weight: 600; text-align: center; }
+.btn-mic { width: 80px; height: 80px; border-radius: 50%; border: none; background: var(--orange); color: white; font-size: 32px; cursor: pointer; box-shadow: 0 6px 0 #cc7000; transition: all 0.12s; display: flex; align-items: center; justify-content: center; }
+.btn-mic:active { transform: scale(0.95); }
+.btn-mic.recording { background: var(--red); box-shadow: 0 6px 0 #990000; animation: pulse-mic 0.8s infinite; }
+@keyframes pulse-mic {
+  0%,100% { box-shadow: 0 6px 0 #990000, 0 0 0 0 rgba(255,75,75,0.4); }
+  50% { box-shadow: 0 6px 0 #990000, 0 0 0 16px rgba(255,75,75,0); }
+}
+.recognized-box { width: 100%; background: #f8f9fa; border: 2px solid #e5e5e5; border-radius: 14px; padding: 14px 16px; font-size: 15px; color: var(--text); font-weight: 600; display: none; line-height: 1.5; }
+.recognized-box.show { display: block; }
+.score-bar-wrap { width: 100%; display: none; }
+.score-bar-wrap.show { display: block; }
+.score-bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.score-bar-bg { height: 16px; background: #e5e5e5; border-radius: 8px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 8px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.score-bar-fill.great { background: linear-gradient(90deg, var(--green), #78e000); }
+.score-bar-fill.good { background: linear-gradient(90deg, var(--yellow), #ffaa00); }
+.score-bar-fill.bad { background: linear-gradient(90deg, var(--red), #ff7070); }
+.btn-check { width: 100%; padding: 15px; background: var(--orange); color: white; font-size: 17px; font-weight: 900; border: none; border-radius: 14px; cursor: pointer; box-shadow: 0 5px 0 #cc7000; transition: all 0.1s; display: none; }
+.btn-check.show { display: block; }
+.btn-check:active { transform: translateY(3px); box-shadow: none; }
+.btn-retry { width: 100%; padding: 12px; background: white; color: var(--orange); font-size: 15px; font-weight: 700; border: 2px solid var(--orange); border-radius: 14px; cursor: pointer; display: none; }
+.btn-retry.show { display: block; }
+.btn-retry:active { background: var(--yellow-light); }
+.no-speech-notice { background: #fff3cd; border: 2px solid #ffc107; border-radius: 14px; padding: 12px 14px; font-size: 12px; color: #856404; line-height: 1.5; margin-bottom: 8px; display: none; }
+
+/* FEEDBACK PANEL */
+.feedback-panel { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 480px; padding: 20px 20px 36px; border-radius: 24px 24px 0 0; z-index: 100; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+.feedback-panel.show { transform: translateX(-50%) translateY(0); }
+.feedback-panel.correct-panel { background: var(--green-light); border-top: 4px solid var(--green); }
+.feedback-panel.wrong-panel { background: var(--red-light); border-top: 4px solid var(--red); }
+.feedback-panel.speak-panel { background: var(--yellow-light); border-top: 4px solid var(--orange); }
+.fb-icon { font-size: 26px; margin-bottom: 6px; }
+.fb-title { font-size: 21px; font-weight: 900; margin-bottom: 4px; }
+.fb-title.correct { color: var(--green-dark); }
+.fb-title.wrong { color: var(--red); }
+.fb-title.speak { color: #cc7000; }
+.fb-answer { font-size: 13px; color: #555; margin-bottom: 8px; font-weight: 600; }
+.fb-exp { font-size: 13px; color: #555; line-height: 1.65; background: rgba(255,255,255,0.65); border-radius: 12px; padding: 12px; margin-bottom: 14px; }
+.btn-continue { width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 17px; font-weight: 900; cursor: pointer; transition: all 0.1s; }
+.btn-continue.correct-btn { background: var(--green); color: white; box-shadow: 0 5px 0 var(--green-dark); }
+.btn-continue.wrong-btn { background: var(--red); color: white; box-shadow: 0 5px 0 #cc0000; }
+.btn-continue.speak-btn { background: var(--orange); color: white; box-shadow: 0 5px 0 #cc7000; }
+.btn-continue:active { transform: translateY(3px); box-shadow: none !important; }
+
+/* XP POPUP */
+.xp-popup { position: fixed; top: 72px; left: 50%; transform: translateX(-50%) scale(0); background: var(--yellow); color: #5c4800; font-size: 17px; font-weight: 900; padding: 9px 22px; border-radius: 30px; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; }
+.xp-popup.show { transform: translateX(-50%) scale(1); }
+
+/* RESULT */
+#result-screen { padding: 40px 24px; text-align: center; justify-content: center; background: white; }
+.result-trophy { font-size: 80px; margin-bottom: 14px; }
+.result-title { font-size: 26px; font-weight: 900; margin-bottom: 6px; }
+.result-sub { font-size: 14px; color: var(--gray); margin-bottom: 28px; }
+.result-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 28px; }
+.stat-card { border: 3px solid var(--gray-light); border-radius: 16px; padding: 14px 6px; }
+.stat-icon { font-size: 22px; margin-bottom: 4px; }
+.stat-value { font-size: 22px; font-weight: 900; }
+.stat-label { font-size: 10px; color: var(--gray); font-weight: 600; margin-top: 2px; }
+.stat-card.xp { border-color: var(--yellow); }
+.stat-card.xp .stat-value { color: #b38a00; }
+.stat-card.acc .stat-value { color: var(--green-dark); }
+.stat-card.streak .stat-value { color: var(--orange); }
+.btn-again { width: 100%; padding: 17px; background: var(--green); color: white; font-size: 17px; font-weight: 900; border: none; border-radius: 16px; cursor: pointer; box-shadow: 0 6px 0 var(--green-dark); margin-bottom: 10px; transition: all 0.1s; }
+.btn-again:active { transform: translateY(3px); box-shadow: none; }
+.btn-home { width: 100%; padding: 15px; background: white; color: var(--blue); font-size: 15px; font-weight: 700; border: 3px solid var(--blue); border-radius: 16px; cursor: pointer; }
+.btn-home:active { background: var(--blue-light); }
+
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+.shake { animation: shake 0.3s ease; }
+@keyframes popIn { 0%{transform:scale(0.85);opacity:0} 100%{transform:scale(1);opacity:1} }
+.pop-in { animation: popIn 0.3s ease; }
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .feedback-panel { padding-bottom: calc(36px + env(safe-area-inset-bottom)); }
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home-screen" class="screen active">
+  <div class="home-logo">🦉</div>
+  <div class="home-title">英語チャレンジ！</div>
+  <div class="home-subtitle">英検3級レベルの英語を<br>楽しく学ぼう！話せる・読める・書ける！</div>
+  <div class="badge-row">
+    <div class="badge">🎯 英検3級</div>
+    <div class="badge">🎤 スピーキング</div>
+    <div class="badge">📚 解説つき</div>
+    <div class="badge">⭐ XP</div>
+  </div>
+  <button class="btn-start" onclick="showScreen('level-screen')">▶ スタート！</button>
+</div>
+
+<!-- LEVEL SELECT -->
+<div id="level-screen" class="screen">
+  <div class="top-bar">
+    <button class="btn-back" onclick="showScreen('home-screen')">✕</button>
+    <span class="top-bar-title">ユニット選択</span>
+    <div style="width:30px;"></div>
+  </div>
+  <div class="unit-grid">
+    <div class="unit-card vocab" onclick="startUnit('vocab')">
+      <div class="unit-icon">📖</div>
+      <div class="unit-info">
+        <div class="unit-name">単語・語彙</div>
+        <div class="unit-desc">よく出る英単語をマスターしよう</div>
+      </div>
+    </div>
+    <div class="unit-card grammar" onclick="startUnit('grammar')">
+      <div class="unit-icon">✏️</div>
+      <div class="unit-info">
+        <div class="unit-name">文法・穴埋め</div>
+        <div class="unit-desc">英文の空欄を埋めよう</div>
+      </div>
+    </div>
+    <div class="unit-card reading" onclick="startUnit('reading')">
+      <div class="unit-icon">📝</div>
+      <div class="unit-info">
+        <div class="unit-name">読解・英文理解</div>
+        <div class="unit-desc">英語の文を読んで答えよう</div>
+      </div>
+    </div>
+    <div class="unit-card speaking" onclick="startUnit('speaking')">
+      <div class="unit-icon">🎤</div>
+      <div class="unit-info">
+        <div class="unit-name">スピーキング練習</div>
+        <div class="unit-desc">英文を声に出して発音チェック！</div>
+        <span class="unit-tag">🔥 NEW</span>
+      </div>
+    </div>
+    <div class="unit-card mixed" onclick="startUnit('mixed')">
+      <div class="unit-icon">🎲</div>
+      <div class="unit-info">
+        <div class="unit-name">ミックスチャレンジ</div>
+        <div class="unit-desc">全カテゴリからランダム出題</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-header">
+    <button class="btn-close" onclick="confirmQuit()">✕</button>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+    </div>
+    <div class="xp-label" id="xp-display">⭐ 0</div>
+  </div>
+  <div class="quiz-body" id="quiz-body"></div>
+</div>
+
+<!-- RESULT -->
+<div id="result-screen" class="screen">
+  <div id="result-trophy" class="result-trophy">🏆</div>
+  <div id="result-title" class="result-title">よくできました！</div>
+  <div id="result-sub" class="result-sub"></div>
+  <div class="result-stats">
+    <div class="stat-card xp"><div class="stat-icon">⭐</div><div class="stat-value" id="result-xp">0</div><div class="stat-label">XP</div></div>
+    <div class="stat-card acc"><div class="stat-icon">🎯</div><div class="stat-value" id="result-acc">0%</div><div class="stat-label">正解率</div></div>
+    <div class="stat-card streak"><div class="stat-icon">🔥</div><div class="stat-value" id="result-streak">0</div><div class="stat-label">連続正解</div></div>
+  </div>
+  <button class="btn-again" id="btn-again">もう一度！</button>
+  <button class="btn-home" onclick="showScreen('level-screen')">🏠 ユニット選択へ</button>
+</div>
+
+<!-- XP Popup -->
+<div class="xp-popup" id="xp-popup">+10 XP ⭐</div>
+
+<!-- Feedback Panel -->
+<div class="feedback-panel" id="feedback-panel">
+  <div class="fb-icon" id="fb-icon"></div>
+  <div class="fb-title" id="fb-title"></div>
+  <div class="fb-answer" id="fb-answer"></div>
+  <div class="fb-exp" id="fb-exp"></div>
+  <button class="btn-continue" id="btn-continue" onclick="nextQuestion()">続ける →</button>
+</div>
+
+<script>
+// ============================================================
+// QUESTION DATA
+// ============================================================
+const DB = {
+  vocab: [
+    { type:'vocab', q:'「友達」を英語で言うと？', sub:'正しいものを選んでね', choices:['enemy','friend','family','neighbor'], ans:1,
+      exp:'「friend（フレンド）」は「友達・友人」だよ。\n「enemy」→敵、「family」→家族、「neighbor」→近所の人 だよ！' },
+    { type:'vocab', q:'「図書館」を英語で言うと？', sub:'正しいものを選んでね', choices:['bookstore','school','library','hospital'], ans:2,
+      exp:'「library（ライブラリー）」が「図書館」だよ。\n「bookstore」→本屋、「hospital」→病院。混同しやすいから覚えてね！' },
+    { type:'vocab', q:'「beautiful」の意味は？', sub:'正しいものを選んでね', choices:['速い','美しい','大きい','古い'], ans:1,
+      exp:'「beautiful（ビューティフル）」は「美しい・きれいな」だよ。\n「She is beautiful.（彼女はきれいです）」のように使うよ！' },
+    { type:'vocab', q:'「hungry」の意味は？', sub:'正しいものを選んでね', choices:['眠い','嬉しい','お腹がすいた','疲れた'], ans:2,
+      exp:'「hungry（ハングリー）」は「お腹がすいた」だよ。\n「I\'m hungry.」がよく使う表現。反対語は「full（お腹いっぱい）」！' },
+    { type:'vocab', q:'「expensive」の意味は？', sub:'正しいものを選んでね', choices:['安い','新しい','値段が高い','重い'], ans:2,
+      exp:'「expensive（エクスペンシブ）」は「（値段が）高い」だよ。\n反対語は「cheap（安い）」。「This bag is expensive.」のように使うよ！' },
+    { type:'vocab', q:'「environment」の意味は？', sub:'正しいものを選んでね', choices:['政治','環境','文化','科学'], ans:1,
+      exp:'「environment（エンバイロメント）」は「環境」だよ。\n「environmental problems」で「環境問題」。英検3級の重要単語！' },
+    { type:'vocab', q:'「volunteer」の意味は？', sub:'正しいものを選んでね', choices:['職業','ボランティア','観光客','科学者'], ans:1,
+      exp:'「volunteer（ボランティア）」は「自発的に手伝う人」という意味だよ。\n動詞で「自発的に〜する」にもなるよ。英検3級によく出る！' },
+  ],
+
+  grammar: [
+    { type:'grammar', q:'She ___ a student.', sub:'空欄に入る正しい言葉を選んでね', choices:['am','are','is','be'], ans:2,
+      exp:'be動詞のルール！\n・I → am\n・You/We/They → are\n・He/She/It → is\n「She（彼女）」なので「is」が正解！' },
+    { type:'grammar', q:'I ___ to school every day.', sub:'空欄に入る正しい言葉を選んでね', choices:['go','goes','going','went'], ans:0,
+      exp:'「I（私）」が主語のとき、動詞は変化しないよ！\n「goes」→He/She/It のとき、「went」→過去形。\n「I go to school.」が正解！' },
+    { type:'grammar', q:'There ___ two cats in the room.', sub:'空欄に入る正しい言葉を選んでね', choices:['is','are','am','be'], ans:1,
+      exp:'「There is/are〜」で「〜があります」という意味。\n・There is + 1つ（単数）\n・There are + 2つ以上（複数）\n「two cats」は複数だから「are」！' },
+    { type:'grammar', q:'Have you ever ___ sushi?', sub:'空欄に入る正しい言葉を選んでね', choices:['eat','ate','eaten','eating'], ans:2,
+      exp:'「Have you ever〜?」は「〜したことある？」という現在完了形！\n現在完了形は「have/has + 過去分詞」の形。\n「eat」の過去分詞は「eaten」だよ！' },
+    { type:'grammar', q:'This is the book ___ I bought yesterday.', sub:'空欄に入る正しい言葉を選んでね', choices:['who','which','where','when'], ans:1,
+      exp:'関係代名詞のルール！\n・who → 人について説明するとき\n・which → もの・動物について説明するとき\n「book」はものだから「which」！' },
+    { type:'grammar', q:'She is ___ than her sister.', sub:'空欄に入る正しい言葉を選んでね', choices:['tall','taller','tallest','more tall'], ans:1,
+      exp:'比較級のルール！\n「〜より〜だ」と比べるとき、形容詞に「-er」をつけるよ。\n「tall → taller（より背が高い）」が正解！「than」の後に比べる相手を書くよ。' },
+    { type:'grammar', q:"You don't ___ to come tomorrow.", sub:'空欄に入る正しい言葉を選んでね', choices:['have','need','must','should'], ans:0,
+      exp:'「don\'t have to」は「〜しなくてよい」という意味！\n「must not（してはいけない）」との違いに注意！\n・don\'t have to ＝ やらなくてもOK\n・must not ＝ 絶対にダメ' },
+  ],
+
+  reading: [
+    { type:'reading', q:'Tom: "What do you do on weekends?"\nSarah: "I usually ___."', sub:'Sarahの返答として最も自然なものは？',
+      choices:['Yes, I do','I go shopping with my friends','Last Sunday was fun','You\'re welcome'], ans:1,
+      exp:'「What do you do on weekends?」は週末の習慣を聞く質問だよ！\n「I go shopping with my friends.（友達と買い物）」が自然な返答。\n「Yes, I do」はYes/Noで答える質問に使うよ！' },
+    { type:'reading', q:'店員: "Can I help you?"\n\nあなたが赤いシャツを探しているとき、何と言う？', sub:'正しいものを選んでね',
+      choices:['Yes, I\'m looking for a red shirt.','No, I don\'t like shirts.','Thank you, goodbye!','I want to go home.'], ans:0,
+      exp:'「Can I help you?」はお店の「いらっしゃいませ」だよ！\n「I\'m looking for〜（〜を探しています）」は買い物でとても使える表現！\n「a red shirt（赤いシャツ）」を探しているから①が正解！' },
+    { type:'reading', q:'The museum opens at 9 a.m. and closes at 5 p.m. It is closed on Mondays.\n\n博物館が閉まっているのはいつ？', sub:'正しいものを選んでね',
+      choices:['9時前・5時以降・月曜日','火曜日と水曜日','毎日5時以降のみ','土日'], ans:0,
+      exp:'文章をていねいに読もう！\n・「opens at 9 a.m.」→ 午前9時に開く\n・「closes at 5 p.m.」→ 午後5時に閉まる\n・「closed on Mondays」→ 月曜日は休み\nだから「9時前・5時以降・月曜日」が正解！' },
+    { type:'reading', q:'「How are you?」と言われた。\nあなたは元気です。何と返事する？', sub:'正しいものを選んでね',
+      choices:['I\'m fine, thank you!','Nice to meet you!','See you later!','I\'m sorry.'], ans:0,
+      exp:'「How are you?（調子はどう？）」の定番返答は「I\'m fine, thank you!」だよ！\n・「Nice to meet you」→ 初対面のあいさつ\n・「See you later」→ またね\n・「I\'m sorry」→ ごめんなさい' },
+    { type:'reading', q:'Kenji practices baseball every day. He wants to join the national team someday.\n\nKenjiの夢は？', sub:'正しいものを選んでね',
+      choices:['毎日練習すること','野球の監督になること','国の代表チームに入ること','野球を教えること'], ans:2,
+      exp:'「national team（ナショナルチーム）」は「国の代表チーム」だよ！\n「someday」→いつか、「join」→参加する・入る という意味。\n「wants to join the national team」→ 代表チームに入りたい、が正解！' },
+  ],
+
+  speaking: [
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'Hello! My name is Kenji.', ja:'こんにちは！私の名前はケンジです。', phonetic:'ヘロウ！マイ ネイム イズ ケンジ。',
+      exp:'「Hello!」はあいさつ、「My name is〜」は自己紹介の定番フレーズ！\n「My name is ○○.」＝「私の名前は○○です。」\n初対面でよく使う大切な表現だよ！' },
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'I like playing soccer.', ja:'私はサッカーをするのが好きです。', phonetic:'アイ ライク プレイング サッカー。',
+      exp:'「I like〜」は「〜が好き」という表現！\n「like + 動詞-ing」で「〜することが好き」になるよ。\n「I like swimming / reading」なども同じパターン！' },
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'What time do you go to bed?', ja:'あなたは何時に寝ますか？', phonetic:'ワット タイム ドゥ ユー ゴー トゥ ベッド？',
+      exp:'「What time〜?」は「何時に〜？」と時間を聞く表現！\n「go to bed」は「寝る」という意味だよ。\n「I go to bed at ten.（10時に寝ます）」のように答えるよ！' },
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'Can you help me, please?', ja:'手伝っていただけますか？', phonetic:'キャン ユー ヘルプ ミー プリーズ？',
+      exp:'「Can you〜?」は「〜してもらえますか？」とお願いする表現！\n「help me」は「私を助ける・手伝う」という意味。\n「please」をつけるとより丁寧になるよ！' },
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'I want to travel abroad someday.', ja:'私はいつか海外旅行がしたいです。', phonetic:'アイ ウォント トゥ トラベル アブロード サムデイ。',
+      exp:'「want to〜」は「〜したい」という表現！\n「travel abroad」は「海外旅行する」、「someday」は「いつか」だよ。\n英検3級の英作文でもよく使える表現だよ！' },
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'Have a nice day!', ja:'よい一日を！', phonetic:'ハブ ア ナイス デイ！',
+      exp:'「Have a nice day!」はお別れのときのあいさつ！\n「Have a nice weekend!（よい週末を）」などにも応用できるよ。\n返事は「You too!（あなたもね！）」が定番だよ！' },
+    { type:'speaking', q:'次の英文を声に出して読もう！', en:'How long does it take to get there?', ja:'そこへ行くのにどのくらい時間がかかりますか？', phonetic:'ハウ ロング ダズ イット テイク トゥ ゲット ゼア？',
+      exp:'「How long does it take?」は「どのくらい時間がかかる？」という表現！\n「take」には「時間がかかる」という意味があるよ。\n道案内や旅行でよく使う、英検3級レベルの重要フレーズだよ！' },
+  ]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let curUnit='', curQs=[], curIdx=0;
+let score=0, correctCount=0, maxStreak=0, curStreak=0;
+let answered=false;
+let recognition=null, isRecording=false, recognizedText='', speakScore=0;
+
+// ============================================================
+// SCREEN
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  hideFeedback();
+  stopRec();
+}
+
+function confirmQuit() {
+  if (confirm('クイズを終了しますか？')) showScreen('level-screen');
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function shuffle(arr) {
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+// ============================================================
+// START UNIT
+// ============================================================
+function startUnit(unit) {
+  curUnit=unit;
+  if(unit==='mixed') curQs=shuffle([...DB.vocab,...DB.grammar,...DB.reading,...DB.speaking]).slice(0,10);
+  else curQs=shuffle([...DB[unit]]);
+  curIdx=0;score=0;correctCount=0;maxStreak=0;curStreak=0;answered=false;
+  showScreen('quiz-screen');
+  updateXP();
+  renderQ();
+}
+
+// ============================================================
+// RENDER QUESTION
+// ============================================================
+function renderQ() {
+  answered=false;recognizedText='';speakScore=0;
+  hideFeedback();stopRec();
+  const q=curQs[curIdx];
+  const total=curQs.length;
+  document.getElementById('progress-bar').style.width=(curIdx/total*100)+'%';
+  const body=document.getElementById('quiz-body');
+  const typeLabel={vocab:'単語・語彙',grammar:'文法',reading:'読解',speaking:'🎤 スピーキング'};
+  if(q.type==='speaking'){
+    body.innerHTML=buildSpeakHTML(q);
+    initRec(q);
+  } else {
+    body.innerHTML=`
+      <span class="type-badge ${q.type}">${typeLabel[q.type]}</span>
+      <div class="question-text">${q.q.replace(/\n/g,'<br>')}</div>
+      <div class="question-sub">${q.sub||''}</div>
+      <div class="choices">
+        ${q.choices.map((c,i)=>`<button class="choice-btn" onclick="pick(${i})" id="ch-${i}"><span class="choice-letter">${String.fromCharCode(65+i)}</span>${c}</button>`).join('')}
+      </div>`;
+  }
+  body.style.animation='none';
+  requestAnimationFrame(()=>{body.style.animation='popIn 0.3s ease';});
+}
+
+// ============================================================
+// SPEAKING HTML
+// ============================================================
+function buildSpeakHTML(q) {
+  const supported = ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
+  const notice = supported ? '' : `<div class="no-speech-notice" style="display:block;">⚠️ このブラウザは音声認識に対応していません。<br>Chromeブラウザでお試しください！採点はできませんが練習はできます。</div>`;
+  return `
+    <span class="type-badge speaking">🎤 スピーキング</span>
+    <div class="question-text">${q.q}</div>
+    ${notice}
+    <div class="speaking-card">
+      <div class="speaking-en">${q.en}</div>
+      <div class="speaking-ja">${q.ja}</div>
+      <div class="speaking-phonetic">📣 ${q.phonetic}</div>
+    </div>
+    <div class="mic-section">
+      <div class="mic-hint" id="mic-hint">🎤 ボタンを押して英文を読んでね</div>
+      <button class="btn-mic" id="btn-mic" onclick="toggleRec()">🎤</button>
+      <div class="recognized-box" id="rec-box"></div>
+      <div class="score-bar-wrap" id="score-wrap">
+        <div class="score-bar-label"><span>発音スコア</span><span id="score-pct">0%</span></div>
+        <div class="score-bar-bg"><div class="score-bar-fill" id="score-fill" style="width:0%"></div></div>
+      </div>
+      <button class="btn-check" id="btn-check" onclick="submitSpeak()">✅ 採点する</button>
+      <button class="btn-retry" id="btn-retry" onclick="resetSpeak()">🔄 もう一度録音</button>
+    </div>`;
+}
+
+// ============================================================
+// SPEECH RECOGNITION
+// ============================================================
+function initRec(q) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  recognition = new SR();
+  recognition.lang = 'en-US';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onresult = e => {
+    let txt='';
+    for(let i=e.resultIndex;i<e.results.length;i++) txt+=e.results[i][0].transcript;
+    recognizedText=txt.trim();
+    const box=document.getElementById('rec-box');
+    if(box){box.textContent='🗣 認識した音声：'+recognizedText;box.classList.add('show');}
+  };
+
+  recognition.onend = () => {
+    isRecording=false;
+    const btn=document.getElementById('btn-mic');
+    const hint=document.getElementById('mic-hint');
+    if(btn){btn.classList.remove('recording');btn.textContent='🎤';}
+    if(recognizedText){
+      if(hint) hint.textContent='📊 採点するボタンを押してね';
+      const chk=document.getElementById('btn-check');
+      if(chk) chk.classList.add('show');
+    } else {
+      if(hint) hint.textContent='声が聞こえませんでした。もう一度試してね！';
+    }
+  };
+
+  recognition.onerror = e => {
+    isRecording=false;
+    const btn=document.getElementById('btn-mic');
+    const hint=document.getElementById('mic-hint');
+    if(btn){btn.classList.remove('recording');btn.textContent='🎤';}
+    const msgs={
+      'not-allowed':'⚠️ マイクの許可が必要です。ブラウザの設定から許可してね。',
+      'no-speech':'声が聞こえませんでした。もう一度試してね！',
+      'network':'ネットワークエラーが発生しました。',
+    };
+    if(hint) hint.textContent = msgs[e.error] || '⚠️ エラーが発生しました。もう一度試してね。';
+  };
+}
+
+function toggleRec() {
+  if(isRecording) stopRec();
+  else startRec();
+}
+
+function startRec() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){alert('このブラウザは音声認識に対応していません。\nChromeでお試しください！');return;}
+  recognizedText='';
+  const box=document.getElementById('rec-box');
+  const chk=document.getElementById('btn-check');
+  const retry=document.getElementById('btn-retry');
+  const wrap=document.getElementById('score-wrap');
+  if(box){box.textContent='🎙 聞いています...';box.classList.add('show');}
+  if(chk) chk.classList.remove('show');
+  if(retry) retry.classList.remove('show');
+  if(wrap) wrap.classList.remove('show');
+
+  initRec(curQs[curIdx]);
+  try {
+    recognition.start();
+    isRecording=true;
+    const btn=document.getElementById('btn-mic');
+    const hint=document.getElementById('mic-hint');
+    if(btn){btn.classList.add('recording');btn.textContent='⏹';}
+    if(hint) hint.textContent='🔴 録音中... タップで停止';
+  } catch(e){ isRecording=false; }
+}
+
+function stopRec() {
+  if(recognition){try{recognition.stop();}catch(e){}}
+  isRecording=false;
+}
+
+function resetSpeak() {
+  recognizedText='';
+  const els={
+    'rec-box':(e)=>{e.textContent='';e.classList.remove('show');},
+    'btn-check':(e)=>e.classList.remove('show'),
+    'btn-retry':(e)=>e.classList.remove('show'),
+    'score-wrap':(e)=>e.classList.remove('show'),
+    'mic-hint':(e)=>e.textContent='🎤 ボタンを押して英文を読んでね',
+  };
+  for(const [id,fn] of Object.entries(els)){const el=document.getElementById(id);if(el)fn(el);}
+}
+
+// ============================================================
+// SPEAKING SUBMIT
+// ============================================================
+function calcScore(rec, exp) {
+  const norm=s=>s.toLowerCase().replace(/[^a-z\s]/g,'').trim().split(/\s+/).filter(Boolean);
+  const rw=norm(rec), ew=norm(exp);
+  if(!ew.length) return 0;
+  let hits=0;
+  const used=new Array(ew.length).fill(false);
+  for(const r of rw){for(let i=0;i<ew.length;i++){if(!used[i]&&ew[i]===r){hits++;used[i]=true;break;}}}
+  return Math.round((hits/ew.length)*100);
+}
+
+function submitSpeak() {
+  if(answered) return;
+  answered=true;
+  const q=curQs[curIdx];
+  speakScore=recognizedText?calcScore(recognizedText,q.en):0;
+
+  const wrap=document.getElementById('score-wrap');
+  const fill=document.getElementById('score-fill');
+  const pct=document.getElementById('score-pct');
+  const chk=document.getElementById('btn-check');
+  const retry=document.getElementById('btn-retry');
+  if(wrap) wrap.classList.add('show');
+  if(chk) chk.classList.remove('show');
+  if(retry) retry.classList.add('show');
+  if(pct) pct.textContent=speakScore+'%';
+  if(fill){
+    fill.style.width=speakScore+'%';
+    fill.className='score-bar-fill '+(speakScore>=80?'great':speakScore>=50?'good':'bad');
+  }
+
+  let xp=0;
+  if(speakScore>=80){xp=15;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;}
+  else if(speakScore>=50){xp=8;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;}
+  else{xp=3;curStreak=0;}
+  score+=xp;updateXP();
+  if(xp>0) showXPPop('+'+xp+' XP ⭐');
+
+  setTimeout(()=>showSpeakFB(q,speakScore),600);
+}
+
+function showSpeakFB(q,pct) {
+  const panel=document.getElementById('feedback-panel');
+  let emoji,ttl,cls;
+  if(pct>=80){emoji='🌟';ttl='すばらしい！';cls='correct';}
+  else if(pct>=50){emoji='😊';ttl='いい感じ！もう少し！';cls='speak';}
+  else{emoji='📣';ttl='練習あるのみ！';cls='speak';}
+
+  panel.className='feedback-panel '+(pct>=80?'correct-panel':'speak-panel');
+  document.getElementById('fb-icon').textContent=emoji;
+  const titleEl=document.getElementById('fb-title');
+  titleEl.textContent=ttl+'（スコア: '+pct+'%）';
+  titleEl.className='fb-title '+cls;
+  document.getElementById('fb-answer').innerHTML=
+    '✅ 正しい英文：<strong>'+q.en+'</strong><br>🗣 あなたの発音：'+(recognizedText||'（認識できませんでした）');
+  document.getElementById('fb-exp').innerHTML=q.exp.replace(/\n/g,'<br>');
+  const btn=document.getElementById('btn-continue');
+  btn.className='btn-continue '+(pct>=80?'correct-btn':'speak-btn');
+  btn.textContent='続ける →';
+  setTimeout(()=>panel.classList.add('show'),50);
+}
+
+// ============================================================
+// MCQ
+// ============================================================
+function pick(idx) {
+  if(answered) return;
+  document.querySelectorAll('.choice-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('ch-'+idx).classList.add('selected');
+  setTimeout(()=>checkMCQ(idx),300);
+}
+
+function checkMCQ(idx) {
+  if(answered) return;
+  answered=true;
+  const q=curQs[curIdx];
+  const ok=idx===q.ans;
+  document.getElementById('ch-'+q.ans).classList.add('correct');
+  if(!ok){
+    const el=document.getElementById('ch-'+idx);
+    el.classList.add('wrong');el.classList.remove('selected');
+    el.style.animation='shake 0.3s ease';
+    setTimeout(()=>el.style.animation='',300);
+  }
+  if(ok){score+=10;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;showXPPop('+10 XP ⭐');}
+  else curStreak=0;
+  updateXP();
+  showMCQFB(ok,q);
+}
+
+function showMCQFB(ok,q) {
+  const panel=document.getElementById('feedback-panel');
+  const icon=document.getElementById('fb-icon');
+  const title=document.getElementById('fb-title');
+  panel.className='feedback-panel '+(ok?'correct-panel':'wrong-panel');
+  icon.textContent=ok?'🎉':'😢';
+  title.textContent=ok?'正解！すばらしい！':'残念...';
+  title.className='fb-title '+(ok?'correct':'wrong');
+  document.getElementById('fb-answer').textContent=ok?'':'✅ 正解：'+q.choices[q.ans];
+  document.getElementById('fb-exp').innerHTML=q.exp.replace(/\n/g,'<br>');
+  const btn=document.getElementById('btn-continue');
+  btn.className='btn-continue '+(ok?'correct-btn':'wrong-btn');
+  btn.textContent='続ける →';
+  setTimeout(()=>panel.classList.add('show'),50);
+}
+
+// ============================================================
+// NEXT / HELPERS
+// ============================================================
+function hideFeedback(){document.getElementById('feedback-panel').classList.remove('show');}
+function nextQuestion(){curIdx++;if(curIdx>=curQs.length){showResult();return;}hideFeedback();setTimeout(renderQ,360);}
+function updateXP(){document.getElementById('xp-display').textContent='⭐ '+score;}
+function showXPPop(txt){const p=document.getElementById('xp-popup');p.textContent=txt;p.classList.add('show');setTimeout(()=>p.classList.remove('show'),1300);}
+
+// ============================================================
+// RESULT
+// ============================================================
+function showResult() {
+  const total=curQs.length;
+  const acc=Math.round((correctCount/total)*100);
+  document.getElementById('result-xp').textContent=score;
+  document.getElementById('result-acc').textContent=acc+'%';
+  document.getElementById('result-streak').textContent=maxStreak;
+  let trophy='🏆',title='よくできました！',sub='';
+  if(acc===100){trophy='🌟';title='完璧！パーフェクト！';sub='全問クリア！すごい！';}
+  else if(acc>=80){trophy='🏆';title='すばらしい！';sub=total+'問中 '+correctCount+'問 正解！';}
+  else if(acc>=60){trophy='😊';title='よくがんばりました！';sub=total+'問中 '+correctCount+'問 正解！';}
+  else{trophy='📚';title='もう少し！';sub=total+'問中 '+correctCount+'問 正解。復習しよう！';}
+  document.getElementById('result-trophy').textContent=trophy;
+  document.getElementById('result-title').textContent=title;
+  document.getElementById('result-sub').textContent=sub;
+  document.getElementById('btn-again').onclick=()=>startUnit(curUnit);
+  showScreen('result-screen');
+}
+</script>
+</body>
+</html>
