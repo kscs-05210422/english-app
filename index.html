@@ -355,13 +355,74 @@ function sndNG(){tone(300,.08,'square',.18,0);tone(220,.15,'square',.18,.1)}
 function sndXP(){tone(880,.07,'sine',.18,0);tone(1100,.1,'sine',.18,.08)}
 function sndPerfect(){[523,659,784,1047].forEach((f,i)=>tone(f,.12,'sine',.3,i*.1))}
 
-// ── TTS ────────────────────────────────────────────────────
-function speak(text,lang='en-US',rate=0.9){
+// ── TTS ─────────────────────────────────────────────────────
+// 優先順: Amazon Polly (Joanna) → Google TTS → Web Speech API
+let _curAudio=null;
+
+function _stopAudio(){
+  if(_curAudio){_curAudio.pause();_curAudio.onended=null;_curAudio=null;}
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
+}
+
+// テキストをTTS制限文字数以内に分割
+function _splitTTS(text,max=190){
+  if(text.length<=max)return[text];
+  const parts=[];let rem=text;
+  while(rem.length>max){
+    const chunk=rem.slice(0,max);
+    const cut=Math.max(chunk.lastIndexOf('. '),chunk.lastIndexOf('! '),chunk.lastIndexOf('? '),chunk.lastIndexOf(', '));
+    const pos=cut>40?cut+1:max;
+    parts.push(rem.slice(0,pos).trim());
+    rem=rem.slice(pos).trim();
+  }
+  if(rem)parts.push(rem);
+  return parts;
+}
+
+// ① Amazon Polly / Joanna (ondoku3と同品質のニューラル音声)
+//    StreamElements経由で無料・APIキー不要
+function _playPolly(parts,idx){
+  if(idx>=parts.length)return;
+  const url='https://api.streamelements.com/kappa/v2/speech?voice=Joanna&text='+encodeURIComponent(parts[idx]);
+  _curAudio=new Audio(url);
+  _curAudio.onended=()=>_playPolly(parts,idx+1);
+  _curAudio.onerror=()=>_playGoogle(parts,idx); // 失敗したらGoogleへ
+  _curAudio.play().catch(()=>_playGoogle(parts,idx));
+}
+
+// ② Google Translate TTS フォールバック
+function _playGoogle(parts,idx){
+  if(idx>=parts.length)return;
+  const url='https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&ttsspeed=0.85&q='+encodeURIComponent(parts[idx]);
+  _curAudio=new Audio(url);
+  _curAudio.onended=()=>_playGoogle(parts,idx+1);
+  _curAudio.onerror=()=>_wsSpeak(parts.join(' ')); // 失敗したらWeb Speech APIへ
+  _curAudio.play().catch(()=>_wsSpeak(parts.join(' ')));
+}
+
+// ③ Web Speech API 最終フォールバック
+let _wsVoices=[];
+if(window.speechSynthesis){
+  const _lv=()=>{const v=window.speechSynthesis.getVoices();if(v.length)_wsVoices=v;};
+  _lv();window.speechSynthesis.onvoiceschanged=_lv;
+}
+function _wsSpeak(text){
   if(!window.speechSynthesis||!text)return;
   window.speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang=lang;u.rate=rate;u.pitch=1.1;
+  u.lang='en-US';u.rate=0.9;u.pitch=1.0;
+  const names=['Ava (Enhanced)','Ava','Samantha','Google US English',
+    'Microsoft Aria Online (Natural)','Microsoft Aria','Microsoft Jenny'];
+  const v=names.reduce((f,n)=>f||_wsVoices.find(v=>v.name===n||v.name.startsWith(n)),null)
+    ||_wsVoices.find(v=>v.lang==='en-US')||_wsVoices.find(v=>v.lang.startsWith('en'));
+  if(v)u.voice=v;
   window.speechSynthesis.speak(u);
+}
+
+function speak(text){
+  if(!text)return;
+  _stopAudio();
+  _playPolly(_splitTTS(text),0);
 }
 
 // ── DATA ───────────────────────────────────────────────────
@@ -998,7 +1059,28 @@ function showScreen(id){
   hideFB();stopRec();
   if(window.speechSynthesis)window.speechSynthesis.cancel();
 }
-function confirmQuit(){if(confirm('クイズを終了して戻りますか？'))showScreen('level-screen')}
+function confirmQuit(){
+  // window.confirm()はモバイルでブロックされることがあるため独自ダイアログを使用
+  const ov=document.createElement('div');
+  ov.id='quit-overlay';
+  ov.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.55);z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px';
+  ov.innerHTML=`<div style="background:white;border-radius:24px;padding:28px 22px;width:100%;max-width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.25)">
+    <div style="font-size:40px;margin-bottom:10px">🚪</div>
+    <div style="font-size:19px;font-weight:900;margin-bottom:6px;color:#3c3c3c">クイズを終了する？</div>
+    <div style="font-size:13px;color:#aaa;margin-bottom:22px">進行中の問題が終了します</div>
+    <div style="display:flex;gap:10px">
+      <button onclick="document.getElementById('quit-overlay').remove()"
+        style="flex:1;padding:14px;background:#f0f0f0;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;color:#555">
+        続ける
+      </button>
+      <button onclick="document.getElementById('quit-overlay').remove();showScreen('level-screen')"
+        style="flex:1;padding:14px;background:var(--blue);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--blue-dark)">
+        戻る
+      </button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 function confetti(){
   const w=document.getElementById('confetti-wrap');w.innerHTML='';
