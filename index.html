@@ -11,14 +11,14 @@
   --blue:#1cb0f6;--blue-dark:#0091cc;--blue-light:#e8f7ff;
   --red:#ff4b4b;--red-light:#ffdfe0;
   --yellow:#ffc800;--yellow-light:#fff8e0;
-  --orange:#ff9600;--purple:#9b59b6;--pink:#ff6b9d;
+  --orange:#ff9600;--purple:#9b59b6;--pink:#ff6b9d;--pink-light:#fff0f5;
   --gray:#afafaf;--gray-light:#f0f0f0;--text:#3c3c3c
 }
 body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa;color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
 .screen{display:none;width:100%;max-width:480px;min-height:100vh;flex-direction:column;align-items:center}
 .screen.active{display:flex}
 
-/* HOME */
+/* ── HOME ─────────────────────────────────────────────── */
 #home-screen{background:linear-gradient(160deg,#1cb0f6 0%,#0091cc 100%);justify-content:center;padding:40px 24px;text-align:center}
 .home-logo{font-size:72px;margin-bottom:12px;animation:bounce 1.2s infinite alternate}
 @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
@@ -29,12 +29,12 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .btn-start{background:var(--yellow);color:#5c4800;font-size:20px;font-weight:900;border:none;border-radius:16px;padding:18px 48px;cursor:pointer;box-shadow:0 6px 0 #b38a00;transition:all .1s;width:100%;max-width:300px}
 .btn-start:active{transform:translateY(3px);box-shadow:0 3px 0 #b38a00}
 
-/* TOP BAR */
+/* ── TOP BAR ──────────────────────────────────────────── */
 .top-bar{width:100%;padding:14px 16px;background:white;border-bottom:2px solid #f0f0f0;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
-.btn-back{background:none;border:none;font-size:22px;cursor:pointer;padding:4px;color:var(--gray)}
+.btn-nav-back{background:none;border:none;font-size:14px;font-weight:800;cursor:pointer;padding:6px 10px;color:var(--blue);border:2px solid var(--blue);border-radius:10px;white-space:nowrap}
 .top-bar-title{font-size:17px;font-weight:900;flex:1;text-align:center}
 
-/* LEVEL SELECT */
+/* ── LEVEL SELECT ─────────────────────────────────────── */
 #level-screen{background:white}
 .unit-grid{display:flex;flex-direction:column;gap:10px;width:100%;padding:16px}
 .unit-card{background:white;border:3px solid #e5e5e5;border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
@@ -53,17 +53,21 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .unit-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--pink);color:white}
 .unit-count{font-size:11px;color:var(--gray)}
 
-/* QUIZ */
+/* ── QUIZ ─────────────────────────────────────────────── */
 #quiz-screen{background:white;justify-content:flex-start}
-.quiz-header{width:100%;padding:14px 16px 10px;display:flex;align-items:center;gap:12px;border-bottom:2px solid #f0f0f0;background:white;position:sticky;top:0;z-index:10}
-.btn-close{background:none;border:none;font-size:22px;cursor:pointer;padding:4px;color:var(--gray)}
+.quiz-header{width:100%;padding:12px 14px 10px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #f0f0f0;background:white;position:sticky;top:0;z-index:10}
+.btn-quiz-back{background:none;border:2px solid var(--gray);border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;padding:5px 10px;color:#666;white-space:nowrap}
 .progress-bar-wrap{flex:1;height:14px;background:var(--gray-light);border-radius:7px;overflow:hidden}
 .progress-bar{height:100%;background:linear-gradient(90deg,var(--green),#78e000);border-radius:7px;transition:width .4s ease}
 .xp-label{font-size:14px;font-weight:700;color:var(--orange);white-space:nowrap}
 .quiz-body{flex:1;width:100%;padding:22px 16px 140px;display:flex;flex-direction:column}
+@keyframes popIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .type-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 11px;border-radius:20px;margin-bottom:14px;color:white}
 .type-badge.vocab{background:var(--blue)}.type-badge.grammar{background:var(--green)}.type-badge.reading{background:var(--purple)}.type-badge.speaking{background:var(--orange)}
-.question-text{font-size:20px;font-weight:800;line-height:1.45;margin-bottom:5px}
+.question-text-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.question-text{font-size:20px;font-weight:800;line-height:1.45;flex:1}
+.btn-speak-q{background:var(--blue-light);border:2px solid var(--blue);border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;margin-top:2px;transition:all .1s}
+.btn-speak-q:active{transform:scale(.9)}
 .question-sub{font-size:13px;color:var(--gray);margin-bottom:18px}
 .choices{display:flex;flex-direction:column;gap:9px}
 .choice-btn{background:white;border:3px solid #e5e5e5;border-radius:16px;padding:14px 16px;font-size:15px;font-weight:700;color:var(--text);cursor:pointer;text-align:left;transition:all .12s;display:flex;align-items:center;gap:11px;line-height:1.3}
@@ -73,9 +77,10 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .choice-btn.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
 .choice-letter{width:28px;height:28px;border-radius:7px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 
-/* SPEAKING */
+/* ── SPEAKING ─────────────────────────────────────────── */
 .speaking-card{background:linear-gradient(135deg,#fff5ec,#fff);border:3px solid #ffd6a5;border-radius:20px;padding:18px;margin-bottom:14px;text-align:center}
-.speaking-en{font-size:21px;font-weight:900;color:var(--text);margin-bottom:7px;line-height:1.4}
+.speaking-en{font-size:21px;font-weight:900;color:var(--text);margin-bottom:7px;line-height:1.4;cursor:pointer}
+.speaking-en:hover{text-decoration:underline;color:var(--blue)}
 .speaking-ja{font-size:13px;color:var(--gray);margin-bottom:10px}
 .speaking-phonetic{font-size:12px;color:var(--orange);background:var(--yellow-light);border-radius:10px;padding:5px 11px;display:inline-block}
 .mic-section{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:4px}
@@ -99,7 +104,7 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .btn-retry.show{display:block}
 .no-speech{background:#fff3cd;border:2px solid #ffc107;border-radius:12px;padding:10px 12px;font-size:12px;color:#856404;line-height:1.5;display:none}
 
-/* FEEDBACK */
+/* ── FEEDBACK ─────────────────────────────────────────── */
 .feedback-panel{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;padding:18px 18px 34px;border-radius:24px 24px 0 0;z-index:100;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
 .feedback-panel.show{transform:translateX(-50%) translateY(0)}
 .feedback-panel.correct-panel{background:var(--green-light);border-top:4px solid var(--green)}
@@ -109,43 +114,66 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .fb-title{font-size:20px;font-weight:900;margin-bottom:4px}
 .fb-title.correct{color:var(--green-dark)}.fb-title.wrong{color:var(--red)}.fb-title.speak{color:#cc7000}
 .fb-answer{font-size:12px;color:#555;margin-bottom:7px;font-weight:600}
-.fb-exp{font-size:12px;color:#555;line-height:1.65;background:rgba(255,255,255,.65);border-radius:12px;padding:10px;margin-bottom:12px}
+.fb-exp{font-size:12px;color:#444;line-height:1.7;background:rgba(255,255,255,.8);border-radius:12px;padding:12px;margin-bottom:12px;border-left:3px solid #ccc}
+.fb-exp.correct-exp{border-left-color:var(--green)}
+.fb-exp.wrong-exp{border-left-color:var(--red)}
 .btn-continue{width:100%;padding:14px;border:none;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;transition:all .1s}
 .btn-continue.correct-btn{background:var(--green);color:white;box-shadow:0 5px 0 var(--green-dark)}
 .btn-continue.wrong-btn{background:var(--red);color:white;box-shadow:0 5px 0 #cc0000}
 .btn-continue.speak-btn{background:var(--orange);color:white;box-shadow:0 5px 0 #cc7000}
 .btn-continue:active{transform:translateY(3px);box-shadow:none!important}
 
-/* XP POPUP */
+/* ── XP POPUP ─────────────────────────────────────────── */
 .xp-popup{position:fixed;top:68px;left:50%;transform:translateX(-50%) scale(0);background:var(--yellow);color:#5c4800;font-size:16px;font-weight:900;padding:8px 20px;border-radius:30px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
 .xp-popup.show{transform:translateX(-50%) scale(1)}
 
-/* CONVERSATION SCREEN */
-#conv-screen{background:white;justify-content:flex-start}
-.conv-header{width:100%;padding:12px 16px;background:linear-gradient(135deg,var(--pink),#ff8fab);display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
-.conv-avatar{font-size:36px}
+/* ── CONVERSATION ─────────────────────────────────────── */
+#conv-screen{background:#fafafa;justify-content:flex-start}
+.conv-header{width:100%;padding:10px 14px;background:linear-gradient(135deg,#ff6b9d,#cc3377);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.lily-header-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff8fab);display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid rgba(255,255,255,.8);box-shadow:0 3px 8px rgba(0,0,0,.2);flex-shrink:0}
 .conv-char-info{flex:1}
 .conv-char-name{font-size:17px;font-weight:900;color:white}
-.conv-char-status{font-size:11px;color:rgba(255,255,255,.8)}
-.conv-topic-select{width:100%;padding:16px;display:flex;flex-direction:column;gap:10px}
-.conv-topic-title{font-size:16px;font-weight:900;margin-bottom:4px;color:var(--text)}
-.topic-card{background:white;border:3px solid #f0d0e0;border-radius:16px;padding:14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.conv-char-status{font-size:10px;color:rgba(255,255,255,.85)}
+.btn-conv-back{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.6);border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;padding:5px 10px;color:white;white-space:nowrap}
+
+/* LILY PROFILE CARD */
+.lily-profile-card{background:linear-gradient(135deg,#fff0f5,#fff);border:3px solid #ffd0e0;border-radius:20px;padding:20px 16px;margin:12px 16px 0;text-align:center;box-shadow:0 4px 16px rgba(255,107,157,.15)}
+.lily-profile-avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff6b9d);display:flex;align-items:center;justify-content:center;font-size:48px;border:4px solid white;box-shadow:0 4px 16px rgba(255,107,157,.4);margin:0 auto 10px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.lily-profile-name{font-size:22px;font-weight:900;color:#cc3377}
+.lily-profile-sub{font-size:12px;color:#999;margin:2px 0 10px}
+.lily-traits{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px}
+.lily-trait{background:#fff0f5;border:2px solid #ffd0e0;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:#cc3377}
+.lily-bio{font-size:13px;color:#555;line-height:1.65;background:white;border-radius:12px;padding:10px 12px;border:2px solid #f5e0ea;text-align:left}
+
+/* TOPIC SELECT */
+.conv-topic-select{width:100%;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.conv-topic-title{font-size:15px;font-weight:900;color:var(--text);margin-bottom:2px}
+.topic-card{background:white;border:3px solid #f0d0e0;border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px;box-shadow:0 2px 6px rgba(255,107,157,.1)}
 .topic-card:active{transform:scale(.97);background:#fff0f5}
-.topic-emoji{font-size:28px}
-.topic-info{}
+.topic-emoji{font-size:26px;flex-shrink:0}
 .topic-name{font-size:15px;font-weight:800}
 .topic-desc{font-size:11px;color:var(--gray)}
+
 /* CHAT */
 .chat-area{flex:1;width:100%;padding:12px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:160px}
 .msg-row{display:flex;gap:8px;align-items:flex-end}
-.msg-row.lily{justify-content:flex-start}
-.msg-row.user{justify-content:flex-end}
-.msg-avatar{font-size:28px;flex-shrink:0}
+.msg-row.lily-msg{justify-content:flex-start}
+.msg-row.user-msg{justify-content:flex-end}
+.lily-chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff6b9d);display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid white;box-shadow:0 2px 6px rgba(255,107,157,.3);flex-shrink:0}
 .msg-bubble{max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.5;font-weight:600}
-.msg-row.lily .msg-bubble{background:#fff0f5;border:2px solid #ffd0e0;border-bottom-left-radius:4px;color:var(--text)}
-.msg-row.user .msg-bubble{background:var(--blue);color:white;border-bottom-right-radius:4px}
-.msg-hint{font-size:11px;color:var(--gray);margin-top:3px;text-align:center;font-style:italic}
-.conv-feedback{background:#fff8e0;border:2px solid var(--yellow);border-radius:12px;padding:10px 12px;font-size:12px;color:#5c4800;margin:4px 0;line-height:1.6}
+.lily-bubble{background:var(--pink-light);border:2px solid #ffd0e0;border-bottom-left-radius:4px;color:var(--text)}
+.user-bubble{background:var(--blue);color:white;border-bottom-right-radius:4px}
+.msg-hint{font-size:11px;color:var(--gray);margin-top:3px;font-style:italic;padding-left:2px}
+.conv-feedback{background:#fff8e0;border:2px solid var(--yellow);border-radius:12px;padding:9px 12px;font-size:12px;color:#5c4800;margin:2px 0;line-height:1.6}
+
+/* TYPING INDICATOR */
+.typing-bubble{display:inline-flex;gap:4px;align-items:center;background:var(--pink-light);border:2px solid #ffd0e0;border-radius:18px;border-bottom-left-radius:4px;padding:12px 16px}
+.typing-bubble span{width:8px;height:8px;border-radius:50%;background:#ff6b9d;animation:typingBounce 1.2s infinite}
+.typing-bubble span:nth-child(2){animation-delay:.2s}
+.typing-bubble span:nth-child(3){animation-delay:.4s}
+@keyframes typingBounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
+
 .chat-input-wrap{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:white;border-top:2px solid #f0f0f0;padding:10px 12px 28px;display:flex;flex-direction:column;gap:8px}
 .chat-input-row{display:flex;gap:8px;align-items:center}
 .chat-input{flex:1;border:3px solid #e5e5e5;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:600;outline:none;resize:none;font-family:inherit}
@@ -156,7 +184,7 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .conv-progress{font-size:12px;color:var(--gray);text-align:center;font-weight:600}
 .conv-end-btn{background:var(--green);border:none;border-radius:14px;padding:13px;color:white;font-size:15px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 4px 0 var(--green-dark)}
 
-/* RESULT */
+/* ── RESULT ───────────────────────────────────────────── */
 #result-screen{padding:40px 22px;text-align:center;justify-content:center;background:white}
 .result-trophy{font-size:80px;margin-bottom:14px}
 .result-title{font-size:26px;font-weight:900;margin-bottom:6px}
@@ -188,13 +216,13 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 <div id="home-screen" class="screen active">
   <div class="home-logo">🦉</div>
   <div class="home-title">英語チャレンジ！</div>
-  <div class="home-subtitle">英検3級レベルの英語を楽しく学ぼう！<br>600問以上・女の子と会話モードも！</div>
+  <div class="home-subtitle">英検3級レベルの英語を楽しく学ぼう！<br>900問以上 · Lilyと会話モード · 音声読み上げ付き</div>
   <div class="badge-row">
     <div class="badge">🎯 英検3級</div>
-    <div class="badge">📚 600問以上</div>
+    <div class="badge">📚 900問以上</div>
     <div class="badge">💬 会話モード</div>
     <div class="badge">🎤 スピーキング</div>
-    <div class="badge">🔊 効果音</div>
+    <div class="badge">🔊 音声付き</div>
   </div>
   <button class="btn-start" onclick="showScreen('level-screen')">▶ スタート！</button>
 </div>
@@ -202,9 +230,9 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 <!-- LEVEL SELECT -->
 <div id="level-screen" class="screen">
   <div class="top-bar">
-    <button class="btn-back" onclick="showScreen('home-screen')">✕</button>
+    <button class="btn-nav-back" onclick="showScreen('home-screen')">← ホームへ</button>
     <span class="top-bar-title">ユニット選択</span>
-    <div style="width:28px"></div>
+    <div style="width:70px"></div>
   </div>
   <div class="unit-grid">
     <div class="unit-card conv" onclick="showConvScreen()">
@@ -212,15 +240,15 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
       <div class="unit-info">
         <div class="unit-name">Lilyと会話しよう！</div>
         <div class="unit-desc">アメリカの女の子と英語で話そう</div>
-        <span class="unit-tag">🌟 NEW 会話モード</span>
+        <span class="unit-tag">🌟 会話モード</span>
       </div>
     </div>
     <div class="unit-card vocab" onclick="startUnit('vocab')">
       <div class="unit-icon">📖</div>
       <div class="unit-info">
         <div class="unit-name">単語・語彙</div>
-        <div class="unit-desc">英単語をマスターしよう</div>
-        <div class="unit-count">全504問（自動生成）</div>
+        <div class="unit-desc">英単語をマスターしよう（🔊 音声付き！）</div>
+        <div class="unit-count">全818問（自動生成）</div>
       </div>
     </div>
     <div class="unit-card grammar" onclick="startUnit('grammar')">
@@ -260,7 +288,7 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 <!-- QUIZ -->
 <div id="quiz-screen" class="screen">
   <div class="quiz-header">
-    <button class="btn-close" onclick="confirmQuit()">✕</button>
+    <button class="btn-quiz-back" onclick="confirmQuit()">← 戻る</button>
     <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
     <div class="xp-label" id="xp-display">⭐ 0</div>
   </div>
@@ -270,15 +298,15 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 <!-- CONVERSATION SCREEN -->
 <div id="conv-screen" class="screen">
   <div class="conv-header">
-    <div class="conv-avatar">👩‍🦰</div>
+    <div class="lily-header-avatar">🧒‍♀️</div>
     <div class="conv-char-info">
-      <div class="conv-char-name">Lily</div>
-      <div class="conv-char-status">🇺🇸 New York · 16歳 · 日本のアニメが大好き！</div>
+      <div class="conv-char-name">Lily Anderson</div>
+      <div class="conv-char-status">🇺🇸 New York・16歳・アニメ好きな女の子</div>
     </div>
-    <button class="btn-back" style="color:white;font-size:20px" onclick="showScreen('level-screen')">✕</button>
+    <button class="btn-conv-back" onclick="showScreen('level-screen')">← 戻る</button>
   </div>
   <div id="conv-body">
-    <!-- topic select or chat will be injected here -->
+    <!-- injected by JS -->
   </div>
 </div>
 
@@ -310,11 +338,31 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 // ── SOUND ──────────────────────────────────────────────────
 let audioCtx=null;
 function getAC(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
-function tone(f,d,t='sine',v=0.3,delay=0){try{const c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+delay);g.gain.setValueAtTime(v,c.currentTime+delay);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+delay+d);o.start(c.currentTime+delay);o.stop(c.currentTime+delay+d)}catch(e){}}
-function sndOK(){tone(523,.1,'sine',.3,0);tone(659,.1,'sine',.3,.1);tone(784,.15,'sine',.35,.2)}
-function sndNG(){tone(300,.08,'square',.2,0);tone(220,.15,'square',.2,.1)}
-function sndXP(){tone(880,.08,'sine',.2,0);tone(1100,.1,'sine',.2,.08)}
+function tone(f,d,t='sine',v=0.3,delay=0){
+  try{const c=getAC(),o=c.createOscillator(),g=c.createGain();
+  o.connect(g);g.connect(c.destination);o.type=t;
+  o.frequency.setValueAtTime(f,c.currentTime+delay);
+  g.gain.setValueAtTime(v,c.currentTime+delay);
+  g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+delay+d);
+  o.start(c.currentTime+delay);o.stop(c.currentTime+delay+d)}catch(e){}}
+
+// ピンポーン！ (two-tone bell)
+function sndOK(){
+  tone(1047,.13,'sine',.42,0);   // ピ (C6)
+  tone(784,.25,'sine',.38,.16);  // ポーン (G5)
+}
+function sndNG(){tone(300,.08,'square',.18,0);tone(220,.15,'square',.18,.1)}
+function sndXP(){tone(880,.07,'sine',.18,0);tone(1100,.1,'sine',.18,.08)}
 function sndPerfect(){[523,659,784,1047].forEach((f,i)=>tone(f,.12,'sine',.3,i*.1))}
+
+// ── TTS ────────────────────────────────────────────────────
+function speak(text,lang='en-US',rate=0.9){
+  if(!window.speechSynthesis||!text)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang;u.rate=rate;u.pitch=1.1;
+  window.speechSynthesis.speak(u);
+}
 
 // ── DATA ───────────────────────────────────────────────────
 const WORD_BANK = [
@@ -570,6 +618,163 @@ const WORD_BANK = [
   ["worry","心配する","「Don't worry!（心配しないで！）」という表現！"],
   ["worth","〜の価値がある","「It's worth trying.（試す価値がある）」！"],
   ["young","若い","「the young（若者）」という使い方も覚えよう！"],
+  ["achieve","達成する・成し遂げる","「achieve a goal（目標を達成する）」という表現！"],
+  ["action","行動・アクション","「take action（行動を起こす）」は英検でよく出るよ！"],
+  ["adventure","冒険","「go on an adventure（冒険に出る）」という表現！"],
+  ["allow","許す・許可する","「allow 人 to〜（〜することを許す）」の形で使うよ！"],
+  ["ancient","古代の","「ancient history（古代史）」という表現！"],
+  ["appear","現れる・〜のように見える","「appear to be〜（〜のように見える）」！"],
+  ["attention","注意・注目","「pay attention to〜（〜に注意する）」英検頻出！"],
+  ["attitude","態度・姿勢","「have a positive attitude（前向きな姿勢）」！"],
+  ["audience","観客・聴衆","「a large audience（大勢の観客）」という表現！"],
+  ["award","賞・授与する","「win an award（賞をとる）」という表現！"],
+  ["basic","基本的な・基礎","「basic English（基礎英語）」という表現！"],
+  ["challenge","挑戦する・困難","「challenge yourself（自分に挑戦する）」！"],
+  ["champion","チャンピオン","「become a champion（チャンピオンになる）」！"],
+  ["chance","チャンス・機会","「have a chance to〜（〜するチャンス）」！"],
+  ["character","性格・文字・キャラクター","「a strong character（強い性格）」！"],
+  ["common","一般的な・共通の","「common sense（常識）」という熟語！"],
+  ["concentrate","集中する","「concentrate on〜（〜に集中）」という表現！"],
+  ["confident","自信がある","「be confident in〜（〜に自信がある）」！"],
+  ["connect","つなぐ・接続する","「connect to the internet（ネット接続）」！"],
+  ["create","創造する・作る","「create something new（新しいものを作る）」！"],
+  ["curious","好奇心旺盛な","「be curious about〜（〜に好奇心がある）」！"],
+  ["damage","損害・傷つける","「cause damage（損害を与える）」という表現！"],
+  ["develop","発展させる・開発する","「develop skills（スキルを磨く）」！"],
+  ["difference","違い・差","「make a difference（重要である）」という熟語！"],
+  ["digital","デジタルの","「digital technology（デジタル技術）」！"],
+  ["direction","方向・指示","「in the right direction（正しい方向に）」！"],
+  ["donate","寄付する","「donate money to〜（〜に募金する）」！"],
+  ["education","教育","「get a good education（良い教育を受ける）」！"],
+  ["electricity","電気・電力","「use electricity（電気を使う）」！"],
+  ["emotion","感情・感動","「express emotions（感情を表現する）」！"],
+  ["energy","エネルギー・活力","「renewable energy（再生可能エネルギー）」英検頻出！"],
+  ["enter","入る・参加する","「enter a contest（コンテストに参加）」！"],
+  ["equal","等しい・平等な","「equal rights（平等な権利）」！"],
+  ["escape","逃げる・脱出する","「escape from〜（〜から逃げる）」！"],
+  ["exercise","運動する・運動","「exercise every day（毎日運動する）」！"],
+  ["express","表現する・表す","「express your feelings（気持ちを表現）」！"],
+  ["fair","公平な・フェア","「It's not fair!（不公平だ！）」という表現！"],
+  ["fight","戦う・喧嘩する","「fight for〜（〜のために戦う）」！"],
+  ["film","映画・フィルム","「watch a film（映画を見る）」。movieと同じ意味！"],
+  ["focus","焦点を当てる・集中する","「focus on〜（〜に集中する）」！"],
+  ["force","力・強制する","「by force（強制的に）」という表現！"],
+  ["free","無料の・自由な・暇な","「free time（自由時間）」「for free（無料で）」！"],
+  ["fresh","新鮮な・清々しい","「fresh air（新鮮な空気）」という表現！"],
+  ["funny","面白い・おかしな","「That's funny!（面白い！）」という表現！"],
+  ["goal","目標・ゴール","「set a goal（目標を設定する）」という表現！"],
+  ["grow","育つ・成長する","「grow up（成長する）」はよく出る表現！"],
+  ["heart","心臓・心・ハート","「from the bottom of my heart（心の底から）」！"],
+  ["honor","名誉・尊敬する","「It's an honor.（光栄です）」という表現！"],
+  ["include","含む・含める","「including〜（〜を含めて）」という表現！"],
+  ["increase","増える・増やす","「increase in〜（〜が増える）」という表現！"],
+  ["instead","その代わりに","「instead of〜（〜の代わりに）」！"],
+  ["judge","判断する・審判","「judge a book by its cover（外見で判断する）」！"],
+  ["large","大きい・広い","「a large number of〜（多数の〜）」という表現！"],
+  ["light","光・明るい・軽い","3つの意味があるよ！「light up（明るくなる）」！"],
+  ["limit","制限する・限界","「the speed limit（速度制限）」という表現！"],
+  ["lose","負ける・失う","過去形・過去分詞は「lost」！「Get lost!（道に迷う）」！"],
+  ["loud","うるさい・大声の","「out loud（声に出して）」という表現！"],
+  ["main","主な・メインの","「the main idea（主なアイデア）」という表現！"],
+  ["manner","礼儀・方法・態度","「in a polite manner（礼儀正しく）」！"],
+  ["matter","重要である・問題","「It doesn't matter.（どうでもいい）」！"],
+  ["meal","食事","「have a meal（食事をする）」という表現！"],
+  ["mean","意味する・意地悪な","「What do you mean?（どういう意味？）」！"],
+  ["member","メンバー・会員","「a member of〜（〜のメンバー）」！"],
+  ["method","方法・手段","「a good method（良い方法）」という表現！"],
+  ["mind","気にする・心","「Don't mind!（気にしないで！）」！"],
+  ["miss","見逃す・恋しく思う","「I miss you.（あなたが恋しい）」！"],
+  ["modern","現代の・モダンな","「modern technology（現代技術）」！"],
+  ["moment","瞬間・場合","「at this moment（今この瞬間）」！"],
+  ["move","動く・引っ越す・感動させる","「moving（感動的な）」という形容詞も！"],
+  ["native","母国語の・生まれ育った","「native speaker（母国語話者）」！"],
+  ["network","ネットワーク・交流する","「social network（SNS）」という表現！"],
+  ["normal","普通の・正常な","「It's normal.（普通だよ）」という表現！"],
+  ["ocean","海・大洋","「Ocean（大洋）」は「sea（海）」より大きい概念！"],
+  ["once","一度・かつて","「once a week（週1回）」「once upon a time（昔々）」！"],
+  ["overcome","乗り越える・克服する","「overcome difficulties（困難を克服する）」！"],
+  ["part","部分・役割","「take part in〜（〜に参加する）」という表現！"],
+  ["pass","通り過ぎる・合格する","「pass the exam（試験に合格する）」！"],
+  ["personal","個人的な","「personal information（個人情報）」！"],
+  ["photo","写真","「take a photo（写真を撮る）」という表現！"],
+  ["place","場所・置く","「in place of〜（〜の代わりに）」という表現！"],
+  ["point","指摘する・点・要点","「make a point（要点を述べる）」！"],
+  ["power","力・電力・能力","「willpower（意志の力）」「power of〜」！"],
+  ["produce","生産する・農産物","「produce food（食料を生産する）」！"],
+  ["progress","進歩する・進歩","「make progress（進歩する）」という表現！"],
+  ["promise","約束する・約束","「keep a promise（約束を守る）」！"],
+  ["provide","提供する・与える","「provide help（助けを提供する）」！"],
+  ["quality","質・品質","「quality of life（生活の質）」英検頻出！"],
+  ["quiet","静かな・穏やかな","「Be quiet!（静かに！）」という表現！"],
+  ["raise","上げる・育てる","「raise money（募金する）」「raise children（子育て）」！"],
+  ["reach","到達する・届く","「reach the goal（目標に到達する）」！"],
+  ["reduce","減らす・削減する","「reduce waste（ゴミを減らす）」英検頻出！"],
+  ["reflect","反省する・反射する","「reflect on〜（〜を振り返る）」！"],
+  ["refuse","断る・拒否する","「refuse to〜（〜することを断る）」！"],
+  ["relate","関係する・関連する","「related to〜（〜に関連した）」！"],
+  ["release","解放する・発売する","「release a new song（新曲を発売する）」！"],
+  ["research","研究する・調査する","「do research on〜（〜について研究する）」！"],
+  ["return","戻る・返す","「return home（家に帰る）」という表現！"],
+  ["rise","上がる・昇る","「the sun rises（太陽が昇る）」。過去形は「rose」！"],
+  ["rule","ルール・規則","「follow the rules（ルールに従う）」！"],
+  ["save","救う・貯める・節約する","「save money（貯金）」「save the earth（地球を救う）」！"],
+  ["scene","場面・風景","「behind the scenes（舞台裏で）」という表現！"],
+  ["search","検索する・探す","「search for〜（〜を探す）」という表現！"],
+  ["society","社会","「Japanese society（日本社会）」英検頻出！"],
+  ["sound","音・〜のように聞こえる","「That sounds great!（よさそう！）」！"],
+  ["speak","話す・演説する","「speak up（声を大きくする）」という表現！"],
+  ["spread","広がる・広める","「spread the news（ニュースを広める）」！"],
+  ["stay","滞在する・〜のままでいる","「stay healthy（健康を保つ）」！"],
+  ["succeed","成功する","「succeed in〜ing（〜することに成功する）」！"],
+  ["sudden","突然の","「all of a sudden（突然）」という表現！"],
+  ["supply","供給する・供給","「supply and demand（需要と供給）」！"],
+  ["task","課題・作業","「complete a task（課題を完成させる）」！"],
+  ["total","合計の・全体の","「in total（合計で）」という表現！"],
+  ["touch","触れる・感動させる","「keep in touch（連絡を取り続ける）」！"],
+  ["type","種類・タイプ","「What type of〜?（どんな種類の〜？）」！"],
+  ["value","価値・大切にする","「value education（教育を大切にする）」！"],
+  ["variety","様々・バラエティ","「a variety of〜（様々な〜）」英検頻出！"],
+  ["view","見解・眺め・見る","「point of view（視点）」という熟語！"],
+  ["wide","広い・幅広い","「a wide range of〜（幅広い〜）」という表現！"],
+  ["win","勝つ・勝利","過去形は「won（ウォン）」だよ！"],
+  ["work","働く・うまくいく・作品","「It doesn't work.（うまくいかない）」！"],
+  ["write","書く","過去形は「wrote」、過去分詞は「written」！"],
+  ["ability","能力・才能","「have the ability to〜（〜する能力がある）」！"],
+  ["accept","受け入れる・承認する","「accept an offer（申し出を受け入れる）」！"],
+  ["actual","実際の","「in actual fact（実際のところ）」という表現！"],
+  ["almost","ほとんど・もう少しで","「I almost forgot!（もう少しで忘れるとこだった！）」！"],
+  ["although","〜だけれども・〜にもかかわらず","「although〜（〜だけれど）」は「but」より書き言葉的！"],
+  ["among","〜の中で・〜の間に","「among friends（友達の中で）」という表現！"],
+  ["calm","落ち着いた・穏やかな","「keep calm（落ち着いて）」という表現！"],
+  ["care","気にかける・世話する","「take care of〜（〜の世話をする）」英検頻出！"],
+  ["competition","競争・試合","「take part in a competition（試合に参加する）」！"],
+  ["complete","完成する・完全な","「complete a task（課題を完成させる）」！"],
+  ["control","制御する・支配する","「out of control（制御不能）」という表現！"],
+  ["creative","創造的な","「a creative idea（創造的なアイデア）」！"],
+  ["crowd","群衆・大勢の人","「a large crowd（大勢の人たち）」という表現！"],
+  ["daily","毎日の・日常の","「daily life（日常生活）」という英検頻出表現！"],
+  ["depend","依存する・頼る","「depend on〜（〜に頼る）」という表現！"],
+  ["double","2倍の・ダブル","「double the amount（量を2倍にする）」！"],
+  ["effect","影響・効果","「have an effect on〜（〜に影響がある）」！"],
+  ["exciting","わくわくさせる","「excited（わくわくした）」との違いに注意！"],
+  ["expect","予期する・期待する","「expect to〜（〜すると予想する）」！"],
+  ["face","顔・直面する","「face a problem（問題に直面する）」！"],
+  ["fail","失敗する","「fail to〜（〜できなかった）」という表現！"],
+  ["figure","数字・人物・考える","「figure out（解決する・理解する）」という熟語！"],
+  ["forward","前へ・前向きに","「look forward to〜（〜を楽しみにする）」！"],
+  ["gather","集まる・集める","「gather information（情報を集める）」！"],
+  ["general","一般的な","「in general（一般的に）」という表現！"],
+  ["generation","世代","「the younger generation（若い世代）」！"],
+  ["gentle","優しい・穏やかな","「a gentle person（優しい人）」という表現！"],
+  ["grant","与える・かなえる","「grant a wish（願いをかなえる）」！"],
+  ["health","健康","「good health（健康な状態）」「health care（医療）」！"],
+  ["hit","打つ・ヒット曲","「a hit song（ヒット曲）」という表現！"],
+  ["inspire","刺激を与える・鼓舞する","「inspire others（他の人に刺激を与える）」！"],
+  ["interest","興味・利益","「show interest in〜（〜に興味を示す）」！"],
+  ["item","項目・品物","「items on the menu（メニューの品目）」！"],
+  ["lack","不足する・欠乏","「lack of sleep（睡眠不足）」という表現！"],
+  ["lead","導く・リードする","「lead a team（チームを率いる）」！"],
+  ["likely","〜しそうな・おそらく","「be likely to〜（〜しそうだ）」という表現！"],
 ];
 const GRAMMAR_QS = [
   {"q":"She ___ a student.","choices":["am", "are", "is", "be"],"ans":2,"exp":"be動詞のルール！\n・I → am\n・You/We/They → are\n・He/She/It → is\n「She」なので「is」が正解！"},
@@ -669,134 +874,138 @@ const SPEAKING_QS = [
 ];
 
 // Auto-generate vocab questions
+let _currentVocabWord = '';
 function genVocabQ(word, bank, dir) {
-  const idx = Math.floor(Math.random()*bank.length);
-  let wrongs = [], tries = 0;
-  while(wrongs.length < 3 && tries < 50) {
-    const w = bank[Math.floor(Math.random()*bank.length)];
-    if(w[0]!==word[0] && !wrongs.includes(dir?w[0]:w[1])) wrongs.push(dir?w[0]:w[1]);
+  let wrongs=[],tries=0;
+  while(wrongs.length<3&&tries<60){
+    const w=bank[Math.floor(Math.random()*bank.length)];
+    const cand=dir?w[0]:w[1];
+    if(w[0]!==word[0]&&!wrongs.includes(cand))wrongs.push(cand);
     tries++;
   }
-  const correct = dir ? word[0] : word[1];
-  const choices = shuffle([correct, ...wrongs]);
-  return {
+  const correct=dir?word[0]:word[1];
+  const choices=shuffle([correct,...wrongs]);
+  return{
     type:'vocab',
-    q: dir ? `「${word[1]}」を英語で言うと？` : `「${word[0]}」の意味は？`,
-    sub:'正しいものを選んでね',
-    choices,
-    ans: choices.indexOf(correct),
-    exp: `「${word[0]}」は「${word[1]}」という意味だよ。\n💡 ${word[2]}`
+    word: word[0],
+    q: dir?`「${word[1]}」を英語で言うと？`:`「${word[0]}」の意味は？`,
+    sub:'正しいものを選んでね',choices,
+    ans:choices.indexOf(correct),
+    exp:`📖 「${word[0]}」 ＝ 「${word[1]}」\n\n💡 ${word[2]}`
   };
 }
-
-function buildVocabPool() {
-  const pool = [];
-  for(const w of WORD_BANK) {
-    pool.push({_w:w,_dir:false});
-    pool.push({_w:w,_dir:true});
-  }
+function buildVocabPool(){
+  const pool=[];
+  for(const w of WORD_BANK){pool.push({w,dir:false});pool.push({w,dir:true})}
   return pool;
 }
 
 // ── CONVERSATION DATA ──────────────────────────────────────
 const CONV_TOPICS = [
   {
-    id:'intro', emoji:'👋', name:'自己紹介', desc:'名前・年齢・住んでる場所を話そう',
+    id:'intro',emoji:'👋',name:'自己紹介',desc:'名前・年齢・住んでる場所を話そう',
     script:[
-      {lily:"Hi! I'm Lily! I'm 16 years old and I'm from New York. What's your name?", hint:'「My name is ○○.」で名前を教えてね！', keys:['name','is','i\'m','im','kenji','call'], replies:{name:"Oh, nice name! How old are you?", default:"Sorry, I didn't catch your name! Could you say it again?"}},
-      {lily:"Cool! And how old are you?", hint:'「I\'m ○○ years old.」で年齢を教えてね！', keys:['years','old','i\'m','im','year'], replies:{years:"Wow, we might be close in age! Where do you live in Japan?", default:"That's great! Where do you live?"}},
-      {lily:"Interesting! I've always wanted to visit Japan. Is your city big or small?", hint:'「It\'s a big/small city.」などで答えてね！', keys:['big','small','city','town','village','large','tokyo','osaka'], replies:{big:"Wow, a big city! That sounds exciting!", small:"A small town sounds so peaceful and cozy!", default:"That sounds amazing! I'd love to visit someday!"}},
-      {lily:"That sounds so cool! So, can you speak English well?", hint:'「I\'m studying English.」などで答えてね！', keys:['study','studying','learn','learning','little','practice','school'], replies:{study:"That's wonderful! Keep practicing, you're doing great!", default:"That's okay! Practice makes perfect! I'll help you!"}},
-      {lily:"Great! I'm so happy to meet you! Let's be friends and practice English together! 😊", hint:'「Nice to meet you too!」などで返事しよう！', keys:['nice','happy','glad','meet','friend','too','great'], replies:{default:"Yay! I'm so excited to chat with you! Come back anytime! 🎉"}, last:true}
+      {lily:"Hi! I'm Lily! I'm 16 years old and from New York! Nice to meet you! What's your name?",hint:'「My name is ○○.」で名前を教えてね！',keys:['name','is',"i'm",'im'],replies:{name:"Oh, what a cool name! How old are you?",default:"Sorry, could you say your name again? 😊"}},
+      {lily:"Cool! How old are you?",hint:'「I\'m ○○ years old.」で年齢を教えてね！',keys:['years','old',"i'm",'year','am'],replies:{years:"Nice! We might be close in age! Where do you live in Japan?",default:"That's great! Where do you live in Japan?"}},
+      {lily:"Interesting! I've always wanted to visit Japan! Is your city big or small?",hint:'「It\'s a big/small city.」などで答えてね！',keys:['big','small','city','town','tokyo','osaka','large'],replies:{big:"Wow, a big city! That sounds so exciting!",small:"A small town sounds so peaceful and cute!",default:"That sounds wonderful! I'd love to visit someday!"}},
+      {lily:"That sounds so cool! Can you speak English well? Have you studied long?",hint:'「I\'m studying English.」などで答えてね！',keys:['study','studying','learn','school','little','practice'],replies:{study:"That's wonderful! Keep it up — you're doing amazing!",default:"That's totally fine! Practice makes perfect! I'll help you! 😄"}},
+      {lily:"Great! I'm SO happy to meet you! Let's be friends and practice English together! 😊🎉",hint:'「Nice to meet you too!」などで返事しよう！',keys:['nice','happy','glad','meet','friend','too','great'],replies:{default:"Yay!! I'm so excited to chat with you! Come talk to me anytime! 🎉"},last:true}
     ]
   },
   {
-    id:'hobby', emoji:'🎮', name:'趣味・好きなこと', desc:'好きなことや趣味について話そう',
+    id:'hobby',emoji:'🎮',name:'趣味・好きなこと',desc:'好きなことや趣味について話そう',
     script:[
-      {lily:"Hey! What do you like to do in your free time? Do you have any hobbies?", hint:'「I like〜ing.」や「My hobby is〜.」で答えてね！', keys:['like','love','enjoy','play','read','watch','hobby','music','sport','game'], replies:{music:"Oh music! I love music too! What kind?", game:"Gaming is so fun! What games do you play?", sport:"Sports are great! Which sport?", default:"That sounds really fun! I'd love to try that!"}},
-      {lily:"That's awesome! I love watching anime. Do you like anime?", hint:'「Yes, I love it!」や「I like〜.」で答えてね！', keys:['yes','love','like','watch','favorite','no','don\'t'], replies:{yes:"Amazing!! What's your favorite anime?", love:"Yes!! Anime is the best! Tell me your favorite!", default:"That's okay! Anime is definitely something special!"}},
-      {lily:"Nice! How about music? What kind of music do you listen to?", hint:'「I like J-pop.」「I listen to〜.」などで答えてね！', keys:['pop','rock','jazz','hip','kpop','jpop','classical','like','listen','love'], replies:{pop:"Pop music is so catchy!", rock:"Rock on! 🤘", default:"Cool taste in music! Music makes life better!"}},
-      {lily:"Do you play any sports or musical instruments?", hint:'「I play〜.」で答えてね！', keys:['play','piano','guitar','soccer','baseball','basketball','tennis','swim','dance'], replies:{play:"Wow, that's a great talent!", default:"That's interesting! I wish I could play an instrument!"}},
-      {lily:"We have so much in common! Hobbies make life more fun, don't you think? 😊", hint:'「Yes, I agree!」などで答えてね！', keys:['yes','agree','think','fun','happy','right','totally'], replies:{default:"Totally agree! I'm so glad we chatted! Come talk to me again! 🎉"}, last:true}
+      {lily:"Hey! Let's talk about hobbies! What do you like to do in your free time?",hint:'「I like〜ing.」や「My hobby is〜.」で答えてね！',keys:['like','love','enjoy','play','read','watch','music','sport','game','draw','dance'],replies:{music:"Oh music! I love music too! What kind do you like?",game:"Gaming is so fun! What games do you play?",sport:"Sports are great for health! Which one?",default:"That sounds really fun! I'd love to try that someday!"}},
+      {lily:"That's awesome! I'm totally obsessed with anime! Do you like anime? 🌸",hint:'「Yes, I love it!」や「My favorite is〜.」で答えてね！',keys:['yes','love','like','watch','favorite','no','naruto','attack','one piece','demon'],replies:{yes:"AMAZING!! Which anime do you love?! Tell me everything! 😍",love:"YES!! Anime is literally the best! What's your number one?",default:"That's okay! There's definitely an anime out there for everyone!"}},
+      {lily:"Nice! How about music? What kind do you listen to?",hint:'「I like J-pop.」「I listen to〜.」などで答えてね！',keys:['pop','rock','jazz','hip','kpop','jpop','classical','like','listen','love'],replies:{pop:"Pop music is so catchy and fun!",rock:"Rock on! 🎸 That's so cool!",kpop:"K-pop!! The choreography is amazing!",default:"Cool music taste! Music really makes life more fun!"}},
+      {lily:"Do you play any sports or musical instruments? You seem talented!",hint:'「I play〜.」で答えてね！例：piano, guitar, soccer, baseball',keys:['play','piano','guitar','soccer','baseball','basketball','tennis','swim'],replies:{piano:"Piano! That takes so much skill! I'm impressed!",guitar:"Guitar is so cool! ❤️‍🔥",default:"Wow, that's an amazing skill! Keep it up!"}},
+      {lily:"We have so much in common! Hobbies really make life more fun, don't you think? 😊",hint:'「Yes, I agree!」などで答えてね！',keys:['yes','agree','think','fun','happy','right'],replies:{default:"Totally!! I'm so glad we talked! Come chat with me again! 🎉"},last:true}
     ]
   },
   {
-    id:'school', emoji:'📚', name:'学校生活', desc:'学校のことや好きな教科を話そう',
+    id:'school',emoji:'📚',name:'学校生活',desc:'学校のことや好きな教科を話そう',
     script:[
-      {lily:"Hi! Let's talk about school! What grade are you in?", hint:'「I\'m in ○ grade.」や「I\'m a junior high student.」で答えてね！', keys:['grade','year','junior','senior','high','school','class','second','third','first'], replies:{default:"Cool! School life in Japan sounds really interesting!"}},
-      {lily:"What's your favorite subject at school?", hint:'「My favorite subject is〜.」で教えてね！', keys:['english','math','science','history','japanese','pe','art','music','social'], replies:{english:"English! That's why you're so good!", math:"Math is so useful in real life!", default:"That sounds like a great subject!"}},
-      {lily:"Do you have any school clubs? What club are you in?", hint:'「I\'m in the〜 club.」や「I don\'t have a club.」で答えてね！', keys:['club','soccer','baseball','tennis','swim','music','art','drama','computer','no','don\'t'], replies:{soccer:"Soccer club! That's so cool! Do you play every day?", default:"That sounds like a great club! I wish I could join!"}},
-      {lily:"What time does your school start? Is it early?", hint:'「It starts at〜.」「School starts at ○ o\'clock.」で答えてね！', keys:['start','starts','eight','nine','seven','morning','early','am'], replies:{early:"That early?! That's tough! In the US, school usually starts at 8am.", default:"Oh interesting! Japanese schools have a great schedule!"}},
-      {lily:"It sounds like you work really hard at school! I admire that! 🌟", hint:'「Thank you!」などで答えてね！', keys:['thank','thanks','yes','hard','study','work'], replies:{default:"You're amazing! Keep up the great work! Study hard and enjoy school life! 📚"}, last:true}
+      {lily:"Hi! Let's talk about school! What grade are you in right now?",hint:'「I\'m in ○ grade.」や「I\'m a junior high student.」で答えてね！',keys:['grade','year','junior','senior','high','class','second','third','first'],replies:{default:"Cool! School life in Japan sounds really fascinating!"}},
+      {lily:"What's your absolute favorite subject? Mine would probably be art or music!",hint:'「My favorite subject is〜.」で教えてね！',keys:['english','math','science','history','japanese','pe','art','music','social'],replies:{english:"English!! That's why you're so good at it! 👏",math:"Math is so useful in real life!",art:"Art is my favorite too! Creativity is so important!",default:"That sounds like a great subject!"}},
+      {lily:"Do you have any school clubs? They sound super fun in Japan!",hint:'「I\'m in the〜 club.」や「I don\'t have a club.」で答えてね！',keys:['club','soccer','baseball','tennis','swim','music','art','computer','no','drama'],replies:{soccer:"Soccer club! Do you have matches against other schools?",music:"Music club!! Do you play in concerts? That sounds amazing!",default:"That sounds like such a great experience! I wish I could join!"}},
+      {lily:"What time does school start? I've heard Japanese schools start early!",hint:'「It starts at〜.」「School starts at ○ o\'clock.」で答えてね！',keys:['eight','nine','seven','start','morning','early','am'],replies:{early:"Wow, that's early! In the US, my school starts at 8:15am.",default:"Interesting! Japanese schools seem very disciplined!"}},
+      {lily:"It sounds like you work really hard at school! I truly admire that dedication! 🌟",hint:'「Thank you!」などで答えてね！',keys:['thank','thanks','yes','hard','study','work'],replies:{default:"You're absolutely amazing! Keep studying hard and enjoy school life! 📚💪"},last:true}
     ]
   },
   {
-    id:'food', emoji:'🍜', name:'食べ物', desc:'好きな食べ物や日本食について話そう',
+    id:'food',emoji:'🍜',name:'食べ物',desc:'好きな食べ物や日本食について話そう',
     script:[
-      {lily:"I LOVE Japanese food so much! What's your favorite Japanese food?", hint:'「My favorite food is〜.」で答えてね！', keys:['sushi','ramen','tempura','udon','soba','takoyaki','karaage','rice','curry','natto'], replies:{sushi:"Sushi is my absolute favorite! The salmon and tuna are amazing!", ramen:"Ramen!! I could eat ramen every single day! So delicious!", default:"Ohhh that sounds so yummy! I've gotta try that!"}},
-      {lily:"Have you ever tried American food? What do you think about it?", hint:'「I like/don\'t like〜.」や「I\'ve tried〜.」で答えてね！', keys:['hamburger','pizza','hot','dog','fries','like','love','good','delicious','tried','yes','no'], replies:{hamburger:"Yes! American burgers are huge and amazing!", pizza:"Pizza is a classic! Chicago deep dish is incredible!", default:"American food is definitely filling! Very different from Japanese food!"}},
-      {lily:"What do you usually eat for breakfast in Japan?", hint:'「I usually eat〜.」で答えてね！', keys:['rice','bread','toast','egg','miso','soup','fish','cereal','nothing'], replies:{rice:"Rice for breakfast is so healthy! I love Japanese breakfast style!", toast:"Toast is quick and easy! Do you put butter or jam?", default:"That sounds delicious! Japanese breakfast culture is so interesting!"}},
-      {lily:"Do you like cooking? Can you cook anything?", hint:'「I can/can\'t cook.」「I like cooking〜.」で答えてね！', keys:['cook','make','bake','yes','no','can','rice','pasta','curry','egg'], replies:{yes:"Wow, a chef in the making! What's your specialty?", no:"That's okay! There's always delivery! 😂", default:"Cooking is such a great skill! I wish I could cook better!"}},
-      {lily:"Food is the best way to understand culture! I'd love to try home-cooked Japanese food someday! 🍱", hint:'「I hope so!」などで答えてね！', keys:['hope','yes','someday','come','visit','japan','welcome','please'], replies:{default:"Aww, thank you! I'm definitely visiting Japan someday! See you then! 🍜"}, last:true}
+      {lily:"OH MY GOSH I love Japanese food SO much!! What's your favorite Japanese dish?",hint:'「My favorite food is〜.」で答えてね！',keys:['sushi','ramen','tempura','udon','soba','takoyaki','karaage','curry','rice','natto'],replies:{sushi:"Sushi is my absolute dream!! 🍣 Salmon and tuna are heaven!",ramen:"RAMEN!! 🍜 I could honestly eat it every single day!",default:"Ohhhh that sounds so incredibly delicious! I need to try that!"}},
+      {lily:"Have you ever tried American food? What do you think about it?",hint:'「I like〜.」「I\'ve tried〜.」で答えてね！',keys:['hamburger','pizza','hot dog','fries','like','love','good','delicious','tried'],replies:{hamburger:"Yes!! American burgers are HUGE and absolutely amazing!",pizza:"Pizza is such a classic! Deep dish Chicago style is incredible!",default:"American food is definitely very filling! Very different from Japanese cuisine!"}},
+      {lily:"What do you usually eat for breakfast in Japan? I'm so curious!",hint:'「I usually eat〜.」で答えてね！',keys:['rice','bread','toast','egg','miso','soup','fish','cereal','nothing'],replies:{rice:"Rice for breakfast is so healthy and satisfying! Japanese breakfast is the best!",toast:"Toast is quick and easy! Do you put butter, jam, or peanut butter?",default:"That sounds delicious! Japanese breakfast culture is so interesting!"}},
+      {lily:"Do you like cooking? Can you cook anything special?",hint:'「I can cook〜.」「I like cooking〜.」で答えてね！',keys:['cook','make','bake','yes','can','rice','curry','pasta','egg'],replies:{yes:"Wow, a future chef! What's your specialty dish?",no:"That's completely okay! There's always delivery! 😂",default:"Cooking is such a life skill! You should try making something easy first!"}},
+      {lily:"Food is the best way to understand a culture! I'd LOVE to try home-cooked Japanese food someday! 🍱❤️",hint:'「I hope so!」などで答えてね！',keys:['hope','yes','come','visit','welcome','please','someday'],replies:{default:"Awww, thank you so much! I'm definitely visiting Japan one day! 🍜✈️"},last:true}
     ]
   },
   {
-    id:'travel', emoji:'✈️', name:'旅行・場所', desc:'旅行したい場所や行ったことのある場所を話そう',
+    id:'travel',emoji:'✈️',name:'旅行・場所',desc:'旅行したい場所や行ったことのある場所を話そう',
     script:[
-      {lily:"If you could travel anywhere in the world, where would you go?", hint:'「I want to go to〜.」「I\'d like to visit〜.」で答えてね！', keys:['america','usa','uk','france','italy','paris','london','new york','tokyo','kyoto','want','like','visit','go'], replies:{america:"Oh come to America!! I'll show you around New York!", france:"Paris is so romantic and beautiful!", default:"That sounds like an amazing destination! I'd love to go there too!"}},
-      {lily:"Have you ever been abroad? Traveled outside Japan?", hint:'「Yes, I\'ve been to〜.」「No, I haven\'t.」で答えてね！', keys:['yes','been','korea','china','hawaii','taiwan','never','haven\'t','no','not'], replies:{yes:"Wow, you're a world traveler! That's amazing!", no:"That's okay! Japan is wonderful too! And traveling is a great goal!", default:"International travel is such an eye-opening experience!"}},
-      {lily:"What's the most beautiful place in Japan you've visited?", hint:'「I think〜 is beautiful.」などで答えてね！', keys:['tokyo','kyoto','osaka','hokkaido','okinawa','nara','fuji','mountain','temple','shrine','beautiful'], replies:{kyoto:"Kyoto is absolutely gorgeous! The temples and shrines are breathtaking!", okinawa:"Okinawa's beaches are paradise! I've seen pictures - stunning!", default:"That sounds absolutely beautiful! Japan has so many amazing places!"}},
-      {lily:"What would you recommend tourists do in Japan?", hint:'「You should visit〜.」「I recommend〜.」などで答えてね！', keys:['visit','go','eat','try','temple','shrine','food','onsen','tokyo','kyoto','recommend'], replies:{food:"Yes!! The food alone is worth the trip! Japan has the best food culture!", onsen:"Hot springs! Yes! I've always wanted to try an onsen! Is it relaxing?", default:"That's great advice! I'm definitely writing that down for my Japan trip!"}},
-      {lily:"I can't wait to visit Japan one day! You've made me even more excited! 🗾", hint:'「Please come!」「You\'re welcome!」などで答えてね！', keys:['please','come','welcome','visit','hope','japan','anytime','wait'], replies:{default:"Thank you so much! I'll definitely visit! See you in Japan someday! ✈️🗾"}, last:true}
+      {lily:"If you could travel ANYWHERE in the world, where would you choose to go?",hint:'「I want to go to〜.」「I\'d like to visit〜.」で答えてね！',keys:['america','usa','uk','france','italy','paris','london','new york','tokyo','want','visit','go'],replies:{america:"Oh please come to America!! I'll be your personal tour guide in New York! 🗽",france:"Paris is SO romantic and beautiful! The Eiffel Tower is stunning!",default:"That sounds like an absolutely amazing destination! Add it to our bucket list!"}},
+      {lily:"Have you ever traveled outside Japan? Any overseas adventures?",hint:'「Yes, I\'ve been to〜.」「No, I haven\'t.」で答えてね！',keys:['yes','been','korea','china','hawaii','taiwan','never',"haven't",'no'],replies:{yes:"Wow, you're such a world traveler! That's absolutely amazing!",no:"That's totally fine! Japan is incredibly wonderful too! Traveling can be your future goal!",default:"International travel is such an eye-opening experience!"}},
+      {lily:"What's the most beautiful place in Japan you've visited? I want recommendations!",hint:'「I think〜 is beautiful.」などで答えてね！',keys:['tokyo','kyoto','osaka','hokkaido','okinawa','nara','fuji','temple','shrine'],replies:{kyoto:"Kyoto!! I've seen so many photos — the temples and shrines are absolutely breathtaking! 🏯",okinawa:"Okinawa's beaches look like paradise!! The crystal clear water! 🌊",default:"That sounds incredibly beautiful! Japan has so many stunning places!"}},
+      {lily:"What would you recommend tourists do when they visit Japan?",hint:'「You should visit〜.」「I recommend〜.」などで答えてね！',keys:['visit','go','eat','food','onsen','temple','tokyo','kyoto','shrine','recommend'],replies:{food:"YES! The food alone is worth the entire trip to Japan! Amazing food culture!",onsen:"Hot springs!! I've ALWAYS wanted to try an onsen! Is it super relaxing?",default:"Amazing recommendations! I'm writing this all down for my future Japan trip! 📝"}},
+      {lily:"You've made me even MORE excited to visit Japan! Thank you so much!! 🗾💕",hint:'「Please come!」「You\'re welcome!」などで答えてね！',keys:['please','come','welcome','visit','hope','japan','anytime'],replies:{default:"THANK YOU!! I'm definitely coming! See you in Japan one beautiful day! ✈️🗾"},last:true}
     ]
   },
   {
-    id:'future', emoji:'🌟', name:'将来の夢', desc:'将来の夢ややりたいことについて話そう',
+    id:'future',emoji:'🌟',name:'将来の夢',desc:'将来の夢ややりたいことについて話そう',
     script:[
-      {lily:"Let's talk about the future! What do you want to be when you grow up?", hint:'「I want to be a〜.」「My dream is to〜.」で答えてね！', keys:['doctor','teacher','engineer','artist','musician','athlete','programmer','nurse','chef','scientist','pilot','want','dream','become'], replies:{doctor:"A doctor! That's such a noble profession! You'll help so many people!", teacher:"A teacher! I think teachers change lives! You'd be amazing!", default:"Wow, that sounds like an incredible career! Follow your dreams!"}},
-      {lily:"That's amazing! Why do you want that job? What's your reason?", hint:'「Because I like〜.」「I want to help〜.」などで答えてね！', keys:['like','love','help','people','because','want','money','cool','interesting','good'], replies:{help:"That's so sweet! Wanting to help people is the best motivation!", default:"That's a wonderful reason! Your passion will take you far!"}},
-      {lily:"Is English important for your future job?", hint:'「Yes, I think〜.」「English is important for〜.」で答えてね！', keys:['yes','important','need','use','communication','work','abroad','international'], replies:{yes:"You're right! English really opens so many doors in the world!", default:"English skills are definitely valuable in today's world!"}},
-      {lily:"What do you want to do in the next 5 years? Any big goals?", hint:'「I want to〜.」「I\'m going to〜.」などで答えてね！', keys:['study','travel','graduate','university','college','pass','exam','learn','improve','work'], replies:{study:"Study hard and the results will follow! I believe in you!", travel:"Travel goals are the best! What country do you want to visit first?", default:"Those are great goals! I can tell you're a very motivated person!"}},
-      {lily:"You have such big dreams! I really believe you can achieve them all! Never give up! 💪", hint:'「Thank you!」「I will!」などで答えてね！', keys:['thank','thanks','yes','will','try','never','give','up','work','hard'], replies:{default:"That's the spirit!! You're going to do amazing things! Good luck with everything! 🌟"}, last:true}
+      {lily:"Let's dream big! What do you want to be when you grow up?",hint:'「I want to be a〜.」「My dream is to〜.」で答えてね！',keys:['doctor','teacher','engineer','artist','musician','programmer','nurse','chef','scientist','pilot','want','dream'],replies:{doctor:"A doctor! That's such a noble and important job! You'll save so many lives!",teacher:"A teacher! Teachers genuinely change people's lives! You'd be incredible!",default:"Wow, that sounds like such an amazing and meaningful career!"}},
+      {lily:"That's amazing! Why do you want that job? What's your main reason?",hint:'「Because I like〜.」「I want to help〜.」などで答えてね！',keys:['like','love','help','people','because','want','interesting','good','money'],replies:{help:"That's so beautiful and kind-hearted! Wanting to help others is the best motivation!",default:"That's a wonderful reason! Your passion and dedication will definitely take you far!"}},
+      {lily:"Is English going to be important for your future career?",hint:'「Yes, I think〜.」「English is important for〜.」で答えてね！',keys:['yes','important','need','use','work','abroad','communication'],replies:{yes:"You're absolutely right! English truly opens SO many doors around the world!",default:"English skills are definitely becoming more valuable in today's global world!"}},
+      {lily:"What are your biggest goals for the next few years?",hint:'「I want to〜.」「I\'m going to〜.」などで答えてね！',keys:['study','travel','university','college','pass','learn','improve','work','graduate'],replies:{study:"Study hard — the results will absolutely follow! I believe in you 100%!",travel:"Travel goals are the BEST! Which country do you want to visit first?",default:"Those are brilliant goals! I can tell you're a really motivated and ambitious person!"}},
+      {lily:"You have such incredible dreams! I truly believe you can achieve every single one! Never ever give up! 💪✨",hint:'「Thank you!」「I will!」などで答えてね！',keys:['thank','thanks','yes','will','try','work','hard','never'],replies:{default:"That's the amazing spirit!! You're going to do absolutely incredible things in this world! 🌟"},last:true}
     ]
   },
   {
-    id:'daily', emoji:'☀️', name:'日常生活', desc:'毎日の生活リズムについて話そう',
+    id:'daily',emoji:'☀️',name:'日常生活',desc:'毎日の生活リズムについて話そう',
     script:[
-      {lily:"Let's talk about your daily life! What time do you usually wake up?", hint:'「I wake up at〜.」「I get up at ○ o\'clock.」で答えてね！', keys:['six','seven','eight','wake','up','get','morning','early','am'], replies:{early:"Wow, early bird! That's very disciplined! Good morning habits lead to success!", default:"I see! Do you feel refreshed in the morning?"}},
-      {lily:"What do you do first thing in the morning?", hint:'「I〜 first.」「First, I〜.」で答えてね！', keys:['brush','wash','eat','breakfast','shower','exercise','check','phone','school'], replies:{breakfast:"Breakfast is so important! It's the fuel for your brain!", exercise:"Morning exercise! That's so healthy! I should do that too!", default:"That sounds like a great morning routine!"}},
-      {lily:"How do you usually get to school? Train? Bus? Bike?", hint:'「I take the train.」「I ride my bike.」などで答えてね！', keys:['train','bus','bike','walk','car','subway','ride','take'], replies:{train:"The train! Japan's trains are amazingly punctual! I've heard they're incredible!", bike:"Biking to school is so eco-friendly and healthy!", default:"That sounds like a nice commute! Is it far from your home?"}},
-      {lily:"What do you do after school and in the evenings?", hint:'「I〜 after school.」「In the evening, I〜.」で答えてね！', keys:['study','homework','club','game','tv','dinner','practice','phone','friends','sleep'], replies:{study:"So dedicated! Studying after a long school day shows real commitment!", game:"Gaming to unwind sounds perfect! What games are you playing lately?", default:"That sounds like a nice way to spend the evening!"}},
-      {lily:"What time do you usually go to bed? Do you get enough sleep?", hint:'「I go to bed at〜.」「I sleep for〜 hours.」などで答えてね！', keys:['ten','eleven','twelve','sleep','bed','hours','midnight','late','early'], replies:{late:"Try to get more sleep! Your brain needs rest to learn efficiently! 😴", default:"Sleep is so important for learning! Make sure to rest well! Good night! 🌙"}, last:true}
+      {lily:"Let's chat about your daily life! What time do you usually wake up in the morning?",hint:'「I wake up at〜.」「I get up at ○ o\'clock.」で答えてね！',keys:['six','seven','eight','wake','get','morning','early'],replies:{early:"Wow, an early bird! Good morning habits really lead to success!",default:"I see! Do you feel energized and refreshed in the morning?"}},
+      {lily:"What's the very first thing you do every morning?",hint:'「I〜 first.」「First, I〜.」で答えてね！',keys:['brush','wash','eat','breakfast','shower','exercise','phone','school'],replies:{breakfast:"Breakfast is SO important! It's the perfect fuel for your brain! 🧠",exercise:"Morning exercise! That's incredibly healthy! I should definitely do that too!",default:"That sounds like a really great morning routine!"}},
+      {lily:"How do you get to school every day? Train, bus, or bike?",hint:'「I take the train.」「I ride my bike.」などで答えてね！',keys:['train','bus','bike','walk','car','subway','ride','take'],replies:{train:"The train! Japan's trains are absolutely amazingly punctual! Truly incredible! 🚆",bike:"Biking to school is so eco-friendly and healthy! Love that!",walk:"Walking is so good for you! Do you enjoy the walk?",default:"That sounds like a nice commute! Is it far from your house?"}},
+      {lily:"What do you do in the evenings after school to relax?",hint:'「I〜 after school.」「In the evening, I〜.」で答えてね！',keys:['study','homework','club','game','tv','dinner','practice','phone','friends'],replies:{study:"So dedicated! Studying after a full school day shows real commitment! 👏",game:"Gaming to decompress is absolutely perfect! What games are you playing?",default:"That sounds like such a nice and relaxing evening!"}},
+      {lily:"What time do you usually sleep? Getting enough rest is so important!",hint:'「I go to bed at〜.」「I sleep for〜 hours.」などで答えてね！',keys:['ten','eleven','twelve','sleep','bed','hours','midnight','late'],replies:{late:"Please try to sleep more! Your brain really needs rest to learn efficiently! 😴",default:"Sleep is SO important for learning and health! Rest well every night! 🌙"},last:true}
     ]
   },
   {
-    id:'sports', emoji:'⚽', name:'スポーツ', desc:'好きなスポーツや体を動かすことについて話そう',
+    id:'sports',emoji:'⚽',name:'スポーツ',desc:'好きなスポーツや体を動かすことについて話そう',
     script:[
-      {lily:"I love sports! Do you play any sports or do you have a favorite sport?", hint:'「I play〜.」「My favorite sport is〜.」で答えてね！', keys:['soccer','baseball','tennis','basketball','swim','volleyball','badminton','track','like','love','play','watch'], replies:{soccer:"Soccer!! I love soccer too! Do you have a favorite team?", baseball:"Baseball! It's Japan's national sport! Very exciting!", default:"That's a great sport! I love watching athletic competitions!"}},
-      {lily:"Do you prefer playing sports or watching them?", hint:'「I prefer playing/watching.」などで答えてね！', keys:['play','playing','watch','watching','prefer','both','like','love'], replies:{playing:"You're an active person! That's so healthy and fun!", watching:"Cheering for your team is so exciting! The atmosphere is amazing!", both:"Best of both worlds! Playing and watching are both great!", default:"Both have their own excitement, right?!"}},
-      {lily:"Who is your sports hero or favorite athlete?", hint:'「My favorite athlete is〜.」「I admire〜.」で答えてね！', keys:['messi','ronaldo','shohei','ohtani','naomi','osaka','federer','like','admire','favorite','idol'], replies:{ohtani:"Shohei Ohtani is incredible! A true two-way superstar! So inspiring!", osaka:"Naomi Osaka is amazing! Such a powerful and inspiring athlete!", default:"Wow, great choice! Athletes like that really inspire us to work harder!"}},
-      {lily:"Have you ever won a competition or tournament?", hint:'「Yes, I won〜.」「No, but I\'ve participated in〜.」で答えてね！', keys:['yes','won','win','prize','competition','tournament','participated','no','haven\'t','first'], replies:{yes:"You're a champion!! That's incredible! Tell me about it!", no:"Participating is what matters! The experience makes you better every time!", default:"That's such a great experience! Sports teach us so much about life!"}},
-      {lily:"Sport teaches us teamwork, discipline, and never giving up! I think it's so important! What do you think?", hint:'「I agree!」「I think so too.」などで答えてね！', keys:['agree','yes','think','right','important','teamwork','fun','health'], replies:{default:"Totally agree! Keep playing and enjoying sports! Stay healthy and active! ⚽🎾"}, last:true}
+      {lily:"I'm a huge sports fan! Do you play any sports? What's your favorite?",hint:'「I play〜.」「My favorite sport is〜.」で答えてね！',keys:['soccer','baseball','tennis','basketball','swim','volleyball','badminton','like','love','play','watch'],replies:{soccer:"Soccer!! I love soccer too! Do you have a favorite team or player?",baseball:"Baseball! It's basically Japan's national sport! Super exciting!",default:"That's such a great sport! Athletic competition is so inspiring!"}},
+      {lily:"Do you prefer actually playing sports or watching them on TV?",hint:'「I prefer playing/watching.」などで答えてね！',keys:['play','playing','watch','watching','prefer','both','like','love'],replies:{playing:"You're such an active person! That's so healthy and awesome!",watching:"Cheering for your team in the crowd is SO exciting! The energy is incredible!",both:"Best of both worlds! Playing and watching are both fantastic!",default:"Both have their own unique excitement, right?!"}},
+      {lily:"Who is your sports hero or favorite athlete? Anyone you look up to?",hint:'「My favorite athlete is〜.」「I admire〜.」で答えてね！',keys:['messi','ronaldo','ohtani','naomi','osaka','federer','nadal','like','admire','favorite'],replies:{ohtani:"Shohei Ohtani is absolutely incredible!! A true two-way superstar — so inspiring! ⚾",osaka:"Naomi Osaka is such an amazing and powerful athlete! Such inspiration!",default:"Great choice! Athletes like that truly inspire us all to work harder and dream bigger!"}},
+      {lily:"Have you ever won a competition or sports tournament?",hint:'「Yes, I won〜.」「No, but I\'ve participated in〜.」で答えてね！',keys:['yes','won','win','prize','competition','tournament','no','first','participated'],replies:{yes:"You're an actual champion!! That's incredible!! Tell me the whole story! 🏆",no:"Participating is what truly matters! Every experience makes you better and stronger!",default:"That's such a valuable experience! Sports teach us so much about life!"}},
+      {lily:"Sports teach us teamwork, discipline, and to NEVER give up! So important! What do you think?",hint:'「I agree!」「I think so too.」などで答えてね！',keys:['agree','yes','think','right','important','teamwork','fun','health'],replies:{default:"Totally agree 100%!! Keep playing and enjoying sports! Stay active and healthy! ⚽🎾💪"},last:true}
     ]
   }
 ];
 
 // ── STATE ──────────────────────────────────────────────────
-let curUnit='', curQs=[], curIdx=0;
-let score=0, correctCount=0, maxStreak=0, curStreak=0, answered=false;
-let recog=null, isRec=false, recText='', spkScore=0;
-let vocabPool=[], vocabUsed=0;
-let convTopic=null, convStep=0, convScore=0, convChatRec=null, isChatRec=false;
+let curUnit='',curQs=[],curIdx=0;
+let score=0,correctCount=0,maxStreak=0,curStreak=0,answered=false;
+let recog=null,isRec=false,recText='',spkScore=0;
+let vocabPool=[],vocabUsed=0;
+let convTopic=null,convStep=0,convScore=0,convChatRec=null,isChatRec=false;
 
 // ── UTILS ──────────────────────────────────────────────────
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');hideFB();stopRec()}
-function confirmQuit(){if(confirm('クイズを終了しますか？'))showScreen('level-screen')}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  hideFB();stopRec();
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
+}
+function confirmQuit(){if(confirm('クイズを終了して戻りますか？'))showScreen('level-screen')}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 function confetti(){
   const w=document.getElementById('confetti-wrap');w.innerHTML='';
   const cols=['#58cc02','#ffc800','#1cb0f6','#ff4b4b','#9b59b6','#ff9600','#ff6b9d'];
-  for(let i=0;i<40;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${.8+Math.random()*1.2}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>.5?'50%':'2px'}`;w.appendChild(el)}
+  for(let i=0;i<40;i++){const el=document.createElement('div');el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${.8+Math.random()*1.2}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>.5?'50%':'2px'}`;
+    w.appendChild(el)}
   setTimeout(()=>w.innerHTML='',2500)
 }
 function updateXP(){document.getElementById('xp-display').textContent='⭐ '+score}
@@ -813,11 +1022,11 @@ function startUnit(unit){
       vocabPool=shuffle(vocabPool);vocabUsed=0;
     }
     curQs=[];
-    for(let i=0;i<15;i++){
+    for(let i=0;i<20;i++){
       const item=vocabPool[(vocabUsed+i)%vocabPool.length];
       curQs.push(genVocabQ(item.w,WORD_BANK,item.dir));
     }
-    vocabUsed=(vocabUsed+15)%vocabPool.length;
+    vocabUsed=(vocabUsed+20)%vocabPool.length;
   } else if(unit==='grammar'){
     curQs=shuffle([...GRAMMAR_QS]).slice(0,15).map(q=>({type:'grammar',...q}));
   } else if(unit==='reading'){
@@ -825,7 +1034,6 @@ function startUnit(unit){
   } else if(unit==='speaking'){
     curQs=shuffle([...SPEAKING_QS]).slice(0,10).map(q=>({type:'speaking',...q,q:'次の英文を声に出して読もう！'}));
   } else {
-    // mixed - pull from each pool
     const vs=[];for(let i=0;i<5;i++){const item=WORD_BANK[Math.floor(Math.random()*WORD_BANK.length)];vs.push(genVocabQ(item,WORD_BANK,Math.random()>.5))}
     const gs=shuffle([...GRAMMAR_QS]).slice(0,4).map(q=>({type:'grammar',...q}));
     const rs=shuffle([...READING_QS]).slice(0,3).map(q=>({type:'reading',q:q.passage+'\n'+q.q,sub:'正しいものを選んでね',choices:q.choices,ans:q.ans,exp:q.exp}));
@@ -842,16 +1050,27 @@ function renderQ(){
   const q=curQs[curIdx];
   document.getElementById('progress-bar').style.width=(curIdx/curQs.length*100)+'%';
   const body=document.getElementById('quiz-body');
-  const tmap={vocab:'単語・語彙',grammar:'文法',reading:'読解',speaking:'🎤 スピーキング'};
+  const tmap={vocab:'📖 単語・語彙',grammar:'✏️ 文法',reading:'📝 読解',speaking:'🎤 スピーキング'};
   if(q.type==='speaking'){
     body.innerHTML=buildSpkHTML(q);initRecog(q);
+    // Auto-speak the sentence
+    setTimeout(()=>speak(q.en),600);
   } else {
+    // Speaker button for vocab
+    let speakBtn='';
+    if(q.type==='vocab'&&q.word){
+      _currentVocabWord=q.word;
+      speakBtn=`<button class="btn-speak-q" onclick="speak(_currentVocabWord)" title="発音を聞く">🔊</button>`;
+    }
     body.innerHTML=`<span class="type-badge ${q.type}">${tmap[q.type]}</span>
-    <div class="question-text">${q.q.replace(/\n/g,'<br>')}</div>
+    <div class="question-text-row">
+      <div class="question-text">${q.q.replace(/\n/g,'<br>')}</div>
+      ${speakBtn}
+    </div>
     <div class="question-sub">${q.sub||''}</div>
     <div class="choices">${q.choices.map((c,i)=>`<button class="choice-btn" onclick="pick(${i})" id="ch-${i}"><span class="choice-letter">${String.fromCharCode(65+i)}</span>${c}</button>`).join('')}</div>`;
   }
-  body.style.animation='none';requestAnimationFrame(()=>{body.style.animation='none';void body.offsetWidth;body.style.animation='popIn .3s ease'});
+  body.style.animation='none';requestAnimationFrame(()=>{void body.offsetWidth;body.style.animation='popIn .3s ease'});
 }
 
 // ── SPEAKING ───────────────────────────────────────────────
@@ -859,13 +1078,23 @@ function buildSpkHTML(q){
   const ok=('SpeechRecognition' in window)||('webkitSpeechRecognition' in window);
   const note=ok?'':`<div class="no-speech" style="display:block">⚠️ Chromeブラウザで音声認識が使えます</div>`;
   return `<span class="type-badge speaking">🎤 スピーキング</span>
-  <div class="question-text">${q.q}</div>${note}
-  <div class="speaking-card"><div class="speaking-en">${q.en}</div><div class="speaking-ja">${q.ja}</div><div class="speaking-phonetic">📣 ${q.phonetic}</div></div>
+  <div class="question-text-row">
+    <div class="question-text">${q.q}</div>
+    <button class="btn-speak-q" onclick="speak(document.querySelector('.speaking-en').textContent)" title="発音を聞く">🔊</button>
+  </div>${note}
+  <div class="speaking-card">
+    <div class="speaking-en" onclick="speak(this.textContent)" title="タップで発音♪">${q.en}</div>
+    <div class="speaking-ja">${q.ja}</div>
+    <div class="speaking-phonetic">📣 ${q.phonetic}</div>
+  </div>
   <div class="mic-section">
-    <div class="mic-hint" id="mic-hint">🎤 ボタンを押して英文を読んでね</div>
+    <div class="mic-hint" id="mic-hint">🔊 英文をタップすると発音を聞けるよ！<br>🎤 ボタンを押して英文を読んでね</div>
     <button class="btn-mic" id="btn-mic" onclick="toggleRec()">🎤</button>
     <div class="rec-box" id="rec-box"></div>
-    <div class="score-wrap" id="score-wrap"><div class="score-bar-label"><span>発音スコア</span><span id="score-pct">0%</span></div><div class="score-bar-bg"><div class="score-bar-fill" id="score-fill" style="width:0%"></div></div></div>
+    <div class="score-wrap" id="score-wrap">
+      <div class="score-bar-label"><span>発音スコア</span><span id="score-pct">0%</span></div>
+      <div class="score-bar-bg"><div class="score-bar-fill" id="score-fill" style="width:0%"></div></div>
+    </div>
     <button class="btn-check" id="btn-check" onclick="submitSpk()">✅ 採点する</button>
     <button class="btn-retry" id="btn-retry" onclick="resetSpk()">🔄 もう一度録音</button>
   </div>`;
@@ -874,8 +1103,8 @@ function initRecog(q){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
   recog=new SR();recog.lang='en-US';recog.continuous=false;recog.interimResults=true;
   recog.onresult=e=>{let t='';for(let i=e.resultIndex;i<e.results.length;i++)t+=e.results[i][0].transcript;recText=t.trim();const b=document.getElementById('rec-box');if(b){b.textContent='🗣 認識：'+recText;b.classList.add('show')}};
-  recog.onend=()=>{isRec=false;const btn=document.getElementById('btn-mic');if(btn){btn.classList.remove('recording');btn.textContent='🎤'}const hint=document.getElementById('mic-hint');if(recText){if(hint)hint.textContent='📊 採点するボタンを押してね';const c=document.getElementById('btn-check');if(c)c.classList.add('show')}else{if(hint)hint.textContent='声が聞こえませんでした。もう一度！'}};
-  recog.onerror=e=>{isRec=false;const btn=document.getElementById('btn-mic');if(btn){btn.classList.remove('recording');btn.textContent='🎤'}};
+  recog.onend=()=>{isRec=false;const btn=document.getElementById('btn-mic');if(btn){btn.classList.remove('recording');btn.textContent='🎤'}const hint=document.getElementById('mic-hint');if(recText){if(hint)hint.textContent='📊 採点するボタンを押してね！';const c=document.getElementById('btn-check');if(c)c.classList.add('show')}else{if(hint)hint.textContent='声が聞こえませんでした😢 もう一度！'}};
+  recog.onerror=()=>{isRec=false;const btn=document.getElementById('btn-mic');if(btn){btn.classList.remove('recording');btn.textContent='🎤'}};
 }
 function toggleRec(){isRec?stopRec():startRec()}
 function startRec(){
@@ -886,7 +1115,7 @@ function startRec(){
   try{recog.start();isRec=true;const btn=document.getElementById('btn-mic');const hint=document.getElementById('mic-hint');if(btn){btn.classList.add('recording');btn.textContent='⏹'}if(hint)hint.textContent='🔴 録音中...タップで停止'}catch(e){isRec=false}
 }
 function stopRec(){if(recog){try{recog.stop()}catch(e){}}isRec=false}
-function resetSpk(){recText='';['rec-box','btn-check','btn-retry','score-wrap'].forEach(id=>{const e=document.getElementById(id);if(e){e.classList.remove('show');if(id==='rec-box')e.textContent=''}});const h=document.getElementById('mic-hint');if(h)h.textContent='🎤 ボタンを押して英文を読んでね'}
+function resetSpk(){recText='';['rec-box','btn-check','btn-retry','score-wrap'].forEach(id=>{const e=document.getElementById(id);if(e){e.classList.remove('show');if(id==='rec-box')e.textContent=''}});const h=document.getElementById('mic-hint');if(h)h.textContent='🔊 英文をタップすると発音を聞けるよ！<br>🎤 ボタンを押して英文を読んでね'}
 function calcSpkScore(rec,exp){const norm=s=>s.toLowerCase().replace(/[^a-z\s]/g,'').trim().split(/\s+/).filter(Boolean);const rw=norm(rec),ew=norm(exp);if(!ew.length)return 0;let hits=0;const used=new Array(ew.length).fill(false);for(const r of rw)for(let i=0;i<ew.length;i++)if(!used[i]&&ew[i]===r){hits++;used[i]=true;break}return Math.round(hits/ew.length*100)}
 function submitSpk(){
   if(answered)return;answered=true;
@@ -895,7 +1124,10 @@ function submitSpk(){
   if(wrap)wrap.classList.add('show');if(pct)pct.textContent=spkScore+'%';
   if(fill){fill.style.width=spkScore+'%';fill.className='score-bar-fill '+(spkScore>=80?'great':spkScore>=50?'good':'bad')}
   document.getElementById('btn-check')?.classList.remove('show');document.getElementById('btn-retry')?.classList.add('show');
-  let xp=0;if(spkScore>=80){xp=15;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;sndOK();if(spkScore===100)confetti()}else if(spkScore>=50){xp=8;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;sndOK()}else{xp=3;curStreak=0;sndNG()}
+  let xp=0;
+  if(spkScore>=80){xp=15;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;sndOK();if(spkScore===100)confetti()}
+  else if(spkScore>=50){xp=8;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;sndOK()}
+  else{xp=3;curStreak=0;sndNG()}
   score+=xp;updateXP();if(xp>0){showXPPop('+'+xp+' XP ⭐');sndXP()}
   setTimeout(()=>{
     const panel=document.getElementById('feedback-panel');
@@ -905,13 +1137,13 @@ function submitSpk(){
     document.getElementById('fb-icon').textContent=emoji;
     const t=document.getElementById('fb-title');t.textContent=ttl+'（スコア: '+spkScore+'%）';t.className='fb-title '+(spkScore>=80?'correct':'speak');
     document.getElementById('fb-answer').innerHTML='✅ 正しい英文：<strong>'+q.en+'</strong><br>🗣 あなた：'+(recText||'（認識できず）');
-    document.getElementById('fb-exp').innerHTML=q.exp.replace(/\n/g,'<br>');
+    const expEl=document.getElementById('fb-exp');expEl.innerHTML=q.exp.replace(/\n/g,'<br>');expEl.className='fb-exp '+(spkScore>=80?'correct-exp':'wrong-exp');
     const btn=document.getElementById('btn-continue');btn.className='btn-continue '+(spkScore>=80?'correct-btn':'speak-btn');btn.textContent='続ける →';
     setTimeout(()=>panel.classList.add('show'),50);
   },600);
 }
 
-// ── MCQ ───────────────────────────────────────────────────
+// ── MCQ ────────────────────────────────────────────────────
 function pick(idx){
   if(answered)return;
   document.querySelectorAll('.choice-btn').forEach(b=>b.classList.remove('selected'));
@@ -926,12 +1158,17 @@ function checkMCQ(idx){
   else{sndOK();if(curStreak>=2)confetti()}
   if(ok){score+=10;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;showXPPop('+10 XP ⭐');sndXP()}else curStreak=0;
   updateXP();
+  // Speak correct answer for vocab
+  if(q.type==='vocab'){
+    const correctWord=q.choices[q.ans];
+    if(/^[a-zA-Z\s'-]+$/.test(correctWord))setTimeout(()=>speak(correctWord),400);
+  }
   const panel=document.getElementById('feedback-panel');
   panel.className='feedback-panel '+(ok?'correct-panel':'wrong-panel');
   document.getElementById('fb-icon').textContent=ok?'🎉':'😢';
-  const t=document.getElementById('fb-title');t.textContent=ok?'正解！すばらしい！':'残念...';t.className='fb-title '+(ok?'correct':'wrong');
+  const t=document.getElementById('fb-title');t.textContent=ok?'ピンポーン！正解！':'残念...';t.className='fb-title '+(ok?'correct':'wrong');
   document.getElementById('fb-answer').textContent=ok?'':'✅ 正解：'+q.choices[q.ans];
-  document.getElementById('fb-exp').innerHTML=q.exp.replace(/\n/g,'<br>');
+  const expEl=document.getElementById('fb-exp');expEl.innerHTML=q.exp.replace(/\n/g,'<br>');expEl.className='fb-exp '+(ok?'correct-exp':'wrong-exp');
   const btn=document.getElementById('btn-continue');btn.className='btn-continue '+(ok?'correct-btn':'wrong-btn');btn.textContent='続ける →';
   setTimeout(()=>panel.classList.add('show'),50);
 }
@@ -942,10 +1179,10 @@ function showResult(){
   document.getElementById('result-acc').textContent=acc+'%';
   document.getElementById('result-streak').textContent=maxStreak;
   let trophy='🏆',title='よくできました！',sub='';
-  if(acc===100){trophy='🌟';title='完璧！パーフェクト！';sub='全問クリア！すごい！';sndPerfect();confetti()}
-  else if(acc>=80){trophy='🏆';title='すばらしい！';sub=total+'問中'+correctCount+'問正解！';sndOK()}
+  if(acc===100){trophy='🌟';title='完璧！パーフェクト！';sub='全問クリア！最高です！';sndPerfect();confetti()}
+  else if(acc>=80){trophy='🏆';title='すばらしい！';sub=total+'問中'+correctCount+'問正解！Great job!';sndOK()}
   else if(acc>=60){trophy='😊';title='よくがんばりました！';sub=total+'問中'+correctCount+'問正解！'}
-  else{trophy='📚';title='もう少し！';sub=total+'問中'+correctCount+'問正解。復習しよう！'}
+  else{trophy='📚';title='もう少し！';sub=total+'問中'+correctCount+'問正解。一緒に復習しよう！'}
   document.getElementById('result-trophy').textContent=trophy;
   document.getElementById('result-title').textContent=title;
   document.getElementById('result-sub').textContent=sub;
@@ -958,13 +1195,28 @@ function showConvScreen(){
   showScreen('conv-screen');
   convTopic=null;convStep=0;convScore=0;
   const body=document.getElementById('conv-body');
-  body.innerHTML=`<div class="conv-topic-select">
-    <div class="conv-topic-title">📌 話すトピックを選んでね！</div>
-    ${CONV_TOPICS.map(t=>`<div class="topic-card" onclick="startConv('${t.id}')">
-      <div class="topic-emoji">${t.emoji}</div>
-      <div class="topic-info"><div class="topic-name">${t.name}</div><div class="topic-desc">${t.desc}</div></div>
-    </div>`).join('')}
-  </div>`;
+  body.innerHTML=`
+    <div class="lily-profile-card">
+      <div class="lily-profile-avatar">🧒‍♀️</div>
+      <div class="lily-profile-name">Lily Anderson</div>
+      <div class="lily-profile-sub">16歳 · New York, USA 🇺🇸</div>
+      <div class="lily-traits">
+        <span class="lily-trait">🎌 アニメ大好き</span>
+        <span class="lily-trait">🎵 音楽好き</span>
+        <span class="lily-trait">📚 読書家</span>
+        <span class="lily-trait">☕ カフェ巡り</span>
+        <span class="lily-trait">🐱 猫好き</span>
+        <span class="lily-trait">✈️ 旅行好き</span>
+      </div>
+      <div class="lily-bio">Hi! I'm Lily! 日本のアニメが大好きで、日本語も勉強中！明るくて話しかけやすい性格だよ♪ 一緒に英語で話そうよ！英語が苦手でも大丈夫、ゆっくり話すね！</div>
+    </div>
+    <div class="conv-topic-select">
+      <div class="conv-topic-title">💬 話すトピックを選んでね！</div>
+      ${CONV_TOPICS.map(t=>`<div class="topic-card" onclick="startConv('${t.id}')">
+        <div class="topic-emoji">${t.emoji}</div>
+        <div class="topic-info"><div class="topic-name">${t.name}</div><div class="topic-desc">${t.desc}</div></div>
+      </div>`).join('')}
+    </div>`;
 }
 
 function startConv(id){
@@ -982,33 +1234,42 @@ function startConv(id){
       </div>
     </div>`;
   document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});
-  appendLilyMsg(convTopic.script[0].lily, convTopic.script[0].hint);
+  // Show first Lily message with slight delay
+  setTimeout(()=>appendLilyMsg(convTopic.script[0].lily,convTopic.script[0].hint),300);
 }
 
-function appendLilyMsg(msg, hint){
-  const area=document.getElementById('chat-area');
-  const row=document.createElement('div');row.className='msg-row lily';
-  row.innerHTML=`<div class="msg-avatar">👩‍🦰</div><div><div class="msg-bubble">${msg}</div>${hint?`<div class="msg-hint">💡 ${hint}</div>`:''}</div>`;
+function showTyping(){
+  const area=document.getElementById('chat-area');if(!area)return;
+  const row=document.createElement('div');row.className='msg-row lily-msg';row.id='typing-indicator';
+  row.innerHTML=`<div class="lily-chat-avatar">🧒‍♀️</div><div class="typing-bubble"><span></span><span></span><span></span></div>`;
   area.appendChild(row);area.scrollTop=area.scrollHeight;
 }
+function hideTyping(){const t=document.getElementById('typing-indicator');if(t)t.remove()}
+
+function appendLilyMsg(msg,hint,autoSpeak=true){
+  hideTyping();
+  const area=document.getElementById('chat-area');if(!area)return;
+  const row=document.createElement('div');row.className='msg-row lily-msg';
+  row.innerHTML=`<div class="lily-chat-avatar">🧒‍♀️</div><div><div class="msg-bubble lily-bubble">${msg}</div>${hint?`<div class="msg-hint">💡 ヒント：${hint}</div>`:''}</div>`;
+  area.appendChild(row);area.scrollTop=area.scrollHeight;
+  if(autoSpeak)speak(msg);
+}
 function appendUserMsg(msg){
-  const area=document.getElementById('chat-area');
-  const row=document.createElement('div');row.className='msg-row user';
-  row.innerHTML=`<div class="msg-bubble">${msg}</div>`;
+  const area=document.getElementById('chat-area');if(!area)return;
+  const row=document.createElement('div');row.className='msg-row user-msg';
+  row.innerHTML=`<div class="msg-bubble user-bubble">${msg}</div>`;
   area.appendChild(row);area.scrollTop=area.scrollHeight;
 }
 function appendFeedback(msg){
-  const area=document.getElementById('chat-area');
+  const area=document.getElementById('chat-area');if(!area)return;
   const div=document.createElement('div');div.className='conv-feedback';div.textContent=msg;
   area.appendChild(div);area.scrollTop=area.scrollHeight;
 }
 
 function sendChat(){
   const input=document.getElementById('chat-input');
-  const text=(input.value||'').trim();
-  if(!text)return;
-  input.value='';
-  processUserMsg(text);
+  const text=(input.value||'').trim();if(!text)return;
+  input.value='';processUserMsg(text);
 }
 
 function processUserMsg(text){
@@ -1016,31 +1277,29 @@ function processUserMsg(text){
   appendUserMsg(text);
   const step=convTopic.script[convStep];
   const lc=text.toLowerCase();
-  // keyword matching
   let reply=step.replies.default;
-  for(const k of (step.keys||[])){if(lc.includes(k)&&step.replies[k]){reply=step.replies[k];break}}
-  // feedback on length and quality
+  for(const k of(step.keys||[])){if(lc.includes(k)&&step.replies[k]){reply=step.replies[k];break}}
   const wordCount=text.split(/\s+/).filter(Boolean).length;
   let fb='';
-  if(wordCount<2)fb='💬 もう少し英語で詳しく話してみよう！例：「'+step.hint+'」';
-  else if(wordCount>=5)fb='🌟 すばらしい！長い文で話せているよ！';
-  else fb='😊 上手！もう少し詳しく話せると更にいいよ！';
+  if(wordCount<2)fb='💬 もう少し英語で詳しく話してみよう！例：「'+step.hint.replace(/「|」/g,'')+'」';
+  else if(wordCount>=6)fb='🌟 すばらしい！とても自然な英語で話せているよ！';
+  else if(wordCount>=3)fb='😊 上手！もう少し詳しく話せると更にいいよ！';
+  else fb='👍 Good! もう少し長い文で話してみよう！';
   convScore+=wordCount>=3?10:5;
   setTimeout(()=>{
+    showTyping();
     if(fb)appendFeedback(fb);
     convStep++;
     const prog=document.getElementById('conv-progress');
     if(step.last||convStep>=convTopic.script.length){
-      // end
-      setTimeout(()=>{
-        appendLilyMsg(reply,'');
-        setTimeout(()=>endConv(),1500);
-      },600);
+      setTimeout(()=>{appendLilyMsg(reply,'');setTimeout(()=>endConv(),2000);},1000);
     } else {
       const next=convTopic.script[convStep];
       if(prog)prog.textContent=`ターン ${convStep+1} / ${convTopic.script.length}`;
-      setTimeout(()=>appendLilyMsg(reply,''),600);
-      setTimeout(()=>appendLilyMsg(next.lily,next.hint),1400);
+      setTimeout(()=>{
+        appendLilyMsg(reply,'');
+        setTimeout(()=>{showTyping();setTimeout(()=>appendLilyMsg(next.lily,next.hint),800);},1200);
+      },900);
     }
   },400);
 }
@@ -1048,24 +1307,26 @@ function processUserMsg(text){
 function endConv(){
   const area=document.getElementById('chat-area');
   const wrap=document.querySelector('.chat-input-wrap');if(wrap)wrap.style.display='none';
+  const grade=convScore>=50?'🌟 Great!':convScore>=30?'😊 Good!':'📚 Keep trying!';
   const summary=document.createElement('div');
   summary.style.cssText='text-align:center;padding:20px 16px;';
-  summary.innerHTML=`<div style="font-size:48px;margin-bottom:8px">🎉</div>
+  summary.innerHTML=`<div style="font-size:52px;margin-bottom:8px">🎉</div>
     <div style="font-size:20px;font-weight:900;margin-bottom:4px">会話完了！</div>
-    <div style="font-size:14px;color:#888;margin-bottom:16px">Lilyとの会話お疲れ様でした！</div>
-    <div style="background:#fff0f5;border:3px solid #ffd0e0;border-radius:16px;padding:16px;margin-bottom:16px">
+    <div style="font-size:14px;color:#888;margin-bottom:16px">Lilyとの英語会話、お疲れ様でした！</div>
+    <div style="background:var(--pink-light);border:3px solid #ffd0e0;border-radius:16px;padding:16px;margin-bottom:16px">
       <div style="font-size:13px;font-weight:700;color:#cc6699">💬 会話スコア</div>
-      <div style="font-size:36px;font-weight:900;color:#ff6b9d">${convScore} pts</div>
-      <div style="font-size:12px;color:#888">よく英語で話せました！</div>
+      <div style="font-size:38px;font-weight:900;color:#ff6b9d">${convScore} pts</div>
+      <div style="font-size:14px;font-weight:700;color:#cc3377;margin-top:4px">${grade}</div>
+      <div style="font-size:12px;color:#888;margin-top:4px">英語でたくさん話せました！</div>
     </div>
     <button class="conv-end-btn" onclick="showConvScreen()" style="margin-bottom:10px">🔄 別のトピックで話す</button>
     <br>
-    <button onclick="showScreen('level-screen')" style="background:none;border:2px solid var(--blue);color:var(--blue);border-radius:14px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px">🏠 ユニット選択へ</button>`;
+    <button onclick="showScreen('level-screen')" style="background:none;border:2px solid var(--blue);color:var(--blue);border-radius:14px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px">← ユニット選択へ</button>`;
   area.appendChild(summary);area.scrollTop=area.scrollHeight;
   sndPerfect();confetti();
 }
 
-// ── CHAT SPEECH REC ────────────────────────────────────────
+// ── CHAT SPEECH RECOGNITION ────────────────────────────────
 function toggleChatRec(){isChatRec?stopChatRec():startChatRec()}
 function startChatRec(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Chromeでお試しください');return}
