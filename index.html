@@ -231,7 +231,10 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .msg-row.user-msg{justify-content:flex-end}
 .lily-chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff6b9d);display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid white;box-shadow:0 2px 6px rgba(255,107,157,.3);flex-shrink:0}
 .msg-bubble{max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.5;font-weight:600}
-.lily-bubble{background:var(--pink-light);border:2px solid #ffd0e0;border-bottom-left-radius:4px;color:var(--text)}
+.lily-bubble{background:var(--pink-light);border:2px solid #ffd0e0;border-bottom-left-radius:4px;color:var(--text);cursor:pointer;transition:background .15s,transform .1s;user-select:none;position:relative}
+.lily-bubble:active{transform:scale(.97);background:#ffd8eb}
+.lily-bubble.playing{background:#ffe0ef;transform:scale(.97)}
+.bubble-speak-icon{font-size:11px;margin-left:6px;opacity:.6;vertical-align:middle}
 .user-bubble{background:var(--blue);color:white;border-bottom-right-radius:4px}
 .msg-hint{font-size:11px;color:var(--gray);margin-top:3px;font-style:italic;padding-left:2px}
 .conv-feedback{background:#fff8e0;border:2px solid var(--yellow);border-radius:12px;padding:9px 12px;font-size:12px;color:#5c4800;margin:2px 0;line-height:1.6}
@@ -450,23 +453,23 @@ function _splitTTS(text,max=190){
 
 // ① Amazon Polly / Joanna (ondoku3と同品質のニューラル音声)
 //    StreamElements経由で無料・APIキー不要
-function _playPolly(parts,idx){
-  if(idx>=parts.length)return;
+function _playPolly(parts,idx,cb){
+  if(idx>=parts.length){if(cb)cb();return;}
   const url='https://api.streamelements.com/kappa/v2/speech?voice=Joanna&text='+encodeURIComponent(parts[idx]);
   _curAudio=new Audio(url);
-  _curAudio.onended=()=>_playPolly(parts,idx+1);
-  _curAudio.onerror=()=>_playGoogle(parts,idx); // 失敗したらGoogleへ
-  _curAudio.play().catch(()=>_playGoogle(parts,idx));
+  _curAudio.onended=()=>_playPolly(parts,idx+1,cb);
+  _curAudio.onerror=()=>_playGoogle(parts,idx,cb); // 失敗したらGoogleへ
+  _curAudio.play().catch(()=>_playGoogle(parts,idx,cb));
 }
 
 // ② Google Translate TTS フォールバック
-function _playGoogle(parts,idx){
-  if(idx>=parts.length)return;
+function _playGoogle(parts,idx,cb){
+  if(idx>=parts.length){if(cb)cb();return;}
   const url='https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&ttsspeed=0.85&q='+encodeURIComponent(parts[idx]);
   _curAudio=new Audio(url);
-  _curAudio.onended=()=>_playGoogle(parts,idx+1);
-  _curAudio.onerror=()=>_wsSpeak(parts.join(' ')); // 失敗したらWeb Speech APIへ
-  _curAudio.play().catch(()=>_wsSpeak(parts.join(' ')));
+  _curAudio.onended=()=>_playGoogle(parts,idx+1,cb);
+  _curAudio.onerror=()=>_wsSpeak(parts.join(' '),cb); // 失敗したらWeb Speech APIへ
+  _curAudio.play().catch(()=>_wsSpeak(parts.join(' '),cb));
 }
 
 // ③ Web Speech API 最終フォールバック
@@ -475,7 +478,7 @@ if(window.speechSynthesis){
   const _lv=()=>{const v=window.speechSynthesis.getVoices();if(v.length)_wsVoices=v;};
   _lv();window.speechSynthesis.onvoiceschanged=_lv;
 }
-function _wsSpeak(text){
+function _wsSpeak(text,cb){
   if(!window.speechSynthesis||!text)return;
   window.speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(text);
@@ -485,13 +488,21 @@ function _wsSpeak(text){
   const v=names.reduce((f,n)=>f||_wsVoices.find(v=>v.name===n||v.name.startsWith(n)),null)
     ||_wsVoices.find(v=>v.lang==='en-US')||_wsVoices.find(v=>v.lang.startsWith('en'));
   if(v)u.voice=v;
+  if(cb)u.onend=cb;
   window.speechSynthesis.speak(u);
 }
 
-function speak(text){
-  if(!text)return;
+// speak(text, onDone) — onDoneはTTS再生完了後に呼ばれるコールバック
+// TTSが失敗・無音の場合でも onDone が確実に呼ばれるようフォールバックタイマーを設定
+function speak(text,onDone){
+  if(!text){if(onDone)onDone();return;}
   _stopAudio();
-  _playPolly(_splitTTS(text),0);
+  let _cbFired=false;
+  const _safeCb=onDone?()=>{if(!_cbFired){_cbFired=true;onDone();}}:null;
+  // 最大10秒（長い文）でタイムアウトしてcallbackを強制発火
+  const _timeout=onDone?setTimeout(_safeCb,Math.max(4000,text.length*80)):null;
+  const _wrappedCb=_safeCb?()=>{if(_timeout)clearTimeout(_timeout);_safeCb();}:null;
+  _playPolly(_splitTTS(text),0,_wrappedCb);
 }
 
 // ── DATA ───────────────────────────────────────────────────
@@ -1483,13 +1494,23 @@ function showTyping(){
 }
 function hideTyping(){const t=document.getElementById('typing-indicator');if(t)t.remove()}
 
-function appendLilyMsg(msg,hint,autoSpeak=true){
+function appendLilyMsg(msg,hint,autoSpeak=true,onDone=null){
   hideTyping();
   const area=document.getElementById('chat-area');if(!area)return;
   const row=document.createElement('div');row.className='msg-row lily-msg';
-  row.innerHTML=`<div class="lily-chat-avatar">🧒‍♀️</div><div><div class="msg-bubble lily-bubble">${msg}</div>${hint?`<div class="msg-hint">💡 ヒント：${hint}</div>`:''}</div>`;
+  // bubble with tap-to-replay
+  const bubble=document.createElement('div');
+  bubble.className='msg-bubble lily-bubble';
+  bubble.innerHTML=msg+'<span class="bubble-speak-icon">🔊</span>';
+  bubble.title='タップで再生';
+  bubble.onclick=()=>{speak(msg);bubble.classList.add('playing');setTimeout(()=>bubble.classList.remove('playing'),600);};
+  const wrap=document.createElement('div');
+  if(hint){const h=document.createElement('div');h.className='msg-hint';h.textContent='💡 ヒント：'+hint;wrap.appendChild(h);}
+  wrap.insertBefore(bubble,wrap.firstChild);
+  const avatar=document.createElement('div');avatar.className='lily-chat-avatar';avatar.textContent='🧒‍♀️';
+  row.appendChild(avatar);row.appendChild(wrap);
   area.appendChild(row);area.scrollTop=area.scrollHeight;
-  if(autoSpeak)speak(msg);
+  if(autoSpeak)speak(msg,onDone);else if(onDone)onDone();
 }
 function appendUserMsg(msg){
   const area=document.getElementById('chat-area');if(!area)return;
@@ -1529,13 +1550,21 @@ function processUserMsg(text){
     convStep++;
     const prog=document.getElementById('conv-progress');
     if(step.last||convStep>=convTopic.script.length){
-      setTimeout(()=>{appendLilyMsg(reply,'');setTimeout(()=>endConv(),2000);},1000);
+      // 最後のターン：replyを読み終えたら終了
+      setTimeout(()=>{
+        appendLilyMsg(reply,'',true,()=>setTimeout(()=>endConv(),1500));
+      },900);
     } else {
       const next=convTopic.script[convStep];
       if(prog)prog.textContent=`ターン ${convStep+1} / ${convTopic.script.length}`;
+      // replyのTTS完了後にnext.lilyを発話（音声が重ならないように）
       setTimeout(()=>{
-        appendLilyMsg(reply,'');
-        setTimeout(()=>{showTyping();setTimeout(()=>appendLilyMsg(next.lily,next.hint),800);},1200);
+        appendLilyMsg(reply,'',true,()=>{
+          setTimeout(()=>{
+            showTyping();
+            setTimeout(()=>appendLilyMsg(next.lily,next.hint),700);
+          },500);
+        });
       },900);
     }
   },400);
