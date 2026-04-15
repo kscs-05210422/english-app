@@ -115,6 +115,12 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .unit-card.speaking::before{background:var(--orange)}
 .unit-card.conv::before{background:var(--pink)}
 .unit-card.mixed::before{background:var(--yellow)}
+.unit-card.chunk::before{background:#00c9a7}
+/* ── CHUNK QUESTION ─── */
+.chunk-ja{font-size:16px;font-weight:800;color:#333;margin:10px 0 4px;text-align:center}
+.chunk-blank{font-size:22px;font-weight:900;letter-spacing:2px;color:#1cb0f6;text-align:center;background:#f0f8ff;border-radius:14px;padding:14px 10px;margin:8px 0;line-height:1.5;word-break:break-word}
+.chunk-blank span.blank-word{color:#ccc;font-size:20px;border-bottom:3px solid #1cb0f6;padding:0 4px}
+.chunk-full-wrap{margin-top:10px;text-align:center;font-size:13px;color:#888;font-style:italic}
 .unit-icon{font-size:34px;flex-shrink:0}
 .unit-info{flex:1}
 .unit-name{font-size:16px;font-weight:800;margin-bottom:2px}
@@ -240,7 +246,11 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .btn-ja-hint{background:#fff8f0;border:1.5px solid #ffcc88;border-radius:12px;padding:3px 10px;font-size:11px;font-weight:700;color:#cc7700;cursor:pointer;margin-top:4px}
 .btn-ja-hint:active{background:#ffe4aa}
 .msg-ja-translation{background:#fff8e0;border:1.5px solid #ffe08a;border-radius:10px;padding:8px 12px;font-size:13px;color:#5c4800;margin-top:4px;line-height:1.6;font-weight:600}
-.conv-feedback{background:#fff8e0;border:2px solid var(--yellow);border-radius:12px;padding:9px 12px;font-size:12px;color:#5c4800;margin:2px 0;line-height:1.6}
+.conv-feedback{border-radius:12px;padding:9px 12px;font-size:12px;margin:2px 0;line-height:1.6;font-weight:600;white-space:pre-line}
+.conv-fb-good{background:#d7ffb8;border:2px solid var(--green);color:#1a5900}
+.conv-fb-warn{background:#fff8e0;border:2px solid var(--yellow);color:#5c4800}
+.conv-fb-wrong{background:#ffdfe0;border:2px solid var(--red);color:#8b0000}
+.conv-fb-neutral{background:#f0f0f0;border:2px solid #ccc;color:#555}
 
 /* TYPING INDICATOR */
 .typing-bubble{display:inline-flex;gap:4px;align-items:center;background:var(--pink-light);border:2px solid #ffd0e0;border-radius:18px;border-bottom-left-radius:4px;padding:12px 16px}
@@ -350,6 +360,14 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
         <div class="unit-count" id="cnt-speaking">読み込み中...</div>
       </div>
     </div>
+    <div class="unit-card chunk" onclick="startUnit('chunk')">
+      <div class="unit-icon">🧩</div>
+      <div class="unit-info">
+        <div class="unit-name">チャンクで覚える</div>
+        <div class="unit-desc">英語フレーズをかたまりで習得！</div>
+        <div class="unit-count" id="cnt-chunk">読み込み中...</div>
+      </div>
+    </div>
     <div class="unit-card mixed" onclick="startUnit('mixed')">
       <div class="unit-icon">🎲</div>
       <div class="unit-info">
@@ -454,25 +472,34 @@ function _splitTTS(text,max=190){
   return parts;
 }
 
+// 絵文字をTTSテキストから除去（スマイルやクラッカーを読み上げないように）
+function _stripEmoji(t){
+  return t.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2300}-\u{27BF}]|[\u{FE00}-\u{FE0F}]|\uFE0F/gu,'').replace(/\s{2,}/g,' ').trim();
+}
+
+// ── TTS セッション管理（音声が被らないようにセッションIDで制御）──
+let _ttsSession=0,_ttsFallbackTimer=null;
+
 // ① Amazon Polly / Joanna (ondoku3と同品質のニューラル音声)
-//    StreamElements経由で無料・APIキー不要
-function _playPolly(parts,idx,cb){
+function _playPolly(parts,idx,sid,cb){
+  if(_ttsSession!==sid)return; // 新しいspeakが呼ばれたら旧セッション中断
   if(idx>=parts.length){if(cb)cb();return;}
   const url='https://api.streamelements.com/kappa/v2/speech?voice=Joanna&text='+encodeURIComponent(parts[idx]);
   _curAudio=new Audio(url);
-  _curAudio.onended=()=>_playPolly(parts,idx+1,cb);
-  _curAudio.onerror=()=>_playGoogle(parts,idx,cb); // 失敗したらGoogleへ
-  _curAudio.play().catch(()=>_playGoogle(parts,idx,cb));
+  _curAudio.onended=()=>_playPolly(parts,idx+1,sid,cb);
+  _curAudio.onerror=()=>_playGoogle(parts,idx,sid,cb);
+  _curAudio.play().catch(()=>_playGoogle(parts,idx,sid,cb));
 }
 
 // ② Google Translate TTS フォールバック
-function _playGoogle(parts,idx,cb){
+function _playGoogle(parts,idx,sid,cb){
+  if(_ttsSession!==sid)return;
   if(idx>=parts.length){if(cb)cb();return;}
   const url='https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&ttsspeed=0.85&q='+encodeURIComponent(parts[idx]);
   _curAudio=new Audio(url);
-  _curAudio.onended=()=>_playGoogle(parts,idx+1,cb);
-  _curAudio.onerror=()=>_wsSpeak(parts.join(' '),cb); // 失敗したらWeb Speech APIへ
-  _curAudio.play().catch(()=>_wsSpeak(parts.join(' '),cb));
+  _curAudio.onended=()=>_playGoogle(parts,idx+1,sid,cb);
+  _curAudio.onerror=()=>_wsSpeak(parts.join(' '),sid,cb);
+  _curAudio.play().catch(()=>_wsSpeak(parts.join(' '),sid,cb));
 }
 
 // ③ Web Speech API 最終フォールバック
@@ -481,7 +508,8 @@ if(window.speechSynthesis){
   const _lv=()=>{const v=window.speechSynthesis.getVoices();if(v.length)_wsVoices=v;};
   _lv();window.speechSynthesis.onvoiceschanged=_lv;
 }
-function _wsSpeak(text,cb){
+function _wsSpeak(text,sid,cb){
+  if(_ttsSession!==sid)return;
   if(!window.speechSynthesis||!text)return;
   window.speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(text);
@@ -491,21 +519,24 @@ function _wsSpeak(text,cb){
   const v=names.reduce((f,n)=>f||_wsVoices.find(v=>v.name===n||v.name.startsWith(n)),null)
     ||_wsVoices.find(v=>v.lang==='en-US')||_wsVoices.find(v=>v.lang.startsWith('en'));
   if(v)u.voice=v;
-  if(cb)u.onend=cb;
+  if(cb)u.onend=()=>{if(_ttsSession===sid)cb();};
   window.speechSynthesis.speak(u);
 }
 
-// speak(text, onDone) — onDoneはTTS再生完了後に呼ばれるコールバック
-// TTSが失敗・無音の場合でも onDone が確実に呼ばれるようフォールバックタイマーを設定
+// speak(text, onDone)
+// ・絵文字を除去してからTTS
+// ・セッションIDで音声重複を完全防止
+// ・タイムアウトフォールバックで確実にコールバック
 function speak(text,onDone){
-  if(!text){if(onDone)onDone();return;}
+  const clean=_stripEmoji(text||'');
+  if(!clean){if(onDone)onDone();return;}
   _stopAudio();
+  if(_ttsFallbackTimer){clearTimeout(_ttsFallbackTimer);_ttsFallbackTimer=null;}
+  const sid=++_ttsSession;
   let _cbFired=false;
-  const _safeCb=onDone?()=>{if(!_cbFired){_cbFired=true;onDone();}}:null;
-  // 最大10秒（長い文）でタイムアウトしてcallbackを強制発火
-  const _timeout=onDone?setTimeout(_safeCb,Math.max(4000,text.length*80)):null;
-  const _wrappedCb=_safeCb?()=>{if(_timeout)clearTimeout(_timeout);_safeCb();}:null;
-  _playPolly(_splitTTS(text),0,_wrappedCb);
+  const _done=onDone?()=>{if(!_cbFired&&_ttsSession===sid){_cbFired=true;if(_ttsFallbackTimer){clearTimeout(_ttsFallbackTimer);_ttsFallbackTimer=null;}onDone();}}:null;
+  if(_done)_ttsFallbackTimer=setTimeout(_done,Math.max(5000,clean.length*90));
+  _playPolly(_splitTTS(clean),0,sid,_done);
 }
 
 // ── DATA ───────────────────────────────────────────────────
@@ -1087,6 +1118,61 @@ const SPEAKING_QS = [
   {"en":"Would you like to come with me?","ja":"一緒に来ませんか？","phonetic":"ウッジュ ライク トゥ カム ウィズ ミー？","exp":"「Would you like to〜?」は「〜しませんか？」という丁寧な誘いの表現！\n「Yes, I'd love to.（ぜひ！）」が返事の定番だよ！"},
   {"en":"I can't wait to see you again!","ja":"また会えるのが待ちきれません！","phonetic":"アイ キャント ウェイト トゥ シー ユー アゲン！","exp":"「can't wait to〜」は「〜するのが待ちきれない」という興奮や楽しみを表す表現！\nよく使うカジュアルなフレーズだよ！"},
 ];
+const CHUNK_QS = [
+  {"q":"get ___ of bed","choices":["out", "up", "off", "in"],"ans":0,"ja":"ベッドから出る","full":"get out of bed","tip":"「get out of〜」は「〜から出る」という意味のチャンク！"},
+  {"q":"wake ___ early","choices":["up", "out", "in", "on"],"ans":0,"ja":"早く目を覚ます","full":"wake up early","tip":"「wake up」は「目を覚ます」！毎朝使えるフレーズだよ！"},
+  {"q":"look ___ to the trip","choices":["forward", "ahead", "up", "out"],"ans":0,"ja":"旅行を楽しみにしている","full":"look forward to the trip","tip":"「look forward to〜」は「〜を楽しみにする」！toの後は名詞か動名詞！"},
+  {"q":"take ___ of your health","choices":["care", "part", "place", "note"],"ans":0,"ja":"健康に気をつける","full":"take care of your health","tip":"「take care of〜」は「〜の世話をする・〜に気をつける」！"},
+  {"q":"give ___ to the poor","choices":["money", "hand", "back", "up"],"ans":1,"ja":"困っている人に手を差し伸べる","full":"give a hand to the poor","tip":"「give a hand」は「手を貸す・助ける」という意味！"},
+  {"q":"find ___ at home","choices":["out", "place", "time", "it"],"ans":2,"ja":"家にいる時間を作る","full":"find time at home","tip":"「find time」は「時間を作る・時間を見つける」というチャンク！"},
+  {"q":"make ___ for school","choices":["ready", "sure", "time", "up"],"ans":0,"ja":"学校の準備をする","full":"make ready for school","tip":"「make ready」は「準備する」！「get ready」も同じ意味！"},
+  {"q":"keep ___ with fashion","choices":["up", "on", "in", "out"],"ans":0,"ja":"流行についていく","full":"keep up with fashion","tip":"「keep up with〜」は「〜に遅れずついていく」！"},
+  {"q":"run ___ of time","choices":["out", "short", "over", "up"],"ans":0,"ja":"時間が足りなくなる","full":"run out of time","tip":"「run out of〜」は「〜がなくなる・尽きる」！とても大事なフレーズ！"},
+  {"q":"put ___ your coat","choices":["on", "up", "in", "off"],"ans":0,"ja":"コートを着る","full":"put on your coat","tip":"「put on〜」は「〜を着る・かぶる」！反対は「take off〜（脱ぐ）」！"},
+  {"q":"turn ___ the TV","choices":["off", "on", "up", "down"],"ans":0,"ja":"テレビを消す","full":"turn off the TV","tip":"「turn off」は「消す」！「turn on（つける）」と反対だよ！"},
+  {"q":"give ___ smoking","choices":["up", "out", "in", "off"],"ans":0,"ja":"タバコをやめる","full":"give up smoking","tip":"「give up〜ing」は「〜するのをやめる」というチャンク！"},
+  {"q":"pick ___ at the station","choices":["up", "on", "out", "over"],"ans":0,"ja":"駅まで迎えに行く","full":"pick up at the station","tip":"「pick up〜」は「車で迎えに行く・拾い上げる」！"},
+  {"q":"look ___ your little sister","choices":["after", "for", "up", "into"],"ans":0,"ja":"妹の世話をする","full":"look after your little sister","tip":"「look after〜」は「〜の世話をする」！「take care of」と同じ！"},
+  {"q":"come ___ with a good idea","choices":["up", "out", "in", "over"],"ans":0,"ja":"良いアイデアを思いつく","full":"come up with a good idea","tip":"「come up with〜」は「〜を思いつく」！とても役立つ表現！"},
+  {"q":"be good ___ math","choices":["at", "in", "on", "for"],"ans":0,"ja":"数学が得意だ","full":"be good at math","tip":"「be good at〜」は「〜が得意」！苦手なら「be bad at〜」！"},
+  {"q":"be interested ___ music","choices":["in", "at", "on", "with"],"ans":0,"ja":"音楽に興味がある","full":"be interested in music","tip":"「be interested in〜」は「〜に興味がある」！よく使う表現！"},
+  {"q":"be afraid ___ dogs","choices":["of", "from", "at", "with"],"ans":0,"ja":"犬が怖い","full":"be afraid of dogs","tip":"「be afraid of〜」は「〜が怖い・〜を恐れている」！"},
+  {"q":"be proud ___ my family","choices":["of", "at", "in", "for"],"ans":0,"ja":"家族を誇りに思う","full":"be proud of my family","tip":"「be proud of〜」は「〜を誇りに思う」！"},
+  {"q":"talk ___ your problems","choices":["about", "with", "in", "of"],"ans":0,"ja":"悩みについて話す","full":"talk about your problems","tip":"「talk about〜」は「〜について話す」！「discuss〜」も同じ意味！"},
+  {"q":"dream ___ becoming a singer","choices":["of", "about", "for", "in"],"ans":0,"ja":"歌手になることを夢見る","full":"dream of becoming a singer","tip":"「dream of〜ing」は「〜することを夢見る」！"},
+  {"q":"agree ___ you","choices":["with", "to", "for", "at"],"ans":0,"ja":"あなたに賛成する","full":"agree with you","tip":"「agree with〜（人）」は「〜に賛成」！「agree to〜（案）」との違いに注意！"},
+  {"q":"depend ___ the weather","choices":["on", "in", "at", "of"],"ans":0,"ja":"天気次第だ","full":"depend on the weather","tip":"「depend on〜」は「〜に頼る・〜次第だ」！"},
+  {"q":"arrive ___ the airport","choices":["at", "in", "to", "on"],"ans":0,"ja":"空港に着く","full":"arrive at the airport","tip":"小さい場所は「arrive at」！大きい場所（国・都市）は「arrive in」！"},
+  {"q":"on ___ of time","choices":["top", "behalf", "time", "account"],"ans":2,"ja":"時間通りに","full":"on time","tip":"「on time」は「時間通りに」！「in time（間に合って）」と区別しよう！"},
+  {"q":"___ the morning","choices":["In", "At", "On", "By"],"ans":0,"ja":"朝に","full":"In the morning","tip":"「in the morning / afternoon / evening」！でも「at night」！"},
+  {"q":"___ Monday","choices":["On", "In", "At", "By"],"ans":0,"ja":"月曜日に","full":"On Monday","tip":"曜日・日付には「on」を使うよ！「on Monday, on June 5th」"},
+  {"q":"once ___ a week","choices":["a", "in", "per", "every"],"ans":0,"ja":"週に1回","full":"once a week","tip":"「once a week」「twice a day」「three times a month」と覚えよう！"},
+  {"q":"___ least three times","choices":["at", "in", "on", "of"],"ans":0,"ja":"少なくとも3回","full":"at least three times","tip":"「at least」は「少なくとも」！「at most（多くとも）」の反対！"},
+  {"q":"all ___ sudden","choices":["of", "the", "a", "at"],"ans":2,"ja":"突然に","full":"all of a sudden","tip":"「all of a sudden」は「突然に」！「suddenly」と同じ意味！"},
+  {"q":"Nice to ___ you","choices":["meet", "see", "know", "have"],"ans":0,"ja":"はじめまして","full":"Nice to meet you","tip":"初対面の挨拶！2回目以降は「Nice to see you again」！"},
+  {"q":"___ me know if you need help","choices":["Let", "Tell", "Make", "Have"],"ans":0,"ja":"助けが必要なら知らせてね","full":"Let me know if you need help","tip":"「Let me know」は「教えてね」！日常会話でよく使う！"},
+  {"q":"How ___ you doing?","choices":["are", "do", "have", "were"],"ans":0,"ja":"調子はどう？","full":"How are you doing?","tip":"「How are you?」より少しカジュアルな挨拶！"},
+  {"q":"___ my opinion","choices":["In", "At", "On", "For"],"ans":0,"ja":"私の意見では","full":"In my opinion","tip":"「In my opinion〜」は「私の意見では〜」！自分の意見を言うとき便利！"},
+  {"q":"___ example, I like cats","choices":["For", "Like", "As", "Such"],"ans":0,"ja":"例えば、猫が好きです","full":"For example, I like cats","tip":"「For example」は「例えば」！「For instance」も同じ意味！"},
+  {"q":"as ___ as possible","choices":["soon", "fast", "quick", "early"],"ans":0,"ja":"できるだけ早く","full":"as soon as possible","tip":"「as soon as possible（ASAP）」は「できるだけ早く」！メールでよく使うよ！"},
+  {"q":"I'm ___ it","choices":["on", "at", "in", "up"],"ans":0,"ja":"今やってます・任せて","full":"I'm on it","tip":"「I'm on it」は「今やってます！」「任せて！」という便利なフレーズ！"},
+  {"q":"That ___ sense","choices":["makes", "does", "has", "is"],"ans":0,"ja":"それは意味がある・なるほど","full":"That makes sense","tip":"「That makes sense」は「なるほど・それは理解できる」！"},
+  {"q":"Go ___!","choices":["ahead", "forward", "on", "away"],"ans":0,"ja":"どうぞ・やってみて！","full":"Go ahead!","tip":"「Go ahead」は「どうぞ進んで」「やってみて」というOKの合図！"},
+  {"q":"___ of all","choices":["First", "One", "Best", "Most"],"ans":0,"ja":"まず最初に","full":"First of all","tip":"「First of all」は「まず最初に」！スピーチやエッセイの書き出しに最適！"},
+  {"q":"in ___ of","choices":["front", "back", "side", "top"],"ans":0,"ja":"〜の前に","full":"in front of","tip":"「in front of〜」は「〜の前に」！「behind〜（後ろに）」の反対！"},
+  {"q":"by ___","choices":["myself", "yourself", "herself", "themselves"],"ans":0,"ja":"一人で・自分で","full":"by myself","tip":"「by oneself」は「一人で・自分で」！「alone」と同じ意味！"},
+  {"q":"___ long","choices":["Before", "After", "How", "So"],"ans":2,"ja":"どのくらいの時間","full":"How long","tip":"「How long〜?」は期間や長さを聞く疑問文！「How long does it take?（どのくらいかかる？）」"},
+  {"q":"___ far","choices":["How", "So", "Too", "Very"],"ans":0,"ja":"どのくらい遠い・距離","full":"How far","tip":"「How far〜?」は距離を聞く疑問文！「How far is it from here?（ここからどのくらい？）」"},
+  {"q":"not only A ___ also B","choices":["but", "and", "or", "yet"],"ans":0,"ja":"AだけでなくBも","full":"not only A but also B","tip":"「not only A but also B」は「AだけでなくBも」！大事なパターン！"},
+  {"q":"___ well as","choices":["as", "so", "too", "very"],"ans":0,"ja":"〜と同様に・〜の他にも","full":"as well as","tip":"「A as well as B」は「BだけでなくAも」「AもBも」！"},
+  {"q":"even ___","choices":["though", "if", "so", "when"],"ans":0,"ja":"〜にもかかわらず","full":"even though","tip":"「even though〜」は「〜にもかかわらず」！「although」と同じ意味！"},
+  {"q":"as ___ as","choices":["long", "soon", "many", "well"],"ans":0,"ja":"〜する限り","full":"as long as","tip":"「as long as〜」は「〜する限り・〜さえすれば」！条件を表すよ！"},
+  {"q":"___ case","choices":["In", "On", "At", "For"],"ans":0,"ja":"万が一のために","full":"In case","tip":"「In case〜」は「〜の場合に備えて・万が一のために」！"},
+  {"q":"a ___ of water","choices":["glass", "cup", "piece", "bowl"],"ans":0,"ja":"水一杯","full":"a glass of water","tip":"「a glass of〜」「a cup of〜」「a piece of〜」「a bowl of〜」を覚えよう！"},
+  {"q":"a piece ___ advice","choices":["of", "for", "with", "in"],"ans":0,"ja":"アドバイスのひとつ","full":"a piece of advice","tip":"「advice」は数えられない名詞！「a piece of advice」で1つのアドバイス！"},
+  {"q":"___ time","choices":["free", "spare", "break", "rest"],"ans":0,"ja":"自由な時間・暇な時間","full":"free time","tip":"「free time」は「自由時間・暇な時間」！「What do you do in your free time?」"},
+  {"q":"on ___","choices":["time", "watch", "guard", "duty"],"ans":3,"ja":"当番で・任務中で","full":"on duty","tip":"「on duty（勤務中）」「off duty（非番）」！「on time（時間通り）」と区別！"},
+];
 
 // Update unit card counts dynamically
 (function(){
@@ -1095,10 +1181,12 @@ const SPEAKING_QS = [
     const cr=document.getElementById('cnt-reading');
     const cs=document.getElementById('cnt-speaking');
     const cv=document.getElementById('cnt-vocab');
+    const cc=document.getElementById('cnt-chunk');
     if(cg)cg.textContent=`全${GRAMMAR_QS.length}問`;
     if(cr)cr.textContent=`全${READING_QS.length}問`;
     if(cs)cs.textContent=`全${SPEAKING_QS.length}問`;
     if(cv)cv.textContent=`全${WORD_BANK.length*2}問（自動生成）`;
+    if(cc)cc.textContent=`全${CHUNK_QS.length}フレーズ`;
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',upd);else upd();
 })();
@@ -1284,6 +1372,8 @@ function startUnit(unit){
     curQs=shuffle([...READING_QS]).slice(0,10).map(q=>({type:'reading',q:q.passage+'\n'+q.q,sub:'正しいものを選んでね',choices:q.choices,ans:q.ans,exp:q.exp}));
   } else if(unit==='speaking'){
     curQs=shuffle([...SPEAKING_QS]).slice(0,20).map(q=>({type:'speaking',...q,q:'次の英文を声に出して読もう！'}));
+  } else if(unit==='chunk'){
+    curQs=shuffle([...CHUNK_QS]).slice(0,15).map(q=>({type:'chunk',...q}));
   } else {
     const vs=[];for(let i=0;i<5;i++){const item=WORD_BANK[Math.floor(Math.random()*WORD_BANK.length)];vs.push(genVocabQ(item,WORD_BANK,Math.random()>.5))}
     const gs=shuffle([...GRAMMAR_QS]).slice(0,4).map(q=>({type:'grammar',...q}));
@@ -1301,11 +1391,19 @@ function renderQ(){
   const q=curQs[curIdx];
   document.getElementById('progress-bar').style.width=(curIdx/curQs.length*100)+'%';
   const body=document.getElementById('quiz-body');
-  const tmap={vocab:'📖 単語・語彙',grammar:'✏️ 文法',reading:'📝 読解',speaking:'🎤 スピーキング'};
+  const tmap={vocab:'📖 単語・語彙',grammar:'✏️ 文法',reading:'📝 読解',speaking:'🎤 スピーキング',chunk:'🧩 チャンク'};
   if(q.type==='speaking'){
     body.innerHTML=buildSpkHTML(q);initRecog(q);
     // Auto-speak the sentence
     setTimeout(()=>speak(q.en),600);
+  } else if(q.type==='chunk'){
+    // Chunk: show Japanese meaning + chunk with blank, 4 choice buttons
+    const blankDisplay=q.q.replace('___','<span class="blank-word">　　　</span>');
+    body.innerHTML=`<span class="type-badge grammar">🧩 チャンク</span>
+    <div class="question-text" style="text-align:center;font-size:14px;color:#666;margin-bottom:4px">日本語の意味に合うように、空欄を埋めよう！</div>
+    <div class="chunk-ja">${q.ja}</div>
+    <div class="chunk-blank">${blankDisplay}</div>
+    <div class="choices">${q.choices.map((c,i)=>`<button class="choice-btn" onclick="pick(${i})" id="ch-${i}"><span class="choice-letter">${String.fromCharCode(65+i)}</span>${c}</button>`).join('')}</div>`;
   } else {
     // Speaker button for vocab
     let speakBtn='';
@@ -1409,17 +1507,25 @@ function checkMCQ(idx){
   else{sndOK();if(curStreak>=2)confetti()}
   if(ok){score+=10;correctCount++;curStreak++;if(curStreak>maxStreak)maxStreak=curStreak;showXPPop('+10 XP ⭐');sndXP()}else curStreak=0;
   updateXP();
-  // Speak correct answer for vocab
+  // Speak correct answer for vocab or chunk
   if(q.type==='vocab'){
     const correctWord=q.choices[q.ans];
     if(/^[a-zA-Z\s'-]+$/.test(correctWord))setTimeout(()=>speak(correctWord),400);
+  } else if(q.type==='chunk'){
+    setTimeout(()=>speak(q.full),400);
   }
   const panel=document.getElementById('feedback-panel');
   panel.className='feedback-panel '+(ok?'correct-panel':'wrong-panel');
   document.getElementById('fb-icon').textContent=ok?'🎉':'😢';
   const t=document.getElementById('fb-title');t.textContent=ok?'ピンポーン！正解！':'残念...';t.className='fb-title '+(ok?'correct':'wrong');
-  document.getElementById('fb-answer').textContent=ok?'':'✅ 正解：'+q.choices[q.ans];
-  const expEl=document.getElementById('fb-exp');expEl.innerHTML=q.exp.replace(/\n/g,'<br>');expEl.className='fb-exp '+(ok?'correct-exp':'wrong-exp');
+  // For chunk: show full chunk phrase and tip
+  if(q.type==='chunk'){
+    document.getElementById('fb-answer').innerHTML=ok?`🧩 <strong>${q.full}</strong><br><span style="font-size:12px;color:#555">${q.ja}</span>`:`✅ 正解：<strong>${q.choices[q.ans]}</strong> → ${q.full}<br><span style="font-size:12px;color:#555">${q.ja}</span>`;
+    const expEl=document.getElementById('fb-exp');expEl.innerHTML=q.tip.replace(/\n/g,'<br>');expEl.className='fb-exp '+(ok?'correct-exp':'wrong-exp');
+  } else {
+    document.getElementById('fb-answer').textContent=ok?'':'✅ 正解：'+q.choices[q.ans];
+    const expEl=document.getElementById('fb-exp');expEl.innerHTML=q.exp.replace(/\n/g,'<br>');expEl.className='fb-exp '+(ok?'correct-exp':'wrong-exp');
+  }
   const btn=document.getElementById('btn-continue');btn.className='btn-continue '+(ok?'correct-btn':'wrong-btn');btn.textContent='続ける →';
   setTimeout(()=>panel.classList.add('show'),50);
 }
@@ -1532,9 +1638,11 @@ function appendUserMsg(msg){
   row.innerHTML=`<div class="msg-bubble user-bubble">${msg}</div>`;
   area.appendChild(row);area.scrollTop=area.scrollHeight;
 }
-function appendFeedback(msg){
+function appendFeedback(msg,type='neutral'){
   const area=document.getElementById('chat-area');if(!area)return;
-  const div=document.createElement('div');div.className='conv-feedback';div.textContent=msg;
+  const div=document.createElement('div');
+  div.className='conv-feedback conv-fb-'+type;
+  div.textContent=msg;
   area.appendChild(div);area.scrollTop=area.scrollHeight;
 }
 
@@ -1559,24 +1667,36 @@ function processUserMsg(text){
   if(Array.isArray(reply))reply=reply[Math.floor(Math.random()*reply.length)];
   const wordCount=text.split(/\s+/).filter(Boolean).length;
   const hasEnglish=/[a-zA-Z]/.test(text);
-  // フィードバックメッセージ（内容・正誤がわかるように）
-  let fb='';
+  // フィードバック（fbType: 'good'=緑 / 'warn'=黄 / 'wrong'=赤 / 'neutral'=灰）
+  let fb='',fbType='neutral';
   if(!hasEnglish&&text.length>0){
-    fb='💡 英語で話してみよう！ヒント：'+step.hint;
+    // 英語なし → 赤フィードバック + リトライ促す
+    fb='❌ 英語で話してみよう！ Try in English! ヒント：'+step.hint;
+    fbType='wrong';
   } else if(wordCount<2){
-    fb='💬 もう少し英語で詳しく話してみよう！\n例：「'+step.hint.replace(/💡\s*/g,'').replace(/「|」/g,'')+'」';
+    // 1語以下 → 赤フィードバック
+    const ex=step.hint.replace(/「|」|〜/g,'').split('.')?.[0]||step.hint;
+    fb='❌ 短すぎるよ！もっと文章で話してみよう！\n例： '+ex;
+    fbType='wrong';
   } else if(keyMatched){
-    fb='✅ いい感じ！「'+matchedKey+'」を使って上手に伝えられたよ！';
-    if(wordCount>=5)fb+=' 文が長くてとても自然！';
+    // キーワードマッチ → 緑
+    fb='✅ グッド！「'+matchedKey+'」を使って上手に伝えられたよ！'+(wordCount>=5?' とても自然な文！':'');
+    fbType='good';
+  } else if(wordCount>=4){
+    // キーワードなしでも長め → 黄
+    const suggestKeys=(step.keys||[]).slice(0,3).join(' / ');
+    fb='💛 伝わったよ！次は「'+suggestKeys+'」などのキーワードも使ってみよう！';
+    fbType='warn';
   } else {
-    // キーワード未使用のとき、使えるキーワードを提示
-    const suggestKeys=(step.keys||[]).slice(0,4).join('・');
-    fb='💡 伝わったよ！次は「'+suggestKeys+'」などの単語を使うとより自然になるよ！';
+    // 短め + キーワードなし → 赤
+    const suggestKeys=(step.keys||[]).slice(0,3).join(' / ');
+    fb='❌ もう少し詳しく！「'+suggestKeys+'」を使った文で答えてみよう！';
+    fbType='wrong';
   }
-  convScore+=keyMatched?12:wordCount>=3?8:4;
+  convScore+=keyMatched?12:wordCount>=4?8:wordCount>=2?4:0;
   setTimeout(()=>{
     showTyping();
-    if(fb)appendFeedback(fb);
+    if(fb)appendFeedback(fb,fbType);
     convStep++;
     const prog=document.getElementById('conv-progress');
     if(step.last||convStep>=convTopic.script.length){
