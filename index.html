@@ -203,23 +203,25 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .xp-popup.show{transform:translateX(-50%) scale(1)}
 
 /* ── CONVERSATION ─────────────────────────────────────── */
-#conv-screen{background:#fafafa;justify-content:flex-start}
-.conv-header{width:100%;padding:10px 14px;background:linear-gradient(135deg,#ff6b9d,#cc3377);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
-.lily-header-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff8fab);display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid rgba(255,255,255,.8);box-shadow:0 3px 8px rgba(0,0,0,.2);flex-shrink:0}
+#conv-screen{background:linear-gradient(180deg,#f8f0ff 0%,#fafafa 120px);justify-content:flex-start}
+.conv-header{width:100%;padding:10px 14px;background:linear-gradient(135deg,#9b5de5,#6a2dc0);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(106,45,192,.35)}
+.lily-header-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d8b0ff,#b080e8);display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid rgba(255,255,255,.85);box-shadow:0 3px 10px rgba(100,40,180,.35);flex-shrink:0;overflow:hidden}
 .conv-char-info{flex:1}
 .conv-char-name{font-size:17px;font-weight:900;color:white}
 .conv-char-status{font-size:10px;color:rgba(255,255,255,.85)}
 .btn-conv-back{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.6);border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;padding:5px 10px;color:white;white-space:nowrap}
 
-/* LILY PROFILE CARD */
-.lily-profile-card{background:linear-gradient(135deg,#fff0f5,#fff);border:3px solid #ffd0e0;border-radius:20px;padding:20px 16px;margin:12px 16px 0;text-align:center;box-shadow:0 4px 16px rgba(255,107,157,.15)}
-.lily-profile-avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff6b9d);display:flex;align-items:center;justify-content:center;font-size:48px;border:4px solid white;box-shadow:0 4px 16px rgba(255,107,157,.4);margin:0 auto 10px;animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.lily-profile-name{font-size:22px;font-weight:900;color:#cc3377}
-.lily-profile-sub{font-size:12px;color:#999;margin:2px 0 10px}
+/* ELLIE PROFILE CARD */
+.lily-profile-card{background:linear-gradient(135deg,#f6eeff,#fff);border:3px solid #d8b8f8;border-radius:24px;padding:20px 16px;margin:12px 16px 0;text-align:center;box-shadow:0 6px 24px rgba(120,60,200,.15);position:relative;overflow:hidden}
+.lily-profile-card::before{content:'✦';position:absolute;top:10px;right:14px;font-size:18px;color:#c8a0f0;opacity:.5}
+.lily-profile-card::after{content:'★';position:absolute;bottom:12px;left:14px;font-size:14px;color:#e8a0c8;opacity:.4}
+.lily-profile-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#ddbcff,#a070e0);display:flex;align-items:center;justify-content:center;font-size:48px;border:4px solid white;box-shadow:0 6px 20px rgba(120,60,200,.4);margin:0 auto 12px;animation:float 3s ease-in-out infinite;overflow:hidden}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.lily-profile-name{font-size:23px;font-weight:900;color:#7040c0;letter-spacing:.5px}
+.lily-profile-sub{font-size:12px;color:#a080c0;margin:2px 0 10px;font-weight:600}
 .lily-traits{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px}
-.lily-trait{background:#fff0f5;border:2px solid #ffd0e0;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:#cc3377}
-.lily-bio{font-size:13px;color:#555;line-height:1.65;background:white;border-radius:12px;padding:10px 12px;border:2px solid #f5e0ea;text-align:left}
+.lily-trait{background:#f4e8ff;border:2px solid #d8b8f8;border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;color:#7040c0}
+.lily-bio{font-size:13px;color:#555;line-height:1.7;background:white;border-radius:14px;padding:11px 13px;border:2px solid #ecdaff;text-align:left}
 
 /* TOPIC SELECT */
 .conv-topic-select{width:100%;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
@@ -235,11 +237,11 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 .msg-row{display:flex;gap:8px;align-items:flex-end}
 .msg-row.lily-msg{justify-content:flex-start}
 .msg-row.user-msg{justify-content:flex-end}
-.lily-chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ffb3d4,#ff6b9d);display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid white;box-shadow:0 2px 6px rgba(255,107,157,.3);flex-shrink:0}
+.lily-chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ddbcff,#a070e0);display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid white;box-shadow:0 2px 8px rgba(120,60,200,.3);flex-shrink:0;overflow:hidden}
 .msg-bubble{max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.5;font-weight:600}
-.lily-bubble{background:var(--pink-light);border:2px solid #ffd0e0;border-bottom-left-radius:4px;color:var(--text);cursor:pointer;transition:background .15s,transform .1s;user-select:none;position:relative}
-.lily-bubble:active{transform:scale(.97);background:#ffd8eb}
-.lily-bubble.playing{background:#ffe0ef;transform:scale(.97)}
+.lily-bubble{background:#f4e8ff;border:2px solid #ddbcff;border-bottom-left-radius:4px;color:var(--text);cursor:pointer;transition:background .15s,transform .1s;user-select:none;position:relative}
+.lily-bubble:active{transform:scale(.97);background:#e8d0ff}
+.lily-bubble.playing{background:#e8d0ff;transform:scale(.97)}
 .bubble-speak-icon{font-size:11px;margin-left:6px;opacity:.6;vertical-align:middle}
 .user-bubble{background:var(--blue);color:white;border-bottom-right-radius:4px}
 .msg-hint{font-size:11px;color:var(--gray);margin-top:3px;font-style:italic;padding-left:2px}
@@ -301,7 +303,7 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 <div id="home-screen" class="screen active">
   <div class="home-logo">🦉</div>
   <div class="home-title">英語チャレンジ！</div>
-  <div class="home-subtitle">英検3級レベルの英語を楽しく学ぼう！<br>900問以上 · Lilyと会話モード · 音声読み上げ付き</div>
+  <div class="home-subtitle">英検3級レベルの英語を楽しく学ぼう！<br>1000問以上 · Ellieと会話モード · 音声読み上げ付き</div>
   <div class="badge-row">
     <div class="badge">🎯 英検3級</div>
     <div class="badge">📚 900問以上</div>
@@ -323,8 +325,8 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
     <div class="unit-card conv" onclick="showConvScreen()">
       <div class="unit-icon">💬</div>
       <div class="unit-info">
-        <div class="unit-name">Lilyと会話しよう！</div>
-        <div class="unit-desc">アメリカの女の子と英語で話そう</div>
+        <div class="unit-name">Ellieと会話しよう！</div>
+        <div class="unit-desc">アニメ好きな女の子と英語で話そう</div>
         <span class="unit-tag">🌟 会話モード</span>
       </div>
     </div>
@@ -391,10 +393,10 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f8f9fa
 <!-- CONVERSATION SCREEN -->
 <div id="conv-screen" class="screen">
   <div class="conv-header">
-    <div class="lily-header-avatar">🧒‍♀️</div>
+    <div class="lily-header-avatar"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OSIgZmlsbD0iI2YwZTZmZiIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjQ4IiByeD0iMzMiIHJ5PSIzNyIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0xOCA1NSBRMTIgNzIgMTcgODQgUTIzIDczIDI3IDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik04MiA1NSBRODggNzIgODMgODQgUTc3IDczIDczIDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjU2IiByeD0iMjYiIHJ5PSIyOCIgZmlsbD0iI2ZkZThkOCIvPgogIDxwYXRoIGQ9Ik0xOCA0NiBRMjUgMjQgNTAgMjIgUTc1IDI0IDgyIDQ2IFE3NCAzNCA1MCAzMiBRMjYgMzQgMTggNDZaIiBmaWxsPSIjYjg4OGUwIi8+CiAgPHBhdGggZD0iTTUwIDIyIFE1NiAxMCA1MyAzIFE0NyAxMCA1MCAyMiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0zMCAzMiBRMjggMjQgMzIgMjIgUTMwIDI4IDM0IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxwYXRoIGQ9Ik03MCAzMiBRNzIgMjQgNjggMjIgUTcwIDI4IDY2IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjUyIiByeD0iOC41IiByeT0iMTAiIGZpbGw9IiM3ODUwYzAiLz4KICA8ZWxsaXBzZSBjeD0iMzciIGN5PSI1My41IiByeD0iNi41IiByeT0iOCIgZmlsbD0iIzQ4MjhhMCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjU1IiByeD0iMy44IiByeT0iNC41IiBmaWxsPSIjMTgwODI4Ii8+CiAgPGVsbGlwc2UgY3g9IjM0IiBjeT0iNDkiIHJ4PSIyLjgiIHJ5PSIyLjgiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMzkuNSIgY3k9IjU3IiByPSIxLjQiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjY1Ii8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTIiIHJ4PSI4LjUiIHJ5PSIxMCIgZmlsbD0iIzc4NTBjMCIvPgogIDxlbGxpcHNlIGN4PSI2MyIgY3k9IjUzLjUiIHJ4PSI2LjUiIHJ5PSI4IiBmaWxsPSIjNDgyOGEwIi8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTUiIHJ4PSIzLjgiIHJ5PSI0LjUiIGZpbGw9IiMxODA4MjgiLz4KICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI0OSIgcng9IjIuOCIgcnk9IjIuOCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuOTUiLz4KICA8Y2lyY2xlIGN4PSI2NS41IiBjeT0iNTciIHI9IjEuNCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuNjUiLz4KICA8cGF0aCBkPSJNMjguNSA0NCBRMzAgNDEuNSAzMiA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ1LjUgNDQgUTQ0IDQxLjUgNDIgNDMiIHN0cm9rZT0iIzI4MDg1OCIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwYXRoIGQ9Ik01NC41IDQ0IFE1NiA0MS41IDU4IDQzIiBzdHJva2U9IiMyODA4NTgiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNzEuNSA0NCBRNzAgNDEuNSA2OCA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ3IDY2IFE1MCA2Ny41IDUzIDY2IiBzdHJva2U9IiNlMGI4OTgiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNDIgNzMgUTUwIDc5LjUgNTggNzMiIHN0cm9rZT0iI2UwNzA5MCIgc3Ryb2tlLXdpZHRoPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxlbGxpcHNlIGN4PSIyNiIgY3k9IjYzIiByeD0iNi41IiByeT0iMy41IiBmaWxsPSIjZmZhYWMwIiBvcGFjaXR5PSIwLjQyIi8+CiAgPGVsbGlwc2UgY3g9Ijc0IiBjeT0iNjMiIHJ4PSI2LjUiIHJ5PSIzLjUiIGZpbGw9IiNmZmFhYzAiIG9wYWNpdHk9IjAuNDIiLz4KICA8dGV4dCB4PSI3IiB5PSIzMCIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2M4YThmZiIgb3BhY2l0eT0iMC44NSI+4pymPC90ZXh0PgogIDx0ZXh0IHg9Ijc5IiB5PSIyOCIgZm9udC1zaXplPSI5IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjc1Ij7inKY8L3RleHQ+CiAgPHRleHQgeD0iNzYiIHk9IjgyIiBmb250LXNpemU9IjciIGZpbGw9IiNmZmE4YzAiIG9wYWNpdHk9IjAuNyI+4piFPC90ZXh0PgogIDx0ZXh0IHg9IjE0IiB5PSI4MCIgZm9udC1zaXplPSI2IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjYiPuKcpjwvdGV4dD4KPC9zdmc+" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block"></div>
     <div class="conv-char-info">
-      <div class="conv-char-name">Lily Anderson</div>
-      <div class="conv-char-status">🇺🇸 New York・16歳・アニメ好きな女の子</div>
+      <div class="conv-char-name">Ellie ✦ エリー</div>
+      <div class="conv-char-status">🌸 LA & Tokyo・16歳・アニメ大好き女子</div>
     </div>
     <button class="btn-conv-back" onclick="showScreen('level-screen')">← 戻る</button>
   </div>
@@ -1119,59 +1121,104 @@ const SPEAKING_QS = [
   {"en":"I can't wait to see you again!","ja":"また会えるのが待ちきれません！","phonetic":"アイ キャント ウェイト トゥ シー ユー アゲン！","exp":"「can't wait to〜」は「〜するのが待ちきれない」という興奮や楽しみを表す表現！\nよく使うカジュアルなフレーズだよ！"},
 ];
 const CHUNK_QS = [
-  {"q":"get ___ of bed","choices":["out", "up", "off", "in"],"ans":0,"ja":"ベッドから出る","full":"get out of bed","tip":"「get out of〜」は「〜から出る」という意味のチャンク！"},
-  {"q":"wake ___ early","choices":["up", "out", "in", "on"],"ans":0,"ja":"早く目を覚ます","full":"wake up early","tip":"「wake up」は「目を覚ます」！毎朝使えるフレーズだよ！"},
-  {"q":"look ___ to the trip","choices":["forward", "ahead", "up", "out"],"ans":0,"ja":"旅行を楽しみにしている","full":"look forward to the trip","tip":"「look forward to〜」は「〜を楽しみにする」！toの後は名詞か動名詞！"},
-  {"q":"take ___ of your health","choices":["care", "part", "place", "note"],"ans":0,"ja":"健康に気をつける","full":"take care of your health","tip":"「take care of〜」は「〜の世話をする・〜に気をつける」！"},
-  {"q":"give ___ to the poor","choices":["money", "hand", "back", "up"],"ans":1,"ja":"困っている人に手を差し伸べる","full":"give a hand to the poor","tip":"「give a hand」は「手を貸す・助ける」という意味！"},
-  {"q":"find ___ at home","choices":["out", "place", "time", "it"],"ans":2,"ja":"家にいる時間を作る","full":"find time at home","tip":"「find time」は「時間を作る・時間を見つける」というチャンク！"},
-  {"q":"make ___ for school","choices":["ready", "sure", "time", "up"],"ans":0,"ja":"学校の準備をする","full":"make ready for school","tip":"「make ready」は「準備する」！「get ready」も同じ意味！"},
-  {"q":"keep ___ with fashion","choices":["up", "on", "in", "out"],"ans":0,"ja":"流行についていく","full":"keep up with fashion","tip":"「keep up with〜」は「〜に遅れずついていく」！"},
-  {"q":"run ___ of time","choices":["out", "short", "over", "up"],"ans":0,"ja":"時間が足りなくなる","full":"run out of time","tip":"「run out of〜」は「〜がなくなる・尽きる」！とても大事なフレーズ！"},
-  {"q":"put ___ your coat","choices":["on", "up", "in", "off"],"ans":0,"ja":"コートを着る","full":"put on your coat","tip":"「put on〜」は「〜を着る・かぶる」！反対は「take off〜（脱ぐ）」！"},
-  {"q":"turn ___ the TV","choices":["off", "on", "up", "down"],"ans":0,"ja":"テレビを消す","full":"turn off the TV","tip":"「turn off」は「消す」！「turn on（つける）」と反対だよ！"},
-  {"q":"give ___ smoking","choices":["up", "out", "in", "off"],"ans":0,"ja":"タバコをやめる","full":"give up smoking","tip":"「give up〜ing」は「〜するのをやめる」というチャンク！"},
-  {"q":"pick ___ at the station","choices":["up", "on", "out", "over"],"ans":0,"ja":"駅まで迎えに行く","full":"pick up at the station","tip":"「pick up〜」は「車で迎えに行く・拾い上げる」！"},
-  {"q":"look ___ your little sister","choices":["after", "for", "up", "into"],"ans":0,"ja":"妹の世話をする","full":"look after your little sister","tip":"「look after〜」は「〜の世話をする」！「take care of」と同じ！"},
-  {"q":"come ___ with a good idea","choices":["up", "out", "in", "over"],"ans":0,"ja":"良いアイデアを思いつく","full":"come up with a good idea","tip":"「come up with〜」は「〜を思いつく」！とても役立つ表現！"},
-  {"q":"be good ___ math","choices":["at", "in", "on", "for"],"ans":0,"ja":"数学が得意だ","full":"be good at math","tip":"「be good at〜」は「〜が得意」！苦手なら「be bad at〜」！"},
-  {"q":"be interested ___ music","choices":["in", "at", "on", "with"],"ans":0,"ja":"音楽に興味がある","full":"be interested in music","tip":"「be interested in〜」は「〜に興味がある」！よく使う表現！"},
-  {"q":"be afraid ___ dogs","choices":["of", "from", "at", "with"],"ans":0,"ja":"犬が怖い","full":"be afraid of dogs","tip":"「be afraid of〜」は「〜が怖い・〜を恐れている」！"},
-  {"q":"be proud ___ my family","choices":["of", "at", "in", "for"],"ans":0,"ja":"家族を誇りに思う","full":"be proud of my family","tip":"「be proud of〜」は「〜を誇りに思う」！"},
-  {"q":"talk ___ your problems","choices":["about", "with", "in", "of"],"ans":0,"ja":"悩みについて話す","full":"talk about your problems","tip":"「talk about〜」は「〜について話す」！「discuss〜」も同じ意味！"},
-  {"q":"dream ___ becoming a singer","choices":["of", "about", "for", "in"],"ans":0,"ja":"歌手になることを夢見る","full":"dream of becoming a singer","tip":"「dream of〜ing」は「〜することを夢見る」！"},
-  {"q":"agree ___ you","choices":["with", "to", "for", "at"],"ans":0,"ja":"あなたに賛成する","full":"agree with you","tip":"「agree with〜（人）」は「〜に賛成」！「agree to〜（案）」との違いに注意！"},
-  {"q":"depend ___ the weather","choices":["on", "in", "at", "of"],"ans":0,"ja":"天気次第だ","full":"depend on the weather","tip":"「depend on〜」は「〜に頼る・〜次第だ」！"},
-  {"q":"arrive ___ the airport","choices":["at", "in", "to", "on"],"ans":0,"ja":"空港に着く","full":"arrive at the airport","tip":"小さい場所は「arrive at」！大きい場所（国・都市）は「arrive in」！"},
-  {"q":"on ___ of time","choices":["top", "behalf", "time", "account"],"ans":2,"ja":"時間通りに","full":"on time","tip":"「on time」は「時間通りに」！「in time（間に合って）」と区別しよう！"},
-  {"q":"___ the morning","choices":["In", "At", "On", "By"],"ans":0,"ja":"朝に","full":"In the morning","tip":"「in the morning / afternoon / evening」！でも「at night」！"},
-  {"q":"___ Monday","choices":["On", "In", "At", "By"],"ans":0,"ja":"月曜日に","full":"On Monday","tip":"曜日・日付には「on」を使うよ！「on Monday, on June 5th」"},
-  {"q":"once ___ a week","choices":["a", "in", "per", "every"],"ans":0,"ja":"週に1回","full":"once a week","tip":"「once a week」「twice a day」「three times a month」と覚えよう！"},
-  {"q":"___ least three times","choices":["at", "in", "on", "of"],"ans":0,"ja":"少なくとも3回","full":"at least three times","tip":"「at least」は「少なくとも」！「at most（多くとも）」の反対！"},
-  {"q":"all ___ sudden","choices":["of", "the", "a", "at"],"ans":2,"ja":"突然に","full":"all of a sudden","tip":"「all of a sudden」は「突然に」！「suddenly」と同じ意味！"},
-  {"q":"Nice to ___ you","choices":["meet", "see", "know", "have"],"ans":0,"ja":"はじめまして","full":"Nice to meet you","tip":"初対面の挨拶！2回目以降は「Nice to see you again」！"},
-  {"q":"___ me know if you need help","choices":["Let", "Tell", "Make", "Have"],"ans":0,"ja":"助けが必要なら知らせてね","full":"Let me know if you need help","tip":"「Let me know」は「教えてね」！日常会話でよく使う！"},
-  {"q":"How ___ you doing?","choices":["are", "do", "have", "were"],"ans":0,"ja":"調子はどう？","full":"How are you doing?","tip":"「How are you?」より少しカジュアルな挨拶！"},
-  {"q":"___ my opinion","choices":["In", "At", "On", "For"],"ans":0,"ja":"私の意見では","full":"In my opinion","tip":"「In my opinion〜」は「私の意見では〜」！自分の意見を言うとき便利！"},
-  {"q":"___ example, I like cats","choices":["For", "Like", "As", "Such"],"ans":0,"ja":"例えば、猫が好きです","full":"For example, I like cats","tip":"「For example」は「例えば」！「For instance」も同じ意味！"},
-  {"q":"as ___ as possible","choices":["soon", "fast", "quick", "early"],"ans":0,"ja":"できるだけ早く","full":"as soon as possible","tip":"「as soon as possible（ASAP）」は「できるだけ早く」！メールでよく使うよ！"},
-  {"q":"I'm ___ it","choices":["on", "at", "in", "up"],"ans":0,"ja":"今やってます・任せて","full":"I'm on it","tip":"「I'm on it」は「今やってます！」「任せて！」という便利なフレーズ！"},
-  {"q":"That ___ sense","choices":["makes", "does", "has", "is"],"ans":0,"ja":"それは意味がある・なるほど","full":"That makes sense","tip":"「That makes sense」は「なるほど・それは理解できる」！"},
-  {"q":"Go ___!","choices":["ahead", "forward", "on", "away"],"ans":0,"ja":"どうぞ・やってみて！","full":"Go ahead!","tip":"「Go ahead」は「どうぞ進んで」「やってみて」というOKの合図！"},
-  {"q":"___ of all","choices":["First", "One", "Best", "Most"],"ans":0,"ja":"まず最初に","full":"First of all","tip":"「First of all」は「まず最初に」！スピーチやエッセイの書き出しに最適！"},
-  {"q":"in ___ of","choices":["front", "back", "side", "top"],"ans":0,"ja":"〜の前に","full":"in front of","tip":"「in front of〜」は「〜の前に」！「behind〜（後ろに）」の反対！"},
-  {"q":"by ___","choices":["myself", "yourself", "herself", "themselves"],"ans":0,"ja":"一人で・自分で","full":"by myself","tip":"「by oneself」は「一人で・自分で」！「alone」と同じ意味！"},
-  {"q":"___ long","choices":["Before", "After", "How", "So"],"ans":2,"ja":"どのくらいの時間","full":"How long","tip":"「How long〜?」は期間や長さを聞く疑問文！「How long does it take?（どのくらいかかる？）」"},
-  {"q":"___ far","choices":["How", "So", "Too", "Very"],"ans":0,"ja":"どのくらい遠い・距離","full":"How far","tip":"「How far〜?」は距離を聞く疑問文！「How far is it from here?（ここからどのくらい？）」"},
-  {"q":"not only A ___ also B","choices":["but", "and", "or", "yet"],"ans":0,"ja":"AだけでなくBも","full":"not only A but also B","tip":"「not only A but also B」は「AだけでなくBも」！大事なパターン！"},
-  {"q":"___ well as","choices":["as", "so", "too", "very"],"ans":0,"ja":"〜と同様に・〜の他にも","full":"as well as","tip":"「A as well as B」は「BだけでなくAも」「AもBも」！"},
-  {"q":"even ___","choices":["though", "if", "so", "when"],"ans":0,"ja":"〜にもかかわらず","full":"even though","tip":"「even though〜」は「〜にもかかわらず」！「although」と同じ意味！"},
-  {"q":"as ___ as","choices":["long", "soon", "many", "well"],"ans":0,"ja":"〜する限り","full":"as long as","tip":"「as long as〜」は「〜する限り・〜さえすれば」！条件を表すよ！"},
-  {"q":"___ case","choices":["In", "On", "At", "For"],"ans":0,"ja":"万が一のために","full":"In case","tip":"「In case〜」は「〜の場合に備えて・万が一のために」！"},
-  {"q":"a ___ of water","choices":["glass", "cup", "piece", "bowl"],"ans":0,"ja":"水一杯","full":"a glass of water","tip":"「a glass of〜」「a cup of〜」「a piece of〜」「a bowl of〜」を覚えよう！"},
-  {"q":"a piece ___ advice","choices":["of", "for", "with", "in"],"ans":0,"ja":"アドバイスのひとつ","full":"a piece of advice","tip":"「advice」は数えられない名詞！「a piece of advice」で1つのアドバイス！"},
-  {"q":"___ time","choices":["free", "spare", "break", "rest"],"ans":0,"ja":"自由な時間・暇な時間","full":"free time","tip":"「free time」は「自由時間・暇な時間」！「What do you do in your free time?」"},
-  {"q":"on ___","choices":["time", "watch", "guard", "duty"],"ans":3,"ja":"当番で・任務中で","full":"on duty","tip":"「on duty（勤務中）」「off duty（非番）」！「on time（時間通り）」と区別！"},
+  {"q":"Can I ___ a table for two?","choices":["book", "make", "build", "ask"],"ans":0,"ja":"🍽️ 2人席を予約できますか？","full":"Can I book a table for two?","tip":"「book a table」はテーブルを予約するときの定番フレーズ！「reserve a table」も同じ意味だよ！"},
+  {"q":"What do you ___?","choices":["recommend", "suggest", "provide", "offer"],"ans":0,"ja":"🍽️ おすすめは何ですか？","full":"What do you recommend?","tip":"「recommend（おすすめする）」がここでのキーワード！レストランでの必須フレーズ！"},
+  {"q":"I'll ___ the pasta, please.","choices":["have", "eat", "order", "take"],"ans":0,"ja":"🍽️ パスタをください","full":"I'll have the pasta, please.","tip":"注文するときは「I'll have〜」が自然！「I'll take〜」でもOKだよ！"},
+  {"q":"Can I have the ___, please?","choices":["bill", "menu", "salt", "napkin"],"ans":0,"ja":"🍽️ お会計をお願いします","full":"Can I have the bill, please?","tip":"「the bill」はイギリス英語！アメリカでは「the check」！両方覚えよう！"},
+  {"q":"Is everything ___?","choices":["okay", "tasty", "perfect", "done"],"ans":0,"ja":"🍽️ お味はいかがですか？（お店の人が言う）","full":"Is everything okay?","tip":"食事中にウェイターがよく使うフレーズ！「Is everything alright?」も同じ意味！"},
+  {"q":"Could I get a ___ bag?","choices":["doggy", "carry", "paper", "plastic"],"ans":0,"ja":"🍽️ 残りを持ち帰る袋をもらえますか？","full":"Could I get a doggy bag?","tip":"「doggy bag」は残り物を持ち帰る袋のこと！欧米のレストランでよく使うよ！"},
+  {"q":"Can you ___ me a hand?","choices":["give", "lend", "offer", "hold"],"ans":0,"ja":"👨‍👩‍👧 手伝ってくれる？","full":"Can you give me a hand?","tip":"「give me a hand」は「手を貸す・手伝う」！「help me」より少しカジュアルな表現だよ！"},
+  {"q":"It's your ___ to wash the dishes.","choices":["turn", "time", "job", "task"],"ans":0,"ja":"👨‍👩‍👧 皿洗いはあなたの番だよ","full":"It's your turn to wash the dishes.","tip":"「It's your turn to〜」は「〜するのはあなたの番」！家族でよく使う表現！"},
+  {"q":"Could you turn the TV ___?","choices":["down", "off", "low", "quiet"],"ans":0,"ja":"👨‍👩‍👧 テレビの音を下げてくれない？","full":"Could you turn the TV down?","tip":"「turn down」は「音量を下げる」！「turn up（上げる）」「turn off（消す）」も覚えよう！"},
+  {"q":"I'll help you ___ the table.","choices":["set", "make", "put", "arrange"],"ans":0,"ja":"👨‍👩‍👧 テーブルのセットを手伝うよ","full":"I'll help you set the table.","tip":"「set the table」は「食卓を整える」という決まったチャンク！食事の準備でよく使う！"},
+  {"q":"I'll be ___ in a minute.","choices":["ready", "there", "done", "back"],"ans":0,"ja":"👨‍👩‍👧 すぐ準備できるよ","full":"I'll be ready in a minute.","tip":"「in a minute」は「すぐに」！「I'll be right there（すぐ行く）」も合わせて覚えよう！"},
+  {"q":"Don't ___ to call me!","choices":["forget", "fail", "miss", "need"],"ans":0,"ja":"👨‍👩‍👧 忘れずに電話してね！","full":"Don't forget to call me!","tip":"「Don't forget to〜」は「〜するのを忘れないで」！「Remember to〜」と同じ意味！"},
+  {"q":"You're in big ___!","choices":["trouble", "problem", "danger", "mess"],"ans":0,"ja":"👨‍👩‍👧 大変なことになるよ！（やったね！のときも）","full":"You're in big trouble!","tip":"「in big trouble」は「大変なことになった・やばいよ！」！親から子どもに言うときによく使う！"},
+  {"q":"Could you ___ that again, please?","choices":["say", "repeat", "tell", "speak"],"ans":0,"ja":"🏫 もう一度言ってもらえますか？","full":"Could you say that again, please?","tip":"授業中にわからなかったとき！「Could you repeat that?」も同じ意味！どちらも使えるよ！"},
+  {"q":"When is the homework ___?","choices":["due", "finished", "done", "ready"],"ans":0,"ja":"🏫 宿題の提出期限はいつですか？","full":"When is the homework due?","tip":"「due」は「期限が来ている」！「The homework is due Friday（金曜締め切り）」というように使う！"},
+  {"q":"I need to ___ up on my English.","choices":["catch", "keep", "make", "brush"],"ans":0,"ja":"🏫 英語を追いつかないといけない","full":"I need to catch up on my English.","tip":"「catch up on〜」は「〜を取り戻す・追いつく」！勉強の遅れを取り戻すときに使う！"},
+  {"q":"Could you ___ it down, please?","choices":["write", "note", "put", "mark"],"ans":0,"ja":"🏫 それを書いてもらえますか？","full":"Could you write it down, please?","tip":"「write it down」は「書き留める」！授業中や説明を受けるときの定番フレーズ！"},
+  {"q":"May I be ___?","choices":["excused", "dismissed", "free", "done"],"ans":0,"ja":"🏫 席を外してもいいですか？（食事・授業後）","full":"May I be excused?","tip":"食事のテーブルを離れるときや授業後に使う丁寧な表現！「May I leave?」より上品に聞こえるよ！"},
+  {"q":"Can I ___ this on?","choices":["try", "put", "wear", "test"],"ans":0,"ja":"🛍️ これを試着できますか？","full":"Can I try this on?","tip":"「try on〜」は「試着する」！服を買うときの必須フレーズ！"},
+  {"q":"How much ___ this?","choices":["is", "costs", "does", "are"],"ans":0,"ja":"🛍️ これはいくらですか？","full":"How much is this?","tip":"お買い物の基本！「How much does this cost?」でも同じ意味！"},
+  {"q":"I'm just ___.","choices":["looking", "browsing", "shopping", "checking"],"ans":0,"ja":"🛍️ ちょっと見ているだけです","full":"I'm just looking.","tip":"店員に声をかけられたときの定番の返し方！「I'm just browsing」も同じ意味！"},
+  {"q":"Do you ___ credit cards?","choices":["accept", "take", "allow", "use"],"ans":0,"ja":"🛍️ クレジットカードは使えますか？","full":"Do you accept credit cards?","tip":"「accept」は「受け付ける」！「Do you take credit cards?」でもOK！"},
+  {"q":"Can I ___ this back?","choices":["return", "bring", "take", "give"],"ans":0,"ja":"🛍️ これを返品できますか？","full":"Can I return this?","tip":"「return〜」は「〜を返品する」！「Can I exchange this?（交換できる？）」も覚えよう！"},
+  {"q":"Do you have this in a ___ color?","choices":["different", "other", "another", "new"],"ans":0,"ja":"🛍️ これの別の色はありますか？","full":"Do you have this in a different color?","tip":"「in a different color/size」の形で使う！買い物でとても役立つ表現！"},
+  {"q":"What are you ___ to?","choices":["up", "doing", "going", "planning"],"ans":0,"ja":"👫 最近どう？何してる？","full":"What are you up to?","tip":"「What are you up to?」は「何してる？何する予定？」の超定番口語表現！"},
+  {"q":"Let's ___ out sometime.","choices":["hang", "go", "get", "meet"],"ans":0,"ja":"👫 また今度遊ぼうよ","full":"Let's hang out sometime.","tip":"「hang out」は「友達と遊ぶ・ぶらぶらする」！若者がよく使うカジュアルな表現！"},
+  {"q":"Are you ___?","choices":["kidding", "joking", "serious", "lying"],"ans":0,"ja":"👫 冗談でしょ？！","full":"Are you kidding?","tip":"「Are you kidding?」は驚いたときの定番リアクション！「No kidding!（マジで！）」も覚えよう！"},
+  {"q":"Count me ___!","choices":["in", "on", "out", "up"],"ans":0,"ja":"👫 私も参加する！","full":"Count me in!","tip":"「Count me in!」は「仲間に入れて！私もやる！」！反対は「Count me out!（私はパス）」！"},
+  {"q":"I can't ___ to see you!","choices":["wait", "want", "stand", "bear"],"ans":0,"ja":"👫 会うのが待ち遠しい！","full":"I can't wait to see you!","tip":"「can't wait to〜」は「〜するのが待ちきれない！」！楽しみなことがあるときに使うよ！"},
+  {"q":"It's ___!","choices":["on me", "my treat", "my turn", "for me"],"ans":0,"ja":"👫 私のおごりだよ！","full":"It's on me!","tip":"「It's on me!」は「私が払う！おごるよ！」のかっこいいフレーズ！"},
+  {"q":"Could you ___ a photo of us?","choices":["take", "make", "shoot", "click"],"ans":0,"ja":"✈️ 私たちの写真を撮ってもらえますか？","full":"Could you take a photo of us?","tip":"観光地での定番フレーズ！「Could you take a picture of us?」でもOK！"},
+  {"q":"How ___ does it take to get there?","choices":["long", "much", "many", "far"],"ans":0,"ja":"✈️ そこまでどのくらいかかりますか？","full":"How long does it take to get there?","tip":"「How long does it take?」は時間を聞く超重要表現！「It takes about 10 minutes.」で答えるよ！"},
+  {"q":"I think I'm ___.","choices":["lost", "confused", "wrong", "late"],"ans":0,"ja":"✈️ 道に迷ったと思います","full":"I think I'm lost.","tip":"旅行中の緊急フレーズ！「I'm lost（迷子です）」の後「Can you help me?」を続けよう！"},
+  {"q":"Can I check ___ now?","choices":["in", "out", "into", "up"],"ans":0,"ja":"✈️ 今チェックインできますか？","full":"Can I check in now?","tip":"「check in（チェックイン）」「check out（チェックアウト）」はホテル・空港の必須ペア！"},
+  {"q":"Is this ___ taken?","choices":["seat", "place", "spot", "chair"],"ans":0,"ja":"✈️ この席は空いていますか？","full":"Is this seat taken?","tip":"電車・バス・カフェなどで使える万能フレーズ！「taken（取られている）」がポイント！"},
+  {"q":"Could I have a ___ seat?","choices":["window", "aisle", "middle", "back"],"ans":0,"ja":"✈️ 窓側の席をもらえますか？","full":"Could I have a window seat?","tip":"飛行機・新幹線での席の希望！「aisle seat（通路側）」「window seat（窓側）」を覚えよう！"},
+  {"q":"Can I ___ a message?","choices":["leave", "take", "give", "send"],"ans":0,"ja":"📱 伝言を残してもいいですか？","full":"Can I leave a message?","tip":"「leave a message」は「伝言を残す」！「take a message（伝言を受け取る）」も覚えよう！"},
+  {"q":"___ on, please.","choices":["Hold", "Wait", "Stay", "Keep"],"ans":0,"ja":"📱 少々お待ちください","full":"Hold on, please.","tip":"電話での「少々お待ちを」！「Hold on a moment」「Just a second」も同じ意味！"},
+  {"q":"Can you call me ___?","choices":["back", "again", "later", "soon"],"ans":0,"ja":"📱 折り返し電話してもらえますか？","full":"Can you call me back?","tip":"「call back」は「折り返す・かけ直す」！「I'll call you back later.」もよく使うよ！"},
+  {"q":"I'll get ___ to you.","choices":["back", "around", "over", "through"],"ans":0,"ja":"📱 後で連絡します","full":"I'll get back to you.","tip":"「get back to you」は「後で返事する・連絡する」！メールでも会話でもよく使う表現！"},
+  {"q":"Take your ___.","choices":["time", "turns", "break", "rest"],"ans":0,"ja":"🌅 ゆっくりでいいよ・急がなくていい","full":"Take your time.","tip":"「Take your time」は「急がなくていいよ」！焦っている相手への優しい一言！"},
+  {"q":"___ up!","choices":["Cheer", "Wake", "Stand", "Speak"],"ans":0,"ja":"🌅 元気出して！","full":"Cheer up!","tip":"「Cheer up!」は「元気出して！」！落ち込んでいる友達を励ます言葉！"},
+  {"q":"I'll ___ care of it.","choices":["take", "make", "have", "get"],"ans":0,"ja":"🌅 私が対処します・任せて","full":"I'll take care of it.","tip":"「take care of〜」は「〜を処理する・対処する」！「I'm on it!」と同じく頼もしいフレーズ！"},
+  {"q":"Let's ___ a break.","choices":["take", "have", "make", "get"],"ans":0,"ja":"🌅 休憩しよう","full":"Let's take a break.","tip":"「take a break」は「休憩する」！仕事中・勉強中に使える定番フレーズ！"},
+  {"q":"It's ___ to you.","choices":["up", "okay", "fine", "good"],"ans":0,"ja":"🌅 あなた次第だよ・あなたが決めていい","full":"It's up to you.","tip":"「It's up to you」は「あなた次第！あなたが決めていい！」！選択を相手に任せる表現！"},
+  {"q":"___ me know!","choices":["Let", "Tell", "Make", "Have"],"ans":0,"ja":"🌅 教えてね！知らせてね！","full":"Let me know!","tip":"「Let me know」は「教えてね・知らせてね」！日常会話で毎日使える便利なフレーズ！"},
+  {"q":"No ___ at all.","choices":["problem", "worries", "need", "thank"],"ans":0,"ja":"🌅 全然問題ないよ・どういたしまして","full":"No problem at all.","tip":"「No problem!」はカジュアルな「どういたしまして」！「Not at all!」「Don't worry!」も同じ！"},
+  {"q":"___ you later!","choices":["See", "Catch", "Talk", "Meet"],"ans":0,"ja":"🌅 またね！","full":"See you later!","tip":"「See you later / tomorrow / soon」など後ろを変えて使えるよ！「Catch you later」もOK！"},
+  {"q":"___ free to ask me.","choices":["Feel", "Be", "Stay", "Get"],"ans":0,"ja":"🌅 遠慮なく聞いてね","full":"Feel free to ask me.","tip":"「Feel free to〜」は「遠慮なく〜してください」！とても丁寧で親切な表現！"},
+  {"q":"I ___ you one.","choices":["owe", "give", "thank", "pay"],"ans":0,"ja":"🌅 一つ借りができたね・ありがとう","full":"I owe you one.","tip":"「I owe you one」は「借りができた・お世話になった」という感謝の表現！"},
+  {"q":"We're on the same ___.","choices":["page", "line", "team", "side"],"ans":0,"ja":"🌅 お互い同じ考えだね","full":"We're on the same page.","tip":"「on the same page」は「同じ理解・同じ認識」！会議や家族の話し合いでも使えるよ！"},
+  {"q":"___ a long story short...","choices":["To make", "To cut", "To keep", "To be"],"ans":0,"ja":"🌅 手短に言うと…","full":"To make a long story short...","tip":"「To make a long story short」は「手短に言えば・結論から言うと」！会話でよく使うよ！"},
+  {"q":"Good ___ to you!","choices":["luck", "day", "news", "job"],"ans":0,"ja":"🌅 頑張ってね！うまくいくといいね！","full":"Good luck to you!","tip":"「Good luck!」は試験・試合・発表など、頑張る場面での定番フレーズ！"},
+  {"q":"Could we have a ___ table?","choices":["corner", "window", "outside", "quiet"],"ans":3,"ja":"🍽️ 静かな席をお願いできますか？","full":"Could we have a quiet table?","tip":"「a quiet table（静かな席）」「a window table（窓際の席）」など場所のリクエストに使えるよ！"},
+  {"q":"Can I ___ with the tomato sauce?","choices":["substitute", "replace", "swap", "change"],"ans":0,"ja":"🍽️ トマトソースに変えてもらえますか？","full":"Can I substitute with the tomato sauce?","tip":"「substitute A with B（AをBに替える）」！アレルギーや好みで食材を変えたいときに使う！"},
+  {"q":"Is this dish ___?","choices":["vegetarian", "vegan", "spicy", "gluten-free"],"ans":0,"ja":"🍽️ この料理はベジタリアン対応ですか？","full":"Is this dish vegetarian?","tip":"食事制限を確認する大事なフレーズ！「gluten-free（グルテンなし）」「dairy-free（乳製品なし）」も覚えよう！"},
+  {"q":"We'd like to ___ separately.","choices":["pay", "split", "check", "settle"],"ans":1,"ja":"🍽️ 別々に払いたいです","full":"We'd like to split the bill.","tip":"「split the bill」は「割り勘にする」！「go Dutch（割り勘）」も同じ意味のカジュアルな表現！"},
+  {"q":"Could I see the ___ menu?","choices":["dessert", "drinks", "kids", "special"],"ans":0,"ja":"🍽️ デザートメニューを見せてもらえますか？","full":"Could I see the dessert menu?","tip":"「dessert menu（デザートメニュー）」「drinks menu（ドリンクメニュー）」など後ろを変えて使えるよ！"},
+  {"q":"Can you ___ after the dog today?","choices":["look", "watch", "care", "keep"],"ans":0,"ja":"👨‍👩‍👧 今日、犬の世話をしてくれる？","full":"Can you look after the dog today?","tip":"「look after〜」は「〜の世話をする」！「take care of〜」と同じ意味でどちらも使えるよ！"},
+  {"q":"Let's ___ it a family rule.","choices":["make", "set", "call", "put"],"ans":0,"ja":"👨‍👩‍👧 それを家族のルールにしよう","full":"Let's make it a family rule.","tip":"「make it a rule to〜」は「〜することをルールにする」！家族の約束を決めるときに使える！"},
+  {"q":"I'm ___ in the kitchen.","choices":["starving", "stuck", "busy", "tired"],"ans":0,"ja":"👨‍👩‍👧 お腹ぺこぺこ！（急いでご飯！）","full":"I'm starving in the kitchen.","tip":"「starving」は「とてもお腹が空いている」！「I'm starving!（お腹ぺこぺこ！）」はよく使う表現！"},
+  {"q":"Could you ___ me up at 7?","choices":["wake", "pick", "get", "call"],"ans":0,"ja":"👨‍👩‍👧 7時に起こしてくれる？","full":"Could you wake me up at 7?","tip":"「wake up〜」は「〜を起こす」！「Could you wake me up?」は家族への朝のお願い！"},
+  {"q":"We need to ___ a family meeting.","choices":["have", "call", "hold", "make"],"ans":0,"ja":"👨‍👩‍👧 家族会議を開こう","full":"We need to have a family meeting.","tip":"「have a meeting」は「会議を開く」！「call a meeting（会議を招集する）」も合わせて覚えよう！"},
+  {"q":"Don't ___ past midnight.","choices":["stay up", "sleep", "go", "be out"],"ans":0,"ja":"👨‍👩‍👧 夜中12時まで起きてないでね","full":"Don't stay up past midnight.","tip":"「stay up」は「（夜遅くまで）起きている」！「stay up late（夜更かしする）」もよく使う！"},
+  {"q":"I'd like to ___ an appointment.","choices":["make", "book", "set", "get"],"ans":0,"ja":"🏥 予約を入れたいのですが","full":"I'd like to make an appointment.","tip":"「make an appointment」は予約を取るときの定番表現！病院・美容院どこでも使えるよ！"},
+  {"q":"I have a ___ throat.","choices":["sore", "pain", "hurt", "bad"],"ans":0,"ja":"🏥 のどが痛いです","full":"I have a sore throat.","tip":"「sore throat（のどの痛み）」は病院でよく使う表現！「sore muscles（筋肉痛）」にも使えるよ！"},
+  {"q":"Do you have anything for a ___?","choices":["headache", "cold", "fever", "cough"],"ans":0,"ja":"🏥 頭痛に効くものはありますか？","full":"Do you have anything for a headache?","tip":"薬局での定番フレーズ！「a cold（風邪）」「a fever（熱）」「a cough（咳）」に変えて使えるよ！"},
+  {"q":"How often should I ___ this medicine?","choices":["take", "drink", "eat", "use"],"ans":0,"ja":"🏥 この薬は何回飲めばいいですか？","full":"How often should I take this medicine?","tip":"「take medicine（薬を飲む）」！日本語の「飲む」でも英語は「take」！「drink」は使わないよ！"},
+  {"q":"I'm ___ to penicillin.","choices":["allergic", "sensitive", "reacting", "opposed"],"ans":0,"ja":"🏥 ペニシリンアレルギーがあります","full":"I'm allergic to penicillin.","tip":"「be allergic to〜」は「〜アレルギーがある」！病院では必ず伝えたい大事なフレーズ！"},
+  {"q":"I need a ___ from the doctor.","choices":["prescription", "note", "letter", "form"],"ans":0,"ja":"🏥 医師の処方箋が必要です","full":"I need a prescription from the doctor.","tip":"「prescription（処方箋）」は薬局で薬をもらうための書類！知っておくと海外でも役立つ！"},
+  {"q":"Happy ___ to you!","choices":["Birthday", "New Year", "Anniversary", "Holidays"],"ans":0,"ja":"🎉 お誕生日おめでとう！","full":"Happy Birthday to you!","tip":"「Happy Birthday!」「Happy New Year!」「Happy Anniversary!」など「Happy〜!」の形で覚えよう！"},
+  {"q":"Let's ___ a toast!","choices":["make", "raise", "give", "do"],"ans":0,"ja":"🎉 乾杯しよう！","full":"Let's make a toast!","tip":"「make a toast」は「乾杯する・献杯する」！「Let's raise our glasses!」も同じ意味！"},
+  {"q":"Congratulations on your ___!","choices":["graduation", "promotion", "wedding", "birthday"],"ans":0,"ja":"🎉 卒業おめでとう！","full":"Congratulations on your graduation!","tip":"「Congratulations on〜!」は「〜おめでとう！」！後ろに成果・出来事を入れて使えるよ！"},
+  {"q":"I'm so ___ for you!","choices":["happy", "glad", "proud", "excited"],"ans":2,"ja":"🎉 あなたのことを誇りに思う！","full":"I'm so proud of you!","tip":"「I'm proud of you!」は「誇りに思う！すごいね！」！子どもや友達の成功を讃える一言！"},
+  {"q":"This party is ___!","choices":["amazing", "great", "awesome", "fantastic"],"ans":0,"ja":"🎉 このパーティー最高！","full":"This party is amazing!","tip":"「amazing / great / awesome / fantastic」どれも「最高！」だけど、「amazing」が今一番よく使われるよ！"},
+  {"q":"Can I bring ___?","choices":["anything", "something", "everything", "nothing"],"ans":0,"ja":"🎉 何か持っていきましょうか？","full":"Can I bring anything?","tip":"パーティーへの手土産を申し出るフレーズ！「anything（何でも）」を使うのがポイント！"},
+  {"q":"I'd like to ___ for the job.","choices":["apply", "try", "ask", "work"],"ans":0,"ja":"💼 この仕事に応募したいのですが","full":"I'd like to apply for the job.","tip":"「apply for〜」は「〜に応募する」！「apply for a job / a university（大学に出願する）」に使えるよ！"},
+  {"q":"Could you show me ___?","choices":["around", "the way", "how", "where"],"ans":0,"ja":"💼 案内してもらえますか？（新人のとき）","full":"Could you show me around?","tip":"「show me around」は「案内する・見せて回る」！新しい職場・学校・街での定番フレーズ！"},
+  {"q":"I'll ___ it in by Friday.","choices":["get", "hand", "turn", "send"],"ans":1,"ja":"💼 金曜日までに提出します","full":"I'll hand it in by Friday.","tip":"「hand in〜」は「〜を提出する」！「turn in」も同じ意味。「submit」はフォーマルな表現！"},
+  {"q":"Can I take the day ___?","choices":["off", "out", "away", "free"],"ans":0,"ja":"💼 今日休みを取れますか？","full":"Can I take the day off?","tip":"「take a day off」は「1日休みを取る」！「take time off（休みを取る）」も覚えよう！"},
+  {"q":"Let me ___ that for you.","choices":["handle", "do", "fix", "take"],"ans":0,"ja":"💼 それは私がやります","full":"Let me handle that for you.","tip":"「handle〜」は「〜に対処する・処理する」！「Let me take care of that.」も同じ意味！"},
+  {"q":"I'll ___ on it right away.","choices":["get", "work", "start", "go"],"ans":0,"ja":"💼 すぐに取り掛かります","full":"I'll get on it right away.","tip":"「get on it」は「それに取り掛かる」！「right away（すぐに）」とセットで使うと頼もしい！"},
+  {"q":"Which ___ goes to the city center?","choices":["bus", "train", "line", "platform"],"ans":0,"ja":"🚌 市内中心部へはどのバスに乗ればいいですか？","full":"Which bus goes to the city center?","tip":"「Which bus/train goes to〜?」は目的地へのルートを聞く表現！旅行で必須のフレーズ！"},
+  {"q":"Does this bus ___ at the museum?","choices":["stop", "go", "pass", "call"],"ans":0,"ja":"🚌 このバスは博物館に停まりますか？","full":"Does this bus stop at the museum?","tip":"「stop at〜」は「〜に停まる」！バス・電車のルートを確認するときに使えるよ！"},
+  {"q":"Can I have a ___ ticket?","choices":["round-trip", "one-way", "return", "single"],"ans":0,"ja":"🚌 往復チケットをください","full":"Can I have a round-trip ticket?","tip":"「round-trip（往復）」「one-way（片道）」はアメリカ英語！イギリスでは「return / single」を使うよ！"},
+  {"q":"Is this ___ for downtown?","choices":["heading", "going", "bound", "pointing"],"ans":0,"ja":"🚌 これは中心街行きですか？","full":"Is this heading for downtown?","tip":"「heading for〜」は「〜に向かっている」！「bound for〜（〜行き）」も交通でよく使う表現！"},
+  {"q":"How many ___ until the next stop?","choices":["stops", "stations", "minutes", "blocks"],"ans":0,"ja":"🚌 次の停留所までいくつ停まりますか？","full":"How many stops until the next stop?","tip":"「How many stops?」は停車数で場所を確認する実用的なフレーズ！地下鉄・バスで使えるよ！"},
+  {"q":"Excuse me, is this ___ taken?","choices":["spot", "seat", "place", "chair"],"ans":1,"ja":"🚌 すみません、ここ空いてますか？","full":"Excuse me, is this seat taken?","tip":"「Is this seat taken?」は電車・バス・カフェなどで席が空いているか確認する定番フレーズ！"},
+  {"q":"I'll ___ you a favor.","choices":["do", "give", "make", "ask"],"ans":0,"ja":"🌅 お願いを聞いてあげる","full":"I'll do you a favor.","tip":"「do a favor」は「親切なことをする・お願いを聞く」！「Can you do me a favor?（お願いがあるんだけど）」もよく使う！"},
+  {"q":"Keep ___ the good work!","choices":["up", "on", "doing", "going"],"ans":0,"ja":"🌅 その調子でがんばって！","full":"Keep up the good work!","tip":"「Keep up the good work!」は「その調子！よくやってる！」と褒める励ましのフレーズ！"},
+  {"q":"Can you ___ a secret?","choices":["keep", "hold", "save", "have"],"ans":0,"ja":"🌅 秘密、守れる？","full":"Can you keep a secret?","tip":"「keep a secret」は「秘密を守る」！「I'll keep it a secret.（秘密にしておく）」もよく使うよ！"},
+  {"q":"I'll ___ my fingers crossed!","choices":["keep", "cross", "hold", "lock"],"ans":0,"ja":"🌅 うまくいくように願ってるよ！","full":"I'll keep my fingers crossed!","tip":"「keep one's fingers crossed」は「うまくいくように祈る・願う」！ラッキーを願う表現！"},
+  {"q":"It's not a ___ deal.","choices":["big", "huge", "great", "large"],"ans":0,"ja":"🌅 大したことじゃないよ","full":"It's not a big deal.","tip":"「a big deal」は「大事なこと・重大事」！「It's not a big deal.（大したことないよ）」はよく使う表現！"},
+  {"q":"Better ___ than never!","choices":["late", "slow", "wrong", "bad"],"ans":0,"ja":"🌅 遅くてもやらないよりまし！","full":"Better late than never!","tip":"「Better late than never!」は「遅くてもやらないよりまし！」という励ましのことわざ！"},
+  {"q":"That's the ___ of it.","choices":["end", "all", "last", "whole"],"ans":0,"ja":"🌅 以上です・それだけです","full":"That's the end of it.","tip":"「That's the end of it.」は話を締めくくるフレーズ！「That's all（以上です）」も同じ意味！"},
+  {"q":"My ___ is on you.","choices":["money", "bet", "vote", "trust"],"ans":1,"ja":"🌅 あなたに賭けるよ・あなたを応援してる","full":"My bet is on you.","tip":"「My bet is on you.」は「あなたに賭ける！あなたを信じてる！」という応援のフレーズ！"},
+  {"q":"Things will ___ out.","choices":["work", "turn", "sort", "come"],"ans":0,"ja":"🌅 きっとうまくいくよ","full":"Things will work out.","tip":"「work out」は「うまくいく・解決する」！落ち込んでいる人を励ます定番の言葉！"},
+  {"q":"I ___ what you mean.","choices":["know", "see", "get", "understand"],"ans":1,"ja":"🌅 言いたいことはわかるよ","full":"I see what you mean.","tip":"「I see what you mean.」は「言いたいことはわかる」！「I get it（わかった）」よりも丁寧な表現！"},
 ];
 
 // Update unit card counts dynamically
@@ -1223,7 +1270,7 @@ const CONV_TOPICS = [
   {
     id:'intro',emoji:'👋',name:'自己紹介',desc:'名前・年齢・住んでる場所を話そう',
     script:[
-      {lily:"Hi! I'm Lily! I'm 16 years old and from New York! Nice to meet you! What's your name?",ja:"こんにちは！私はリリー、ニューヨーク出身の16歳です！はじめまして！あなたのお名前は？",hint:'「My name is ○○.」で名前を教えてね！',keys:['name','is',"i'm",'im','call','called'],replies:{name:"Oh, what a cool name! I love it! How old are you? 😊",call:"Love that name! Sounds so nice! How old are you?",default:["Sorry, could you tell me your name? 😊","I didn't catch your name! What should I call you? 😄","Can you say your name again? I want to remember it!"]}},
+      {lily:"Hi! I'm Ellie! I'm 16 and I'm half-Japanese, half-American! Nice to meet you! What's your name?",ja:"こんにちは！私はエリー、日系アメリカ人の16歳です！はじめまして！あなたのお名前は？",hint:'「My name is ○○.」で名前を教えてね！',keys:['name','is',"i'm",'im','call','called'],replies:{name:"Oh, what a cool name! I love it! How old are you? 😊",call:"Love that name! Sounds so nice! How old are you?",default:["Sorry, could you tell me your name? 😊","I didn't catch your name! What should I call you? 😄","Can you say your name again? I want to remember it!"]}},
       {lily:"Cool! How old are you?",ja:"いいね！何歳ですか？",hint:'「I\'m ○○ years old.」で年齢を教えてね！',keys:['years','old',"i'm",'year','am','fourteen','fifteen','sixteen','seventeen','thirteen'],replies:{years:"Nice! We might be close in age! Where do you live in Japan?",sixteen:"Oh wow, same age as me! Where do you live in Japan?",fifteen:"I'm 16, so close! Where do you live in Japan?",default:["That's great! Where do you live in Japan?","Interesting! Which part of Japan are you from?","Cool! Are you from a big city or a small town in Japan?"]}},
       {lily:"Interesting! I've always wanted to visit Japan! Is your city big or small?",ja:"面白い！ずっと日本に行きたいと思ってたんです！あなたの街は大きい？小さい？",hint:'「It\'s a big/small city.」や「I live in〜.」などで答えてね！',keys:['big','small','city','town','tokyo','osaka','kyoto','large','medium','countryside'],replies:{big:"Wow, a big city! That sounds so exciting with lots of things to do!",small:"A small town sounds so peaceful and beautiful! I love quiet places!",tokyo:"Tokyo!! Oh my goodness, Tokyo is my dream city! 😍",osaka:"Osaka!! I've heard the food is AMAZING there! So jealous!",default:["That sounds wonderful! I'd love to visit someday! 🇯🇵","Japan looks absolutely beautiful in every photo I see!","I need to add your city to my Japan travel list! 📝"]}},
       {lily:"That sounds so cool! Can you speak English well? Have you studied long?",ja:"すごい！英語は上手に話せますか？長く勉強してるの？",hint:'「I\'m studying English.」や「I\'ve studied for〜years.」などで答えてね！',keys:['study','studying','learn','school','year','little','practice','long','month'],replies:{study:"That's wonderful! Studying hard really pays off! You're doing great!",learn:"Learning is the most important thing! Keep going — you're amazing!",little:"That's totally okay! Every little bit counts! You're already doing awesome! 😄",default:["Practice makes perfect — and you're already doing great talking to me! 💪","Don't worry! Just keep chatting with me and you'll improve super fast!","English is hard but you're so brave for trying! I'm really impressed! 🌟"]}},
@@ -1554,18 +1601,18 @@ function showConvScreen(){
   const body=document.getElementById('conv-body');
   body.innerHTML=`
     <div class="lily-profile-card">
-      <div class="lily-profile-avatar">🧒‍♀️</div>
-      <div class="lily-profile-name">Lily Anderson</div>
-      <div class="lily-profile-sub">16歳 · New York, USA 🇺🇸</div>
+      <div class="lily-profile-avatar"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OSIgZmlsbD0iI2YwZTZmZiIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjQ4IiByeD0iMzMiIHJ5PSIzNyIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0xOCA1NSBRMTIgNzIgMTcgODQgUTIzIDczIDI3IDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik04MiA1NSBRODggNzIgODMgODQgUTc3IDczIDczIDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjU2IiByeD0iMjYiIHJ5PSIyOCIgZmlsbD0iI2ZkZThkOCIvPgogIDxwYXRoIGQ9Ik0xOCA0NiBRMjUgMjQgNTAgMjIgUTc1IDI0IDgyIDQ2IFE3NCAzNCA1MCAzMiBRMjYgMzQgMTggNDZaIiBmaWxsPSIjYjg4OGUwIi8+CiAgPHBhdGggZD0iTTUwIDIyIFE1NiAxMCA1MyAzIFE0NyAxMCA1MCAyMiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0zMCAzMiBRMjggMjQgMzIgMjIgUTMwIDI4IDM0IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxwYXRoIGQ9Ik03MCAzMiBRNzIgMjQgNjggMjIgUTcwIDI4IDY2IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjUyIiByeD0iOC41IiByeT0iMTAiIGZpbGw9IiM3ODUwYzAiLz4KICA8ZWxsaXBzZSBjeD0iMzciIGN5PSI1My41IiByeD0iNi41IiByeT0iOCIgZmlsbD0iIzQ4MjhhMCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjU1IiByeD0iMy44IiByeT0iNC41IiBmaWxsPSIjMTgwODI4Ii8+CiAgPGVsbGlwc2UgY3g9IjM0IiBjeT0iNDkiIHJ4PSIyLjgiIHJ5PSIyLjgiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMzkuNSIgY3k9IjU3IiByPSIxLjQiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjY1Ii8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTIiIHJ4PSI4LjUiIHJ5PSIxMCIgZmlsbD0iIzc4NTBjMCIvPgogIDxlbGxpcHNlIGN4PSI2MyIgY3k9IjUzLjUiIHJ4PSI2LjUiIHJ5PSI4IiBmaWxsPSIjNDgyOGEwIi8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTUiIHJ4PSIzLjgiIHJ5PSI0LjUiIGZpbGw9IiMxODA4MjgiLz4KICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI0OSIgcng9IjIuOCIgcnk9IjIuOCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuOTUiLz4KICA8Y2lyY2xlIGN4PSI2NS41IiBjeT0iNTciIHI9IjEuNCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuNjUiLz4KICA8cGF0aCBkPSJNMjguNSA0NCBRMzAgNDEuNSAzMiA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ1LjUgNDQgUTQ0IDQxLjUgNDIgNDMiIHN0cm9rZT0iIzI4MDg1OCIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwYXRoIGQ9Ik01NC41IDQ0IFE1NiA0MS41IDU4IDQzIiBzdHJva2U9IiMyODA4NTgiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNzEuNSA0NCBRNzAgNDEuNSA2OCA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ3IDY2IFE1MCA2Ny41IDUzIDY2IiBzdHJva2U9IiNlMGI4OTgiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNDIgNzMgUTUwIDc5LjUgNTggNzMiIHN0cm9rZT0iI2UwNzA5MCIgc3Ryb2tlLXdpZHRoPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxlbGxpcHNlIGN4PSIyNiIgY3k9IjYzIiByeD0iNi41IiByeT0iMy41IiBmaWxsPSIjZmZhYWMwIiBvcGFjaXR5PSIwLjQyIi8+CiAgPGVsbGlwc2UgY3g9Ijc0IiBjeT0iNjMiIHJ4PSI2LjUiIHJ5PSIzLjUiIGZpbGw9IiNmZmFhYzAiIG9wYWNpdHk9IjAuNDIiLz4KICA8dGV4dCB4PSI3IiB5PSIzMCIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2M4YThmZiIgb3BhY2l0eT0iMC44NSI+4pymPC90ZXh0PgogIDx0ZXh0IHg9Ijc5IiB5PSIyOCIgZm9udC1zaXplPSI5IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjc1Ij7inKY8L3RleHQ+CiAgPHRleHQgeD0iNzYiIHk9IjgyIiBmb250LXNpemU9IjciIGZpbGw9IiNmZmE4YzAiIG9wYWNpdHk9IjAuNyI+4piFPC90ZXh0PgogIDx0ZXh0IHg9IjE0IiB5PSI4MCIgZm9udC1zaXplPSI2IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjYiPuKcpjwvdGV4dD4KPC9zdmc+" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block"></div>
+      <div class="lily-profile-name">Ellie ✦ エリー</div>
+      <div class="lily-profile-sub">16歳 · Los Angeles & Tokyo 🌸</div>
       <div class="lily-traits">
         <span class="lily-trait">🎌 アニメ大好き</span>
-        <span class="lily-trait">🎵 音楽好き</span>
-        <span class="lily-trait">📚 読書家</span>
-        <span class="lily-trait">☕ カフェ巡り</span>
-        <span class="lily-trait">🐱 猫好き</span>
-        <span class="lily-trait">✈️ 旅行好き</span>
+        <span class="lily-trait">🌸 半日本人</span>
+        <span class="lily-trait">🎵 J-pop推し</span>
+        <span class="lily-trait">🎮 ゲーマー</span>
+        <span class="lily-trait">🐱 猫耳好き</span>
+        <span class="lily-trait">✨ 魔法少女好き</span>
       </div>
-      <div class="lily-bio">Hi! I'm Lily! 日本のアニメが大好きで、日本語も勉強中！明るくて話しかけやすい性格だよ♪ 一緒に英語で話そうよ！英語が苦手でも大丈夫、ゆっくり話すね！</div>
+      <div class="lily-bio">Hi! I'm Ellie! 🌸 パパがアメリカ人、ママが日本人のハーフ女子！東京とLAを行き来してるよ。アニメと日本語が大好き♡ 一緒に英語で話そう！難しくないよ、ゆっくりいこう！✦</div>
     </div>
     <div class="conv-topic-select">
       <div class="conv-topic-title">💬 話すトピックを選んでね！</div>
@@ -1598,7 +1645,7 @@ function startConv(id){
 function showTyping(){
   const area=document.getElementById('chat-area');if(!area)return;
   const row=document.createElement('div');row.className='msg-row lily-msg';row.id='typing-indicator';
-  row.innerHTML=`<div class="lily-chat-avatar">🧒‍♀️</div><div class="typing-bubble"><span></span><span></span><span></span></div>`;
+  row.innerHTML=`<div class="lily-chat-avatar"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OSIgZmlsbD0iI2YwZTZmZiIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjQ4IiByeD0iMzMiIHJ5PSIzNyIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0xOCA1NSBRMTIgNzIgMTcgODQgUTIzIDczIDI3IDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik04MiA1NSBRODggNzIgODMgODQgUTc3IDczIDczIDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjU2IiByeD0iMjYiIHJ5PSIyOCIgZmlsbD0iI2ZkZThkOCIvPgogIDxwYXRoIGQ9Ik0xOCA0NiBRMjUgMjQgNTAgMjIgUTc1IDI0IDgyIDQ2IFE3NCAzNCA1MCAzMiBRMjYgMzQgMTggNDZaIiBmaWxsPSIjYjg4OGUwIi8+CiAgPHBhdGggZD0iTTUwIDIyIFE1NiAxMCA1MyAzIFE0NyAxMCA1MCAyMiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0zMCAzMiBRMjggMjQgMzIgMjIgUTMwIDI4IDM0IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxwYXRoIGQ9Ik03MCAzMiBRNzIgMjQgNjggMjIgUTcwIDI4IDY2IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjUyIiByeD0iOC41IiByeT0iMTAiIGZpbGw9IiM3ODUwYzAiLz4KICA8ZWxsaXBzZSBjeD0iMzciIGN5PSI1My41IiByeD0iNi41IiByeT0iOCIgZmlsbD0iIzQ4MjhhMCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjU1IiByeD0iMy44IiByeT0iNC41IiBmaWxsPSIjMTgwODI4Ii8+CiAgPGVsbGlwc2UgY3g9IjM0IiBjeT0iNDkiIHJ4PSIyLjgiIHJ5PSIyLjgiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMzkuNSIgY3k9IjU3IiByPSIxLjQiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjY1Ii8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTIiIHJ4PSI4LjUiIHJ5PSIxMCIgZmlsbD0iIzc4NTBjMCIvPgogIDxlbGxpcHNlIGN4PSI2MyIgY3k9IjUzLjUiIHJ4PSI2LjUiIHJ5PSI4IiBmaWxsPSIjNDgyOGEwIi8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTUiIHJ4PSIzLjgiIHJ5PSI0LjUiIGZpbGw9IiMxODA4MjgiLz4KICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI0OSIgcng9IjIuOCIgcnk9IjIuOCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuOTUiLz4KICA8Y2lyY2xlIGN4PSI2NS41IiBjeT0iNTciIHI9IjEuNCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuNjUiLz4KICA8cGF0aCBkPSJNMjguNSA0NCBRMzAgNDEuNSAzMiA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ1LjUgNDQgUTQ0IDQxLjUgNDIgNDMiIHN0cm9rZT0iIzI4MDg1OCIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwYXRoIGQ9Ik01NC41IDQ0IFE1NiA0MS41IDU4IDQzIiBzdHJva2U9IiMyODA4NTgiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNzEuNSA0NCBRNzAgNDEuNSA2OCA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ3IDY2IFE1MCA2Ny41IDUzIDY2IiBzdHJva2U9IiNlMGI4OTgiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNDIgNzMgUTUwIDc5LjUgNTggNzMiIHN0cm9rZT0iI2UwNzA5MCIgc3Ryb2tlLXdpZHRoPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxlbGxpcHNlIGN4PSIyNiIgY3k9IjYzIiByeD0iNi41IiByeT0iMy41IiBmaWxsPSIjZmZhYWMwIiBvcGFjaXR5PSIwLjQyIi8+CiAgPGVsbGlwc2UgY3g9Ijc0IiBjeT0iNjMiIHJ4PSI2LjUiIHJ5PSIzLjUiIGZpbGw9IiNmZmFhYzAiIG9wYWNpdHk9IjAuNDIiLz4KICA8dGV4dCB4PSI3IiB5PSIzMCIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2M4YThmZiIgb3BhY2l0eT0iMC44NSI+4pymPC90ZXh0PgogIDx0ZXh0IHg9Ijc5IiB5PSIyOCIgZm9udC1zaXplPSI5IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjc1Ij7inKY8L3RleHQ+CiAgPHRleHQgeD0iNzYiIHk9IjgyIiBmb250LXNpemU9IjciIGZpbGw9IiNmZmE4YzAiIG9wYWNpdHk9IjAuNyI+4piFPC90ZXh0PgogIDx0ZXh0IHg9IjE0IiB5PSI4MCIgZm9udC1zaXplPSI2IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjYiPuKcpjwvdGV4dD4KPC9zdmc+" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block"></div><div class="typing-bubble"><span></span><span></span><span></span></div>`;
   area.appendChild(row);area.scrollTop=area.scrollHeight;
 }
 function hideTyping(){const t=document.getElementById('typing-indicator');if(t)t.remove()}
@@ -1627,7 +1674,7 @@ function appendLilyMsg(msg,hint,autoSpeak=true,onDone=null,ja=null){
     wrap.appendChild(jaPanel);
   }
   if(hint){const h=document.createElement('div');h.className='msg-hint';h.textContent='💡 ヒント：'+hint;wrap.appendChild(h);}
-  const avatar=document.createElement('div');avatar.className='lily-chat-avatar';avatar.textContent='🧒‍♀️';
+  const avatar=document.createElement('div');avatar.className='lily-chat-avatar';avatar.innerHTML='<img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OSIgZmlsbD0iI2YwZTZmZiIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjQ4IiByeD0iMzMiIHJ5PSIzNyIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0xOCA1NSBRMTIgNzIgMTcgODQgUTIzIDczIDI3IDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik04MiA1NSBRODggNzIgODMgODQgUTc3IDczIDczIDU4WiIgZmlsbD0iI2I4ODhlMCIvPgogIDxlbGxpcHNlIGN4PSI1MCIgY3k9IjU2IiByeD0iMjYiIHJ5PSIyOCIgZmlsbD0iI2ZkZThkOCIvPgogIDxwYXRoIGQ9Ik0xOCA0NiBRMjUgMjQgNTAgMjIgUTc1IDI0IDgyIDQ2IFE3NCAzNCA1MCAzMiBRMjYgMzQgMTggNDZaIiBmaWxsPSIjYjg4OGUwIi8+CiAgPHBhdGggZD0iTTUwIDIyIFE1NiAxMCA1MyAzIFE0NyAxMCA1MCAyMiIgZmlsbD0iI2I4ODhlMCIvPgogIDxwYXRoIGQ9Ik0zMCAzMiBRMjggMjQgMzIgMjIgUTMwIDI4IDM0IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxwYXRoIGQ9Ik03MCAzMiBRNzIgMjQgNjggMjIgUTcwIDI4IDY2IDMwWiIgZmlsbD0iIzk4NjhjOCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjUyIiByeD0iOC41IiByeT0iMTAiIGZpbGw9IiM3ODUwYzAiLz4KICA8ZWxsaXBzZSBjeD0iMzciIGN5PSI1My41IiByeD0iNi41IiByeT0iOCIgZmlsbD0iIzQ4MjhhMCIvPgogIDxlbGxpcHNlIGN4PSIzNyIgY3k9IjU1IiByeD0iMy44IiByeT0iNC41IiBmaWxsPSIjMTgwODI4Ii8+CiAgPGVsbGlwc2UgY3g9IjM0IiBjeT0iNDkiIHJ4PSIyLjgiIHJ5PSIyLjgiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMzkuNSIgY3k9IjU3IiByPSIxLjQiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjY1Ii8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTIiIHJ4PSI4LjUiIHJ5PSIxMCIgZmlsbD0iIzc4NTBjMCIvPgogIDxlbGxpcHNlIGN4PSI2MyIgY3k9IjUzLjUiIHJ4PSI2LjUiIHJ5PSI4IiBmaWxsPSIjNDgyOGEwIi8+CiAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNTUiIHJ4PSIzLjgiIHJ5PSI0LjUiIGZpbGw9IiMxODA4MjgiLz4KICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI0OSIgcng9IjIuOCIgcnk9IjIuOCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuOTUiLz4KICA8Y2lyY2xlIGN4PSI2NS41IiBjeT0iNTciIHI9IjEuNCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuNjUiLz4KICA8cGF0aCBkPSJNMjguNSA0NCBRMzAgNDEuNSAzMiA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ1LjUgNDQgUTQ0IDQxLjUgNDIgNDMiIHN0cm9rZT0iIzI4MDg1OCIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwYXRoIGQ9Ik01NC41IDQ0IFE1NiA0MS41IDU4IDQzIiBzdHJva2U9IiMyODA4NTgiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNzEuNSA0NCBRNzAgNDEuNSA2OCA0MyIgc3Ryb2tlPSIjMjgwODU4IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTQ3IDY2IFE1MCA2Ny41IDUzIDY2IiBzdHJva2U9IiNlMGI4OTgiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNDIgNzMgUTUwIDc5LjUgNTggNzMiIHN0cm9rZT0iI2UwNzA5MCIgc3Ryb2tlLXdpZHRoPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxlbGxpcHNlIGN4PSIyNiIgY3k9IjYzIiByeD0iNi41IiByeT0iMy41IiBmaWxsPSIjZmZhYWMwIiBvcGFjaXR5PSIwLjQyIi8+CiAgPGVsbGlwc2UgY3g9Ijc0IiBjeT0iNjMiIHJ4PSI2LjUiIHJ5PSIzLjUiIGZpbGw9IiNmZmFhYzAiIG9wYWNpdHk9IjAuNDIiLz4KICA8dGV4dCB4PSI3IiB5PSIzMCIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2M4YThmZiIgb3BhY2l0eT0iMC44NSI+4pymPC90ZXh0PgogIDx0ZXh0IHg9Ijc5IiB5PSIyOCIgZm9udC1zaXplPSI5IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjc1Ij7inKY8L3RleHQ+CiAgPHRleHQgeD0iNzYiIHk9IjgyIiBmb250LXNpemU9IjciIGZpbGw9IiNmZmE4YzAiIG9wYWNpdHk9IjAuNyI+4piFPC90ZXh0PgogIDx0ZXh0IHg9IjE0IiB5PSI4MCIgZm9udC1zaXplPSI2IiBmaWxsPSIjYzhhOGZmIiBvcGFjaXR5PSIwLjYiPuKcpjwvdGV4dD4KPC9zdmc+" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block">';
   row.appendChild(avatar);row.appendChild(wrap);
   area.appendChild(row);area.scrollTop=area.scrollHeight;
   if(autoSpeak)speak(msg,onDone);else if(onDone)onDone();
